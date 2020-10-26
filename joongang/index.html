@@ -1,0 +1,111 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+</head>
+<style>
+    @font-face {
+        font-family: 'nanum';
+        src: url('../font/NanumGothic.ttf');
+    }
+</style>
+
+<body>
+    <h1>Word Cloud</h1>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js" type="text/JavaScript"></script>
+    <script>
+        var width = 1100,
+            height = 500
+
+        var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+        d3.json("title_keyword.json", function (data) {
+            showCloud(data)
+        });
+        //scale.linear: 선형적인 스케일로 표준화를 시킨다. 
+        //domain: 데이터의 범위, 입력 크기
+        //range: 표시할 범위, 출력 크기 
+        //clamp: domain의 범위를 넘어간 값에 대하여 domain의 최대값으로 고정시킨다.
+        wordScale = d3.scale.linear().domain([0, 100]).range([0, 150]).clamp(true);
+        var keywords = ["자리야", "트레이서", "한조"]
+        var svg = d3.select("svg")
+                    .append("g")
+                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+
+        function showCloud(data) {
+            console.log(data)
+            var target = null;
+            d3.layout.cloud().size([width, height])
+                //클라우드 레이아웃에 데이터 전달
+                .words(data.map((d,index)=>{
+                return {
+                    index: index,
+                    text: d.keyword,
+                    size: d.score,
+                    cooccur: d.cooccur,
+                    similar: d.similar,
+                }
+                }))
+                .padding(12)
+                //스케일로 각 단어의 크기를 설정
+                .rotate(function (d) {
+                    return (Math.random()-0.5)*30;
+                })
+                .fontSize(d => {
+                if(d.index <10){
+                    return 50;
+                }
+                else{
+                    return 30;
+                }})
+                //클라우드 레이아웃을 초기화 > end이벤트 발생 > 연결된 함수 작동  
+                .on("end", draw)
+                .start();
+
+            function draw(words) { 
+                var cloud = svg.selectAll("text").data(words)
+                //Entering words
+                cloud.enter()
+                    .append("text")
+                    .style("font-family", "nanum")
+                    .style("fill", function (d) {
+                        return (d.index < 10 ? "#fbc280" : "#405275");
+                    })
+                    .style("fill-opacity", .5)
+                    .attr("text-anchor", "left") 
+                    .text(function (d) {
+                        return d.text;
+                    })
+                    .on('mouseover',clickevent); 
+                cloud
+                    .transition()
+                    .duration(600)
+                    .style("font-size", function (d) {
+                        return d.size + "px";
+                    })
+                    .attr("transform", function (d) {
+                        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                    })
+                    .style("fill-opacity", 1); 
+            }
+            function clickevent(d){
+                target = d;
+                console.log(target);
+            }
+            
+        }
+    </script>
+    <h1>Detail </h1>
+    <script>
+        while(1){
+            setTimeout(()=>{
+                console.log(target);
+        },20)
+        Sleep(20)
+    }
+    </script>
+
+</body>
+
+</html>
