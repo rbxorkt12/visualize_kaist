@@ -8,6 +8,17 @@
         font-family: 'nanum';
         src: url('../font/NanumGothic.ttf');
     }
+
+    .link  {
+    stroke: #999;
+    stroke-opacity: 0.6;
+    }
+
+    .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+    }
+
 </style>
 
 <body>
@@ -29,7 +40,6 @@
         //domain: 데이터의 범위, 입력 크기
         //range: 표시할 범위, 출력 크기 
         //clamp: domain의 범위를 넘어간 값에 대하여 domain의 최대값으로 고정시킨다.
-        wordScale = d3.scale.linear().domain([0, 100]).range([0, 150]).clamp(true);
         var svg = d3.select("svg")
             .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
@@ -49,13 +59,13 @@
                 .padding(20)
                 //스케일로 각 단어의 크기를 설정
                 .rotate(function (d) {
-                    return (Math.random() - 0.5) * 30;
+                    return (Math.random()-0.5) * 30;
                 })
                 .fontSize(d => {
                     if (d.index < 10) {
                         return 50;
                     } else {
-                        return 30;
+                        return 20;
                     }
                 })
                 //클라우드 레이아웃을 초기화 > end이벤트 발생 > 연결된 함수 작동  
@@ -100,8 +110,8 @@
     </pre>
     <script>
         function showdetail(d) {
-            var width = 500,
-                height = 300;
+            var width = 400,
+                height = 400;
             var central = d.text;
             console.log(d)
             var links = d.cooccur.map((d) => {
@@ -146,9 +156,10 @@
             var link = svg.selectAll(".link")
                 .data(force.links())
                 .enter().append("line")
-                .attr("class", "link");
+                .attr("class", "link")
 
-            var color = d3.scale.category10;
+
+            var color = d3.scale.category20();
 
             var node = svg.selectAll(".node")
                 .data(force.nodes())
@@ -158,9 +169,10 @@
                 .on("mouseout", mouseout)
                 .call(force.drag);
 
+
             node.append("circle")
                 .attr("r", 8)
-                .attr("fill", color(Math.random()*10));
+                .attr("fill", function(d,i){return color(i);});
 
 
             node.append("text")
@@ -206,8 +218,8 @@
     </script>
        <script>
            function similardetail(d) {
-               var width = 500,
-                   height = 300;
+               var width = 400,
+                   height = 400;
                var central = d.text;
                console.log(d)
                var links = d.similar.map((d) => {
@@ -218,9 +230,8 @@
                    }
                });
                var nodes = {};
-               linkScale = d3.scale.linear().domain([0, 1]).range([0, 150]).clamp(true);
+               linkScale = d3.scale.linear().domain([0, 1]).range([0, 100]).clamp(true);
    
-               console.log(links)
                // Compute the distinct nodes from the links.
                links.forEach(function (link) {
                    link.source = nodes[link.source] || (nodes[link.source] = {
@@ -254,7 +265,7 @@
                    .enter().append("line")
                    .attr("class", "link");
    
-               var color = d3.scale.category10;
+               var color = d3.scale.category20();
    
                var node = svg.selectAll(".node")
                    .data(force.nodes())
@@ -266,7 +277,7 @@
    
                node.append("circle")
                    .attr("r", 8)
-                   .attr("fill", color(Math.random()*10));
+                   .attr("fill", (d,i)=>color(i));
    
    
                node.append("text")
