@@ -25,6 +25,7 @@ class KaistSpider(scrapy.Spider):
         article_title = response.xpath('//*[@class="c-article-title"]/text()').extract()[0]
         article_data = ''.join(response.xpath('//*[@class="c-article-section__content"]/p/text()').extract())
         article_data = article_data.replace('\n', '')
+        article_data = article_data.replace('\r', '')
 
         item['urls'] = article_url
         item['titles'] = article_title

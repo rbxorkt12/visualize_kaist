@@ -27,6 +27,7 @@ class HeraldSpider(scrapy.Spider):
         article_title = response.xpath('//*[@class="page_title"]/text()').extract()[0].strip()
         article_data = ''.join(response.xpath('//*[@class="entry"]/p/text()').extract())
         article_data = article_data.replace('\n', '')
+        article_data = article_data.replace('\r', '')
 
         item['urls'] = article_url
         item['titles'] = article_title
