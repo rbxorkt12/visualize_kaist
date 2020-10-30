@@ -3,13 +3,9 @@ def render(jsontext):
 
 <head>
     <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 </head>
 <style>
-    @font-face {
-        font-family: 'nanum';
-        src: url('../font/NanumGothic.ttf');
-    }
-
     .link  {
     stroke: #999;
     stroke-opacity: 0.6;
@@ -20,29 +16,51 @@ def render(jsontext):
     stroke-width: 1.5px;
     }
 
+    .outline {
+    outline: 6px solid black;
+    outline-style:dashed;
+    }
+    .outline-nondash {
+    outline: 6px solid black;
+    outline-style:auto;
+    }
+    .small {
+        font-size: 15px;
+        font-family:Arial, Helvetica, sans-serif;
+    }
 </style>
 
 <body>
-    <h1>Word Cloud</h1>
+    <div class="wordcloud">
+        <h1 font-family='san-serif'>Word Cloud</h1>
+    </div>
+    <div class="cooccur">
+        <h1 font-family='san-serif'>Cooccurence Detail</h1>
+    </div>
+    <h1 class="small">문장내에서 자주 같이 출연하는 단어들의 상위 10개 단어의 네트워크입니다.</h1>
+    <div class="similar">
+        <h1 font-family='san-serif'>Similar Detail</h1>
+    </div>
+    <h1 class="small">문장 등장 위치에 따른 유사하다고 생각되는 단어 top 10의 네트워크입니다..</h1>
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js" type="text/JavaScript">
     </script>
     <script>
-        var width = 1300,
-            height = 500
-
-        var svg = d3.select("body").append("svg")
-            .attr("width", width)
-            .attr("height", height);
-
         var dataAnalyze = """ + jsontext + """
+        var width = 1300,
+            height = 600
 
-        showCloud(dataAnalyze)
-
+        var svg = d3.select(".wordcloud").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", 'outline');
 
         var svg = d3.select("svg")
             .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+
+        showCloud(dataAnalyze)
+
 
         function showCloud(data) {
             d3.layout.cloud().size([width, height])
@@ -56,19 +74,18 @@ def render(jsontext):
                         similar: d.similar,
                     }
                 }))
-                .padding(20)
+                .padding(30)
                 //스케일로 각 단어의 크기를 설정
                 .rotate(function (d) {
-                    return (Math.random()-0.5) * 30;
+                    return Math.round((Math.random()-0.5)*2) * 90;
                 })
                 .fontSize(d => {
                     if (d.index < 10) {
-                        return 50;
+                        return 60;
                     } else {
-                        return 20;
+                        return 30;
                     }
                 })
-                //클라우드 레이아웃을 초기화 > end이벤트 발생 > 연결된 함수 작동  
                 .on("end", draw)
                 .start();
 
@@ -77,7 +94,7 @@ def render(jsontext):
                 //Entering words
                 cloud.enter()
                     .append("text")
-                    .style("font-family", "nanum")
+                    .style("font-family", 'Jua')
                     .style("fill", function (d) {
                         return (d.index < 10 ? "#fbc280" : "#405275");
                     })
@@ -99,21 +116,15 @@ def render(jsontext):
             }
 
 
-
             function overevent(d) {
                 showdetail(d);
                 similardetail(d);
             }
         }
-    </script>
-    <pre>    <h1>Cooccur Detail                                  Similar Detail</h1>
-    </pre>
-    <script>
         function showdetail(d) {
             var width = 400,
                 height = 400;
             var central = d.text;
-            console.log(d)
             var links = d.cooccur.map((d) => {
                 return {
                     "source": central,
@@ -149,9 +160,10 @@ def render(jsontext):
                 .on("tick", tick)
                 .start();
 
-            var svg = d3.select("body").append("svg")
+            var svg = d3.select(".cooccur").append("svg")
                 .attr("width", width)
-                .attr("height", height);
+                .attr("height", height)
+                .attr("class",'outline');
 
             var link = svg.selectAll(".link")
                 .data(force.links())
@@ -256,9 +268,10 @@ def render(jsontext):
                    .on("tick", tick)
                    .start();
    
-               var svg = d3.select("body").append("svg")
+               var svg = d3.select(".similar").append("svg")
                    .attr("width", width)
-                   .attr("height", height);
+                   .attr("height", height)
+                   .attr("class",'outline');
    
                var link = svg.selectAll(".link")
                    .data(force.links())
@@ -325,5 +338,3 @@ def render(jsontext):
 </body>
 
 </html>"""
-
-
