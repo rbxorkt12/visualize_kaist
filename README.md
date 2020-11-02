@@ -18,3 +18,7 @@
  또한 토픽 모델링의 경우 현재 폴더안의 topic_modeling.html의 경우 완성된 파일로써 topic modeling용 visulization graph임. 
  
  
+~~~
+pip install -r requirements.txt
+python visualize.py
+~~~
