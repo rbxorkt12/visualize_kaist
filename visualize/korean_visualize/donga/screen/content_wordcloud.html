@@ -55,14 +55,11 @@
         var svg = d3.select(".wordcloud").append("svg")
             .attr("width", width)
             .attr("height", height)
-            .attr("class", 'outline');
-
-        var svg = d3.select("svg")
+            .attr("class", 'outline')
             .append("g")
             .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
 
         showCloud(dataAnalyze)
-
 
         function showCloud(data) {
             d3.layout.cloud().size([width, height])
@@ -270,12 +267,12 @@
                     .attr("r", 8);
             }
         }
-            linkScale = d3.scale.linear().domain([0, 1]).range([0, 100]).clamp(true);
-           function similardetail(d) {
+
+
+            function similardetail(d) {
                var width = 400,
                    height = 400;
                var central = d.text;
-               console.log(d)
                var links = d.similar.map((d) => {
                    return {
                        "source": central,
@@ -303,7 +300,7 @@
                    .links(links)
                    .size([width, height])
                    .linkDistance((link)=>{
-                       return linkScale(link.value)
+                       return 100;
                    })
                    .charge(-300)
                    .on("tick", tick)

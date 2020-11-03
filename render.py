@@ -715,7 +715,7 @@ def english_render(jsontext):
                    .links(links)
                    .size([width, height])
                    .linkDistance((link)=>{
-                       return linkScale(link.value)
+                       return 100
                    })
                    .charge(-300)
                    .on("tick", tick)
