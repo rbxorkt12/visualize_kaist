@@ -1,0 +1,408 @@
+﻿<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+</head>
+<style>
+    .link  {
+    stroke: #999;
+    stroke-opacity: 0.6;
+    }
+
+    .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+    }
+
+    .outline {
+    outline: 6px solid black;
+    outline-style:dashed;
+    margin-right: 20px;
+
+    }
+    .outline-nondash {
+    outline: 6px solid black;
+    outline-style:auto;
+    }
+    .small {
+        font-size: 15px;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+</style>
+
+<body>
+    <div class="wordcloud">
+        <h1 font-family='Black Han Sans', sans-serif;>Word Cloud</h1>
+    </div>
+    <div class="cooccur">
+        <h1 font-family='Black Han Sans', sans-serif;>Cooccurence Detail</h1>
+    </div>
+    <h1 class="small">문장내에서 자주 같이 출연하는 단어들의 상위 10개 단어의 네트워크입니다.</h1>
+    <div class="similar">
+        <h1 font-family='Black Han Sans', sans-serif;>Similar Detail</h1>
+    </div>
+    <h1 class="small">문장 등장 위치에 따른 유사하다고 생각되는 단어 top 10의 네트워크입니다..</h1>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js" type="text/JavaScript">
+    </script>
+    <script>
+        var dataAnalyze = [{"keyword": "stable", "score": 4, "cooccur": [{"index": 1, "subkeyword": "cell", "cooccur_num": 7}, {"index": 2, "subkeyword": "highly", "cooccur_num": 3}, {"index": 3, "subkeyword": "dry", "cooccur_num": 2}, {"index": 4, "subkeyword": "reform", "cooccur_num": 2}, {"index": 5, "subkeyword": "methane", "cooccur_num": 2}, {"index": 6, "subkeyword": "nimo", "cooccur_num": 2}, {"index": 7, "subkeyword": "nanocatalysts", "cooccur_num": 2}, {"index": 8, "subkeyword": "singlecrystalline", "cooccur_num": 2}, {"index": 9, "subkeyword": "silicon", "cooccur_num": 2}, {"index": 10, "subkeyword": "microsatellite", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "dynamically", "cooccur_num": 0.19881081581115723}, {"index": 2, "subkeyword": "compare", "cooccur_num": 0.18715009093284607}, {"index": 3, "subkeyword": "substantial", "cooccur_num": 0.18702590465545654}, {"index": 4, "subkeyword": "nvamd", "cooccur_num": 0.1840924322605133}, {"index": 5, "subkeyword": "fao", "cooccur_num": 0.1776932328939438}, {"index": 6, "subkeyword": "find", "cooccur_num": 0.17767766118049622}, {"index": 7, "subkeyword": "architecture", "cooccur_num": 0.17584747076034546}, {"index": 8, "subkeyword": "emitter", "cooccur_num": 0.17387133836746216}, {"index": 9, "subkeyword": "apply", "cooccur_num": 0.15631142258644104}, {"index": 10, "subkeyword": "humanoid", "cooccur_num": 0.15510717034339905}]}, {"keyword": "cell", "score": 3, "cooccur": [{"index": 1, "subkeyword": "stable", "cooccur_num": 4}, {"index": 2, "subkeyword": "drive", "cooccur_num": 4}, {"index": 3, "subkeyword": "cancer", "cooccur_num": 4}, {"index": 4, "subkeyword": "neural", "cooccur_num": 3}, {"index": 5, "subkeyword": "stem", "cooccur_num": 3}, {"index": 6, "subkeyword": "tandem", "cooccur_num": 3}, {"index": 7, "subkeyword": "endothelial", "cooccur_num": 3}, {"index": 8, "subkeyword": "human", "cooccur_num": 3}, {"index": 9, "subkeyword": "solar", "cooccur_num": 3}, {"index": 10, "subkeyword": "transcription", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "dynamic", "cooccur_num": 0.2596099376678467}, {"index": 2, "subkeyword": "time", "cooccur_num": 0.2418806552886963}, {"index": 3, "subkeyword": "screen", "cooccur_num": 0.23489995300769806}, {"index": 4, "subkeyword": "enable", "cooccur_num": 0.22775563597679138}, {"index": 5, "subkeyword": "signal", "cooccur_num": 0.2248345911502838}, {"index": 6, "subkeyword": "advance", "cooccur_num": 0.2193833291530609}, {"index": 7, "subkeyword": "therapeutic", "cooccur_num": 0.211620032787323}, {"index": 8, "subkeyword": "functional", "cooccur_num": 0.2090425044298172}, {"index": 9, "subkeyword": "silicon", "cooccur_num": 0.20370818674564362}, {"index": 10, "subkeyword": "develop", "cooccur_num": 0.20245657861232758}]}, {"keyword": "learn", "score": 3, "cooccur": [{"index": 1, "subkeyword": "deep", "cooccur_num": 5}, {"index": 2, "subkeyword": "the", "cooccur_num": 3}, {"index": 3, "subkeyword": "robot", "cooccur_num": 2}, {"index": 4, "subkeyword": "holographic", "cooccur_num": 2}, {"index": 5, "subkeyword": "controller", "cooccur_num": 2}, {"index": 6, "subkeyword": "train", "cooccur_num": 2}, {"index": 7, "subkeyword": "brain", "cooccur_num": 2}, {"index": 8, "subkeyword": "representation", "cooccur_num": 2}, {"index": 9, "subkeyword": "capability", "cooccur_num": 2}, {"index": 10, "subkeyword": "quadrupedal", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "representative", "cooccur_num": 0.22707222402095795}, {"index": 2, "subkeyword": "achieve", "cooccur_num": 0.22585409879684448}, {"index": 3, "subkeyword": "control", "cooccur_num": 0.20247644186019897}, {"index": 4, "subkeyword": "cell", "cooccur_num": 0.19157201051712036}, {"index": 5, "subkeyword": "these", "cooccur_num": 0.18412718176841736}, {"index": 6, "subkeyword": "capacity", "cooccur_num": 0.18173381686210632}, {"index": 7, "subkeyword": "optical", "cooccur_num": 0.18105901777744293}, {"index": 8, "subkeyword": "mouse", "cooccur_num": 0.17867423593997955}, {"index": 9, "subkeyword": "the", "cooccur_num": 0.15690894424915314}, {"index": 10, "subkeyword": "vascular", "cooccur_num": 0.15559081733226776}]}, {"keyword": "resistance", "score": 3, "cooccur": [{"index": 1, "subkeyword": "pressure", "cooccur_num": 8}, {"index": 2, "subkeyword": "collateral", "cooccur_num": 4}, {"index": 3, "subkeyword": "static", "cooccur_num": 4}, {"index": 4, "subkeyword": "repellency", "cooccur_num": 4}, {"index": 5, "subkeyword": "achieve", "cooccur_num": 4}, {"index": 6, "subkeyword": "paclitaxel", "cooccur_num": 3}, {"index": 7, "subkeyword": "characteristic", "cooccur_num": 3}, {"index": 8, "subkeyword": "cancer", "cooccur_num": 3}, {"index": 9, "subkeyword": "prior", "cooccur_num": 2}, {"index": 10, "subkeyword": "acquire", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "create", "cooccur_num": 0.2083270251750946}, {"index": 2, "subkeyword": "organic", "cooccur_num": 0.20592378079891205}, {"index": 3, "subkeyword": "monitor", "cooccur_num": 0.1962316930294037}, {"index": 4, "subkeyword": "inflammation", "cooccur_num": 0.18545056879520416}, {"index": 5, "subkeyword": "here", "cooccur_num": 0.181158646941185}, {"index": 6, "subkeyword": "mutation", "cooccur_num": 0.17789584398269653}, {"index": 7, "subkeyword": "highlight", "cooccur_num": 0.17330005764961243}, {"index": 8, "subkeyword": "covid", "cooccur_num": 0.17154455184936523}, {"index": 9, "subkeyword": "surface", "cooccur_num": 0.17002399265766144}, {"index": 10, "subkeyword": "repellency", "cooccur_num": 0.16887658834457397}]}, {"keyword": "soft", "score": 3, "cooccur": [{"index": 1, "subkeyword": "lens", "cooccur_num": 4}, {"index": 2, "subkeyword": "smart", "cooccur_num": 3}, {"index": 3, "subkeyword": "contact", "cooccur_num": 3}, {"index": 4, "subkeyword": "mxenebased", "cooccur_num": 2}, {"index": 5, "subkeyword": "actuator", "cooccur_num": 2}, {"index": 6, "subkeyword": "nextgeneration", "cooccur_num": 2}, {"index": 7, "subkeyword": "wirelessly", "cooccur_num": 1}, {"index": 8, "subkeyword": "rechargeable", "cooccur_num": 1}, {"index": 9, "subkeyword": "solidstate", "cooccur_num": 1}, {"index": 10, "subkeyword": "supercapacitors", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "nvamd", "cooccur_num": 0.2529643774032593}, {"index": 2, "subkeyword": "suppress", "cooccur_num": 0.17706234753131866}, {"index": 3, "subkeyword": "process", "cooccur_num": 0.16942937672138214}, {"index": 4, "subkeyword": "control", "cooccur_num": 0.16938599944114685}, {"index": 5, "subkeyword": "space", "cooccur_num": 0.15597017109394073}, {"index": 6, "subkeyword": "jump", "cooccur_num": 0.14982876181602478}, {"index": 7, "subkeyword": "base", "cooccur_num": 0.1481368988752365}, {"index": 8, "subkeyword": "study", "cooccur_num": 0.14771726727485657}, {"index": 9, "subkeyword": "formulation", "cooccur_num": 0.1473006308078766}, {"index": 10, "subkeyword": "receptor", "cooccur_num": 0.14613129198551178}]}, {"keyword": "active", "score": 2, "cooccur": [{"index": 1, "subkeyword": "nonthrombogenic", "cooccur_num": 2}, {"index": 2, "subkeyword": "stretchable", "cooccur_num": 2}, {"index": 3, "subkeyword": "multielectrode", "cooccur_num": 2}, {"index": 4, "subkeyword": "array", "cooccur_num": 2}, {"index": 5, "subkeyword": "electroanatomical", "cooccur_num": 2}, {"index": 6, "subkeyword": "heart", "cooccur_num": 2}, {"index": 7, "subkeyword": "here", "cooccur_num": 2}, {"index": 8, "subkeyword": "successfully", "cooccur_num": 2}, {"index": 9, "subkeyword": "fabricate", "cooccur_num": 2}, {"index": 10, "subkeyword": "mea", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "however", "cooccur_num": 0.24529343843460083}, {"index": 2, "subkeyword": "highlight", "cooccur_num": 0.22383171319961548}, {"index": 3, "subkeyword": "linewidth", "cooccur_num": 0.20634251832962036}, {"index": 4, "subkeyword": "secretion", "cooccur_num": 0.1931546926498413}, {"index": 5, "subkeyword": "tumor", "cooccur_num": 0.187313050031662}, {"index": 6, "subkeyword": "feature", "cooccur_num": 0.18411248922348022}, {"index": 7, "subkeyword": "contact", "cooccur_num": 0.1821003556251526}, {"index": 8, "subkeyword": "anode", "cooccur_num": 0.1813514530658722}, {"index": 9, "subkeyword": "class", "cooccur_num": 0.1808418482542038}, {"index": 10, "subkeyword": "cell", "cooccur_num": 0.1784006655216217}]}, {"keyword": "array", "score": 2, "cooccur": [{"index": 1, "subkeyword": "multielectrode", "cooccur_num": 4}, {"index": 2, "subkeyword": "nonthrombogenic", "cooccur_num": 2}, {"index": 3, "subkeyword": "stretchable", "cooccur_num": 2}, {"index": 4, "subkeyword": "active", "cooccur_num": 2}, {"index": 5, "subkeyword": "electroanatomical", "cooccur_num": 2}, {"index": 6, "subkeyword": "map", "cooccur_num": 2}, {"index": 7, "subkeyword": "function", "cooccur_num": 2}, {"index": 8, "subkeyword": "recently", "cooccur_num": 2}, {"index": 9, "subkeyword": "ultraflexible", "cooccur_num": 2}, {"index": 10, "subkeyword": "meas", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "factor", "cooccur_num": 0.2094624638557434}, {"index": 2, "subkeyword": "propose", "cooccur_num": 0.19522564113140106}, {"index": 3, "subkeyword": "previous", "cooccur_num": 0.18919816613197327}, {"index": 4, "subkeyword": "jump", "cooccur_num": 0.18669934570789337}, {"index": 5, "subkeyword": "cancer", "cooccur_num": 0.1836247742176056}, {"index": 6, "subkeyword": "highlight", "cooccur_num": 0.18183115124702454}, {"index": 7, "subkeyword": "fa", "cooccur_num": 0.17892640829086304}, {"index": 8, "subkeyword": "bind", "cooccur_num": 0.1720181703567505}, {"index": 9, "subkeyword": "change", "cooccur_num": 0.16774514317512512}, {"index": 10, "subkeyword": "transparency", "cooccur_num": 0.16506659984588623}]}, {"keyword": "catalyst", "score": 2, "cooccur": [{"index": 1, "subkeyword": "design", "cooccur_num": 3}, {"index": 2, "subkeyword": "chemoselective", "cooccur_num": 2}, {"index": 3, "subkeyword": "longlived", "cooccur_num": 2}, {"index": 4, "subkeyword": "support", "cooccur_num": 2}, {"index": 5, "subkeyword": "here", "cooccur_num": 2}, {"index": 6, "subkeyword": "stable", "cooccur_num": 2}, {"index": 7, "subkeyword": "coke", "cooccur_num": 2}, {"index": 8, "subkeyword": "hour", "cooccur_num": 2}, {"index": 9, "subkeyword": "reaction", "cooccur_num": 2}, {"index": 10, "subkeyword": "hydrogenation", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "inorganic", "cooccur_num": 0.1881868839263916}, {"index": 2, "subkeyword": "induce", "cooccur_num": 0.18689140677452087}, {"index": 3, "subkeyword": "combine", "cooccur_num": 0.17321713268756866}, {"index": 4, "subkeyword": "polymer", "cooccur_num": 0.17239364981651306}, {"index": 5, "subkeyword": "application", "cooccur_num": 0.15997475385665894}, {"index": 6, "subkeyword": "due", "cooccur_num": 0.15879449248313904}, {"index": 7, "subkeyword": "material", "cooccur_num": 0.1580992490053177}, {"index": 8, "subkeyword": "associate", "cooccur_num": 0.1563057154417038}, {"index": 9, "subkeyword": "organic", "cooccur_num": 0.1554044485092163}, {"index": 10, "subkeyword": "factor", "cooccur_num": 0.15172907710075378}]}, {"keyword": "contact", "score": 2, "cooccur": [{"index": 1, "subkeyword": "smart", "cooccur_num": 12}, {"index": 2, "subkeyword": "lens", "cooccur_num": 12}, {"index": 3, "subkeyword": "surface", "cooccur_num": 4}, {"index": 4, "subkeyword": "soft", "cooccur_num": 3}, {"index": 5, "subkeyword": "continuous", "cooccur_num": 3}, {"index": 6, "subkeyword": "diabetic", "cooccur_num": 2}, {"index": 7, "subkeyword": "here", "cooccur_num": 2}, {"index": 8, "subkeyword": "axon", "cooccur_num": 2}, {"index": 9, "subkeyword": "meas", "cooccur_num": 2}, {"index": 10, "subkeyword": "fabricate", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "process", "cooccur_num": 0.21852794289588928}, {"index": 2, "subkeyword": "subsequent", "cooccur_num": 0.19557148218154907}, {"index": 3, "subkeyword": "function", "cooccur_num": 0.19218656420707703}, {"index": 4, "subkeyword": "formation", "cooccur_num": 0.18814226984977722}, {"index": 5, "subkeyword": "humanoid", "cooccur_num": 0.18457619845867157}, {"index": 6, "subkeyword": "condition", "cooccur_num": 0.18325847387313843}, {"index": 7, "subkeyword": "patch", "cooccur_num": 0.1824599653482437}, {"index": 8, "subkeyword": "active", "cooccur_num": 0.1821003556251526}, {"index": 9, "subkeyword": "chemical", "cooccur_num": 0.18115194141864777}, {"index": 10, "subkeyword": "janus", "cooccur_num": 0.18107545375823975}]}, {"keyword": "covid", "score": 2, "cooccur": [{"index": 1, "subkeyword": "severe", "cooccur_num": 9}, {"index": 2, "subkeyword": "patient", "cooccur_num": 8}, {"index": 3, "subkeyword": "influenza", "cooccur_num": 3}, {"index": 4, "subkeyword": "type", "cooccur_num": 3}, {"index": 5, "subkeyword": "role", "cooccur_num": 2}, {"index": 6, "subkeyword": "interferon", "cooccur_num": 2}, {"index": 7, "subkeyword": "mild", "cooccur_num": 2}, {"index": 8, "subkeyword": "suffer", "cooccur_num": 2}, {"index": 9, "subkeyword": "inflammation", "cooccur_num": 2}, {"index": 10, "subkeyword": "immunophenotyping", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "ethylene", "cooccur_num": 0.2332521677017212}, {"index": 2, "subkeyword": "control", "cooccur_num": 0.1941276341676712}, {"index": 3, "subkeyword": "achieve", "cooccur_num": 0.17502033710479736}, {"index": 4, "subkeyword": "poorly", "cooccur_num": 0.1732037365436554}, {"index": 5, "subkeyword": "resistance", "cooccur_num": 0.17154455184936523}, {"index": 6, "subkeyword": "coke", "cooccur_num": 0.1642487794160843}, {"index": 7, "subkeyword": "cuticle", "cooccur_num": 0.1614198386669159}, {"index": 8, "subkeyword": "reform", "cooccur_num": 0.16122421622276306}, {"index": 9, "subkeyword": "report", "cooccur_num": 0.15295648574829102}, {"index": 10, "subkeyword": "stretchability", "cooccur_num": 0.15251785516738892}]}, {"keyword": "delivery", "score": 2, "cooccur": [{"index": 1, "subkeyword": "liquid", "cooccur_num": 3}, {"index": 2, "subkeyword": "drug", "cooccur_num": 3}, {"index": 3, "subkeyword": "formulation", "cooccur_num": 2}, {"index": 4, "subkeyword": "control", "cooccur_num": 2}, {"index": 5, "subkeyword": "exosomebased", "cooccur_num": 1}, {"index": 6, "subkeyword": "superrepressor", "cooccur_num": 1}, {"index": 7, "subkeyword": "relief", "cooccur_num": 1}, {"index": 8, "subkeyword": "sepsisassociated", "cooccur_num": 1}, {"index": 9, "subkeyword": "fanginspired", "cooccur_num": 1}, {"index": 10, "subkeyword": "stamp", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "network", "cooccur_num": 0.20074762403964996}, {"index": 2, "subkeyword": "hierarchical", "cooccur_num": 0.1940629631280899}, {"index": 3, "subkeyword": "simultaneously", "cooccur_num": 0.18841299414634705}, {"index": 4, "subkeyword": "structure", "cooccur_num": 0.17128732800483704}, {"index": 5, "subkeyword": "recently", "cooccur_num": 0.16781586408615112}, {"index": 6, "subkeyword": "protein", "cooccur_num": 0.15867078304290771}, {"index": 7, "subkeyword": "integrity", "cooccur_num": 0.15759794414043427}, {"index": 8, "subkeyword": "paclitaxel", "cooccur_num": 0.1516174077987671}, {"index": 9, "subkeyword": "tie", "cooccur_num": 0.14835773408412933}, {"index": 10, "subkeyword": "design", "cooccur_num": 0.14787834882736206}]}, {"keyword": "design", "score": 2, "cooccur": [{"index": 1, "subkeyword": "engineer", "cooccur_num": 3}, {"index": 2, "subkeyword": "dynamic", "cooccur_num": 2}, {"index": 3, "subkeyword": "metalpolymer", "cooccur_num": 2}, {"index": 4, "subkeyword": "interaction", "cooccur_num": 2}, {"index": 5, "subkeyword": "chemoselective", "cooccur_num": 2}, {"index": 6, "subkeyword": "longlived", "cooccur_num": 2}, {"index": 7, "subkeyword": "human", "cooccur_num": 2}, {"index": 8, "subkeyword": "these", "cooccur_num": 2}, {"index": 9, "subkeyword": "result", "cooccur_num": 2}, {"index": 10, "subkeyword": "catalyst", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "develop", "cooccur_num": 0.26238134503364563}, {"index": 2, "subkeyword": "achieve", "cooccur_num": 0.23879346251487732}, {"index": 3, "subkeyword": "power", "cooccur_num": 0.2350277602672577}, {"index": 4, "subkeyword": "therapeutic", "cooccur_num": 0.2283555269241333}, {"index": 5, "subkeyword": "here", "cooccur_num": 0.22500117123126984}, {"index": 6, "subkeyword": "substrate", "cooccur_num": 0.21413180232048035}, {"index": 7, "subkeyword": "surface", "cooccur_num": 0.21031051874160767}, {"index": 8, "subkeyword": "material", "cooccur_num": 0.2079726606607437}, {"index": 9, "subkeyword": "enable", "cooccur_num": 0.2031969428062439}, {"index": 10, "subkeyword": "microneedle", "cooccur_num": 0.20255295932292938}]}, {"keyword": "dry", "score": 2, "cooccur": [{"index": 1, "subkeyword": "reform", "cooccur_num": 4}, {"index": 2, "subkeyword": "methane", "cooccur_num": 4}, {"index": 3, "subkeyword": "stable", "cooccur_num": 2}, {"index": 4, "subkeyword": "production", "cooccur_num": 2}, {"index": 5, "subkeyword": "response", "cooccur_num": 1}, {"index": 6, "subkeyword": "comment", "cooccur_num": 1}, {"index": 7, "subkeyword": "chemical", "cooccur_num": 1}, {"index": 8, "subkeyword": "carbon", "cooccur_num": 1}, {"index": 9, "subkeyword": "dioxide", "cooccur_num": 1}, {"index": 10, "subkeyword": "provide", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "communication", "cooccur_num": 0.20305322110652924}, {"index": 2, "subkeyword": "blend", "cooccur_num": 0.18534980714321136}, {"index": 3, "subkeyword": "unprecedented", "cooccur_num": 0.1786786913871765}, {"index": 4, "subkeyword": "gain", "cooccur_num": 0.1613597869873047}, {"index": 5, "subkeyword": "array", "cooccur_num": 0.15600097179412842}, {"index": 6, "subkeyword": "signal", "cooccur_num": 0.15417802333831787}, {"index": 7, "subkeyword": "agility", "cooccur_num": 0.15240076184272766}, {"index": 8, "subkeyword": "highly", "cooccur_num": 0.15177790820598602}, {"index": 9, "subkeyword": "microneedle", "cooccur_num": 0.1514386534690857}, {"index": 10, "subkeyword": "serieselastic", "cooccur_num": 0.149518221616745}]}, {"keyword": "dynamic", "score": 2, "cooccur": [{"index": 1, "subkeyword": "metalpolymer", "cooccur_num": 2}, {"index": 2, "subkeyword": "interaction", "cooccur_num": 2}, {"index": 3, "subkeyword": "design", "cooccur_num": 2}, {"index": 4, "subkeyword": "material", "cooccur_num": 2}, {"index": 5, "subkeyword": "the", "cooccur_num": 2}, {"index": 6, "subkeyword": "composite", "cooccur_num": 2}, {"index": 7, "subkeyword": "fa", "cooccur_num": 1}, {"index": 8, "subkeyword": "signal", "cooccur_num": 1}, {"index": 9, "subkeyword": "network", "cooccur_num": 1}, {"index": 10, "subkeyword": "deformable", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "cell", "cooccur_num": 0.2596099376678467}, {"index": 2, "subkeyword": "controller", "cooccur_num": 0.2267984300851822}, {"index": 3, "subkeyword": "blood", "cooccur_num": 0.2205648273229599}, {"index": 4, "subkeyword": "highlight", "cooccur_num": 0.21902784705162048}, {"index": 5, "subkeyword": "complex", "cooccur_num": 0.19692516326904297}, {"index": 6, "subkeyword": "study", "cooccur_num": 0.19660821557044983}, {"index": 7, "subkeyword": "microneedle", "cooccur_num": 0.18609604239463806}, {"index": 8, "subkeyword": "continuous", "cooccur_num": 0.18513545393943787}, {"index": 9, "subkeyword": "type", "cooccur_num": 0.18259695172309875}, {"index": 10, "subkeyword": "silicon", "cooccur_num": 0.17225678265094757}]}, {"keyword": "elastic", "score": 2, "cooccur": [{"index": 1, "subkeyword": "coherent", "cooccur_num": 2}, {"index": 2, "subkeyword": "scatter", "cooccur_num": 2}, {"index": 3, "subkeyword": "observation", "cooccur_num": 1}, {"index": 4, "subkeyword": "neutrinonucleus", "cooccur_num": 1}, {"index": 5, "subkeyword": "highly", "cooccur_num": 1}, {"index": 6, "subkeyword": "binder", "cooccur_num": 1}, {"index": 7, "subkeyword": "integrate", "cooccur_num": 1}, {"index": 8, "subkeyword": "polyrotaxanes", "cooccur_num": 1}, {"index": 9, "subkeyword": "the", "cooccur_num": 1}, {"index": 10, "subkeyword": "neutrino", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "drug", "cooccur_num": 0.16395793855190277}, {"index": 2, "subkeyword": "base", "cooccur_num": 0.15871980786323547}, {"index": 3, "subkeyword": "internal", "cooccur_num": 0.15365418791770935}, {"index": 4, "subkeyword": "transparency", "cooccur_num": 0.1440942883491516}, {"index": 5, "subkeyword": "activation", "cooccur_num": 0.13964012265205383}, {"index": 6, "subkeyword": "previous", "cooccur_num": 0.1293489784002304}, {"index": 7, "subkeyword": "hour", "cooccur_num": 0.1271892786026001}, {"index": 8, "subkeyword": "treatment", "cooccur_num": 0.12301646173000336}, {"index": 9, "subkeyword": "organ", "cooccur_num": 0.11972997337579727}, {"index": 10, "subkeyword": "component", "cooccur_num": 0.11945420503616333}]}, {"keyword": "electrode", "score": 2, "cooccur": [{"index": 1, "subkeyword": "gold", "cooccur_num": 2}, {"index": 2, "subkeyword": "electroinductive", "cooccur_num": 1}, {"index": 3, "subkeyword": "effect", "cooccur_num": 1}, {"index": 4, "subkeyword": "functional", "cooccur_num": 1}, {"index": 5, "subkeyword": "tunable", "cooccur_num": 1}, {"index": 6, "subkeyword": "electronic", "cooccur_num": 1}, {"index": 7, "subkeyword": "base", "cooccur_num": 1}, {"index": 8, "subkeyword": "ionically", "cooccur_num": 1}, {"index": 9, "subkeyword": "crosslinked", "cooccur_num": 1}, {"index": 10, "subkeyword": "tictx", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "via", "cooccur_num": 0.18962734937667847}, {"index": 2, "subkeyword": "strategy", "cooccur_num": 0.1739889234304428}, {"index": 3, "subkeyword": "capillary", "cooccur_num": 0.16302725672721863}, {"index": 4, "subkeyword": "defect", "cooccur_num": 0.15893998742103577}, {"index": 5, "subkeyword": "transparent", "cooccur_num": 0.15651507675647736}, {"index": 6, "subkeyword": "modulation", "cooccur_num": 0.15051504969596863}, {"index": 7, "subkeyword": "vaccine", "cooccur_num": 0.15027515590190887}, {"index": 8, "subkeyword": "substrate", "cooccur_num": 0.14333662390708923}, {"index": 9, "subkeyword": "fa", "cooccur_num": 0.1397586315870285}, {"index": 10, "subkeyword": "pressure", "cooccur_num": 0.13972066342830658}]}, {"keyword": "enable", "score": 2, "cooccur": [{"index": 1, "subkeyword": "stable", "cooccur_num": 2}, {"index": 2, "subkeyword": "silicon", "cooccur_num": 2}, {"index": 3, "subkeyword": "interaction", "cooccur_num": 2}, {"index": 4, "subkeyword": "the", "cooccur_num": 2}, {"index": 5, "subkeyword": "pdpps", "cooccur_num": 2}, {"index": 6, "subkeyword": "system", "cooccur_num": 2}, {"index": 7, "subkeyword": "strategy", "cooccur_num": 2}, {"index": 8, "subkeyword": "direct", "cooccur_num": 2}, {"index": 9, "subkeyword": "groove", "cooccur_num": 2}, {"index": 10, "subkeyword": "rapid", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "cell", "cooccur_num": 0.22775566577911377}, {"index": 2, "subkeyword": "conductivity", "cooccur_num": 0.21396097540855408}, {"index": 3, "subkeyword": "signal", "cooccur_num": 0.21254807710647583}, {"index": 4, "subkeyword": "power", "cooccur_num": 0.21103845536708832}, {"index": 5, "subkeyword": "therapeutic", "cooccur_num": 0.20765195786952972}, {"index": 6, "subkeyword": "ticntx", "cooccur_num": 0.207071915268898}, {"index": 7, "subkeyword": "here", "cooccur_num": 0.20649518072605133}, {"index": 8, "subkeyword": "humanoid", "cooccur_num": 0.20614570379257202}, {"index": 9, "subkeyword": "method", "cooccur_num": 0.2049504816532135}, {"index": 10, "subkeyword": "design", "cooccur_num": 0.2031969577074051}]}, {"keyword": "extreme", "score": 2, "cooccur": [{"index": 1, "subkeyword": "surface", "cooccur_num": 4}, {"index": 2, "subkeyword": "pressure", "cooccur_num": 4}, {"index": 3, "subkeyword": "springtailinspired", "cooccur_num": 2}, {"index": 4, "subkeyword": "superomniphobic", "cooccur_num": 2}, {"index": 5, "subkeyword": "resistance", "cooccur_num": 2}, {"index": 6, "subkeyword": "simultaneously", "cooccur_num": 2}, {"index": 7, "subkeyword": "able", "cooccur_num": 2}, {"index": 8, "subkeyword": "endure", "cooccur_num": 2}, {"index": 9, "subkeyword": "result", "cooccur_num": 2}, {"index": 10, "subkeyword": "impact", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "representative", "cooccur_num": 0.1707049310207367}, {"index": 2, "subkeyword": "reveal", "cooccur_num": 0.14775703847408295}, {"index": 3, "subkeyword": "hole", "cooccur_num": 0.1460404247045517}, {"index": 4, "subkeyword": "device", "cooccur_num": 0.14276477694511414}, {"index": 5, "subkeyword": "circuit", "cooccur_num": 0.14116328954696655}, {"index": 6, "subkeyword": "develop", "cooccur_num": 0.13914057612419128}, {"index": 7, "subkeyword": "crystal", "cooccur_num": 0.13466063141822815}, {"index": 8, "subkeyword": "metastasis", "cooccur_num": 0.13305486738681793}, {"index": 9, "subkeyword": "fao", "cooccur_num": 0.12743404507637024}, {"index": 10, "subkeyword": "blockade", "cooccur_num": 0.1239638477563858}]}, {"keyword": "human", "score": 2, "cooccur": [{"index": 1, "subkeyword": "humanoid", "cooccur_num": 9}, {"index": 2, "subkeyword": "body", "cooccur_num": 6}, {"index": 3, "subkeyword": "mimetic", "cooccur_num": 5}, {"index": 4, "subkeyword": "principle", "cooccur_num": 3}, {"index": 5, "subkeyword": "describe", "cooccur_num": 3}, {"index": 6, "subkeyword": "propose", "cooccur_num": 3}, {"index": 7, "subkeyword": "kenshiro", "cooccur_num": 3}, {"index": 8, "subkeyword": "design", "cooccur_num": 2}, {"index": 9, "subkeyword": "internal", "cooccur_num": 2}, {"index": 10, "subkeyword": "tie", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "achieve", "cooccur_num": 0.22770923376083374}, {"index": 2, "subkeyword": "use", "cooccur_num": 0.21411174535751343}, {"index": 3, "subkeyword": "here", "cooccur_num": 0.21163377165794373}, {"index": 4, "subkeyword": "describe", "cooccur_num": 0.21019873023033142}, {"index": 5, "subkeyword": "engineer", "cooccur_num": 0.20740574598312378}, {"index": 6, "subkeyword": "challenge", "cooccur_num": 0.1999906450510025}, {"index": 7, "subkeyword": "factor", "cooccur_num": 0.19683663547039032}, {"index": 8, "subkeyword": "sfgo", "cooccur_num": 0.19382093846797943}, {"index": 9, "subkeyword": "advance", "cooccur_num": 0.19371013343334198}, {"index": 10, "subkeyword": "silicon", "cooccur_num": 0.19192524254322052}]}, {"keyword": "humanoid", "score": 2, "cooccur": [{"index": 1, "subkeyword": "human", "cooccur_num": 8}, {"index": 2, "subkeyword": "mimetic", "cooccur_num": 6}, {"index": 3, "subkeyword": "principle", "cooccur_num": 3}, {"index": 4, "subkeyword": "propose", "cooccur_num": 3}, {"index": 5, "subkeyword": "design", "cooccur_num": 2}, {"index": 6, "subkeyword": "platform", "cooccur_num": 2}, {"index": 7, "subkeyword": "study", "cooccur_num": 2}, {"index": 8, "subkeyword": "believe", "cooccur_num": 2}, {"index": 9, "subkeyword": "kenshiro", "cooccur_num": 2}, {"index": 10, "subkeyword": "kengoro", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "activation", "cooccur_num": 0.23257873952388763}, {"index": 2, "subkeyword": "here", "cooccur_num": 0.2187718152999878}, {"index": 3, "subkeyword": "potential", "cooccur_num": 0.20735715329647064}, {"index": 4, "subkeyword": "enable", "cooccur_num": 0.20614567399024963}, {"index": 5, "subkeyword": "use", "cooccur_num": 0.20274534821510315}, {"index": 6, "subkeyword": "advance", "cooccur_num": 0.1885390281677246}, {"index": 7, "subkeyword": "contact", "cooccur_num": 0.18457619845867157}, {"index": 8, "subkeyword": "plastic", "cooccur_num": 0.17958375811576843}, {"index": 9, "subkeyword": "deletion", "cooccur_num": 0.1781322956085205}, {"index": 10, "subkeyword": "elucidate", "cooccur_num": 0.17664048075675964}]}, {"keyword": "humid", "score": 2, "cooccur": [{"index": 1, "subkeyword": "flue", "cooccur_num": 5}, {"index": 2, "subkeyword": "gas", "cooccur_num": 5}, {"index": 3, "subkeyword": "atmosphere", "cooccur_num": 4}, {"index": 4, "subkeyword": "capture", "cooccur_num": 3}, {"index": 5, "subkeyword": "use", "cooccur_num": 1}, {"index": 6, "subkeyword": "microporous", "cooccur_num": 1}, {"index": 7, "subkeyword": "decomposition", "cooccur_num": 1}, {"index": 8, "subkeyword": "cause", "cooccur_num": 1}, {"index": 9, "subkeyword": "coadsorbed", "cooccur_num": 1}, {"index": 10, "subkeyword": "expose", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "novel", "cooccur_num": 0.18766559660434723}, {"index": 2, "subkeyword": "lens", "cooccur_num": 0.17693158984184265}, {"index": 3, "subkeyword": "here", "cooccur_num": 0.16717347502708435}, {"index": 4, "subkeyword": "network", "cooccur_num": 0.15812161564826965}, {"index": 5, "subkeyword": "cancer", "cooccur_num": 0.15474441647529602}, {"index": 6, "subkeyword": "static", "cooccur_num": 0.15263047814369202}, {"index": 7, "subkeyword": "histone", "cooccur_num": 0.15259379148483276}, {"index": 8, "subkeyword": "egfrtkis", "cooccur_num": 0.14911550283432007}, {"index": 9, "subkeyword": "obtain", "cooccur_num": 0.1485634446144104}, {"index": 10, "subkeyword": "together", "cooccur_num": 0.14781750738620758}]}, {"keyword": "lens", "score": 2, "cooccur": [{"index": 1, "subkeyword": "smart", "cooccur_num": 12}, {"index": 2, "subkeyword": "contact", "cooccur_num": 12}, {"index": 3, "subkeyword": "soft", "cooccur_num": 4}, {"index": 4, "subkeyword": "continuous", "cooccur_num": 3}, {"index": 5, "subkeyword": "diabetic", "cooccur_num": 2}, {"index": 6, "subkeyword": "human", "cooccur_num": 2}, {"index": 7, "subkeyword": "here", "cooccur_num": 2}, {"index": 8, "subkeyword": "the", "cooccur_num": 2}, {"index": 9, "subkeyword": "wireless", "cooccur_num": 1}, {"index": 10, "subkeyword": "diagnosis", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "however", "cooccur_num": 0.22383296489715576}, {"index": 2, "subkeyword": "index", "cooccur_num": 0.20671090483665466}, {"index": 3, "subkeyword": "appear", "cooccur_num": 0.20550763607025146}, {"index": 4, "subkeyword": "ultrastable", "cooccur_num": 0.18523970246315002}, {"index": 5, "subkeyword": "critical", "cooccur_num": 0.18490943312644958}, {"index": 6, "subkeyword": "process", "cooccur_num": 0.18314850330352783}, {"index": 7, "subkeyword": "influenza", "cooccur_num": 0.17977672815322876}, {"index": 8, "subkeyword": "promise", "cooccur_num": 0.1791406273841858}, {"index": 9, "subkeyword": "humid", "cooccur_num": 0.17693158984184265}, {"index": 10, "subkeyword": "robot", "cooccur_num": 0.17624643445014954}]}, {"keyword": "liquid", "score": 2, "cooccur": [{"index": 1, "subkeyword": "surface", "cooccur_num": 4}, {"index": 2, "subkeyword": "delivery", "cooccur_num": 3}, {"index": 3, "subkeyword": "formulation", "cooccur_num": 3}, {"index": 4, "subkeyword": "drug", "cooccur_num": 3}, {"index": 5, "subkeyword": "patch", "cooccur_num": 2}, {"index": 6, "subkeyword": "crystal", "cooccur_num": 2}, {"index": 7, "subkeyword": "exist", "cooccur_num": 2}, {"index": 8, "subkeyword": "vaccine", "cooccur_num": 2}, {"index": 9, "subkeyword": "yield", "cooccur_num": 2}, {"index": 10, "subkeyword": "repellency", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "here", "cooccur_num": 0.2037043571472168}, {"index": 2, "subkeyword": "suppress", "cooccur_num": 0.2035691887140274}, {"index": 3, "subkeyword": "class", "cooccur_num": 0.2030268758535385}, {"index": 4, "subkeyword": "capacity", "cooccur_num": 0.20293700695037842}, {"index": 5, "subkeyword": "observe", "cooccur_num": 0.19470423460006714}, {"index": 6, "subkeyword": "wide", "cooccur_num": 0.1912134289741516}, {"index": 7, "subkeyword": "wearable", "cooccur_num": 0.18926483392715454}, {"index": 8, "subkeyword": "however", "cooccur_num": 0.18863625824451447}, {"index": 9, "subkeyword": "mouse", "cooccur_num": 0.18458212912082672}, {"index": 10, "subkeyword": "mitigate", "cooccur_num": 0.18078142404556274}]}, {"keyword": "methane", "score": 2, "cooccur": [{"index": 1, "subkeyword": "dry", "cooccur_num": 4}, {"index": 2, "subkeyword": "reform", "cooccur_num": 4}, {"index": 3, "subkeyword": "stable", "cooccur_num": 2}, {"index": 4, "subkeyword": "nimo", "cooccur_num": 2}, {"index": 5, "subkeyword": "nanocatalysts", "cooccur_num": 2}, {"index": 6, "subkeyword": "response", "cooccur_num": 1}, {"index": 7, "subkeyword": "comment", "cooccur_num": 1}, {"index": 8, "subkeyword": "carbon", "cooccur_num": 1}, {"index": 9, "subkeyword": "dioxide", "cooccur_num": 1}, {"index": 10, "subkeyword": "provide", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "static", "cooccur_num": 0.17798399925231934}, {"index": 2, "subkeyword": "springtail", "cooccur_num": 0.17304611206054688}, {"index": 3, "subkeyword": "plastic", "cooccur_num": 0.15705512464046478}, {"index": 4, "subkeyword": "interface", "cooccur_num": 0.15581297874450684}, {"index": 5, "subkeyword": "ang", "cooccur_num": 0.15195722877979279}, {"index": 6, "subkeyword": "critical", "cooccur_num": 0.1511252224445343}, {"index": 7, "subkeyword": "surface", "cooccur_num": 0.14285734295845032}, {"index": 8, "subkeyword": "opportunity", "cooccur_num": 0.1425371617078781}, {"index": 9, "subkeyword": "offer", "cooccur_num": 0.134992316365242}, {"index": 10, "subkeyword": "flue", "cooccur_num": 0.13341069221496582}]}, {"keyword": "mgo", "score": 2, "cooccur": [{"index": 1, "subkeyword": "stable", "cooccur_num": 3}, {"index": 2, "subkeyword": "singlecrystalline", "cooccur_num": 3}, {"index": 3, "subkeyword": "nimo", "cooccur_num": 2}, {"index": 4, "subkeyword": "nanocatalysts", "cooccur_num": 2}, {"index": 5, "subkeyword": "edge", "cooccur_num": 2}, {"index": 6, "subkeyword": "magnesium", "cooccur_num": 1}, {"index": 7, "subkeyword": "oxide", "cooccur_num": 1}, {"index": 8, "subkeyword": "support", "cooccur_num": 1}, {"index": 9, "subkeyword": "quantitative", "cooccur_num": 1}, {"index": 10, "subkeyword": "production", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "describe", "cooccur_num": 0.17000526189804077}, {"index": 2, "subkeyword": "propagation", "cooccur_num": 0.15944992005825043}, {"index": 3, "subkeyword": "capacity", "cooccur_num": 0.14897117018699646}, {"index": 4, "subkeyword": "visual", "cooccur_num": 0.1438337117433548}, {"index": 5, "subkeyword": "explore", "cooccur_num": 0.1419856697320938}, {"index": 6, "subkeyword": "stretchability", "cooccur_num": 0.13619878888130188}, {"index": 7, "subkeyword": "wide", "cooccur_num": 0.13547222316265106}, {"index": 8, "subkeyword": "sst", "cooccur_num": 0.13332520425319672}, {"index": 9, "subkeyword": "vaporphase", "cooccur_num": 0.12252684682607651}, {"index": 10, "subkeyword": "opportunity", "cooccur_num": 0.11950203776359558}]}, {"keyword": "multielectrode", "score": 2, "cooccur": [{"index": 1, "subkeyword": "array", "cooccur_num": 4}, {"index": 2, "subkeyword": "nonthrombogenic", "cooccur_num": 2}, {"index": 3, "subkeyword": "stretchable", "cooccur_num": 2}, {"index": 4, "subkeyword": "active", "cooccur_num": 2}, {"index": 5, "subkeyword": "electroanatomical", "cooccur_num": 2}, {"index": 6, "subkeyword": "map", "cooccur_num": 2}, {"index": 7, "subkeyword": "physiology", "cooccur_num": 2}, {"index": 8, "subkeyword": "function", "cooccur_num": 2}, {"index": 9, "subkeyword": "recently", "cooccur_num": 2}, {"index": 10, "subkeyword": "ultraflexible", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "successful", "cooccur_num": 0.15479938685894012}, {"index": 2, "subkeyword": "wave", "cooccur_num": 0.1538994163274765}, {"index": 3, "subkeyword": "design", "cooccur_num": 0.15381991863250732}, {"index": 4, "subkeyword": "attachment", "cooccur_num": 0.1527646780014038}, {"index": 5, "subkeyword": "yield", "cooccur_num": 0.14640504121780396}, {"index": 6, "subkeyword": "absorption", "cooccur_num": 0.13451111316680908}, {"index": 7, "subkeyword": "emitter", "cooccur_num": 0.1284337192773819}, {"index": 8, "subkeyword": "inflammatory", "cooccur_num": 0.12503555417060852}, {"index": 9, "subkeyword": "diabetic", "cooccur_num": 0.12234137952327728}, {"index": 10, "subkeyword": "medical", "cooccur_num": 0.12196371704339981}]}, {"keyword": "mxene", "score": 2, "cooccur": [{"index": 1, "subkeyword": "transition", "cooccur_num": 2}, {"index": 2, "subkeyword": "metal", "cooccur_num": 2}, {"index": 3, "subkeyword": "carbonitride", "cooccur_num": 2}, {"index": 4, "subkeyword": "ticntx", "cooccur_num": 2}, {"index": 5, "subkeyword": "artificial", "cooccur_num": 2}, {"index": 6, "subkeyword": "muscle", "cooccur_num": 2}, {"index": 7, "subkeyword": "base", "cooccur_num": 2}, {"index": 8, "subkeyword": "moderate", "cooccur_num": 1}, {"index": 9, "subkeyword": "electrical", "cooccur_num": 1}, {"index": 10, "subkeyword": "conductivity", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "limit", "cooccur_num": 0.21701377630233765}, {"index": 2, "subkeyword": "transcription", "cooccur_num": 0.19202867150306702}, {"index": 3, "subkeyword": "image", "cooccur_num": 0.1837344765663147}, {"index": 4, "subkeyword": "simultaneously", "cooccur_num": 0.17346638441085815}, {"index": 5, "subkeyword": "yap", "cooccur_num": 0.1731223315000534}, {"index": 6, "subkeyword": "emerge", "cooccur_num": 0.1535266488790512}, {"index": 7, "subkeyword": "enable", "cooccur_num": 0.15343360602855682}, {"index": 8, "subkeyword": "dynamic", "cooccur_num": 0.15010681748390198}, {"index": 9, "subkeyword": "potential", "cooccur_num": 0.1489029824733734}, {"index": 10, "subkeyword": "method", "cooccur_num": 0.14673538506031036}]}, {"keyword": "nanocatalysts", "score": 2, "cooccur": [{"index": 1, "subkeyword": "reform", "cooccur_num": 2}, {"index": 2, "subkeyword": "methane", "cooccur_num": 2}, {"index": 3, "subkeyword": "stable", "cooccur_num": 2}, {"index": 4, "subkeyword": "nimo", "cooccur_num": 2}, {"index": 5, "subkeyword": "singlecrystalline", "cooccur_num": 2}, {"index": 6, "subkeyword": "mgo", "cooccur_num": 2}, {"index": 7, "subkeyword": "single", "cooccur_num": 2}, {"index": 8, "subkeyword": "crystal", "cooccur_num": 2}, {"index": 9, "subkeyword": "edge", "cooccur_num": 2}, {"index": 10, "subkeyword": "overclaimed", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "nad", "cooccur_num": 0.1868717074394226}, {"index": 2, "subkeyword": "factor", "cooccur_num": 0.18426787853240967}, {"index": 3, "subkeyword": "ratio", "cooccur_num": 0.18378779292106628}, {"index": 4, "subkeyword": "vascular", "cooccur_num": 0.1711163967847824}, {"index": 5, "subkeyword": "humanoid", "cooccur_num": 0.16920456290245056}, {"index": 6, "subkeyword": "enhance", "cooccur_num": 0.1558367908000946}, {"index": 7, "subkeyword": "ability", "cooccur_num": 0.15452632308006287}, {"index": 8, "subkeyword": "strong", "cooccur_num": 0.15293581783771515}, {"index": 9, "subkeyword": "nsf", "cooccur_num": 0.14894506335258484}, {"index": 10, "subkeyword": "develop", "cooccur_num": 0.14247927069664001}]}, {"keyword": "optical", "score": 2, "cooccur": [{"index": 1, "subkeyword": "frequency", "cooccur_num": 2}, {"index": 2, "subkeyword": "comb", "cooccur_num": 2}, {"index": 3, "subkeyword": "rapid", "cooccur_num": 2}, {"index": 4, "subkeyword": "range", "cooccur_num": 2}, {"index": 5, "subkeyword": "create", "cooccur_num": 2}, {"index": 6, "subkeyword": "generation", "cooccur_num": 1}, {"index": 7, "subkeyword": "multiple", "cooccur_num": 1}, {"index": 8, "subkeyword": "ultrastable", "cooccur_num": 1}, {"index": 9, "subkeyword": "allfiber", "cooccur_num": 1}, {"index": 10, "subkeyword": "holographic", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "achieve", "cooccur_num": 0.22789500653743744}, {"index": 2, "subkeyword": "require", "cooccur_num": 0.226706400513649}, {"index": 3, "subkeyword": "repellency", "cooccur_num": 0.21538931131362915}, {"index": 4, "subkeyword": "traf", "cooccur_num": 0.21218276023864746}, {"index": 5, "subkeyword": "sensor", "cooccur_num": 0.20153269171714783}, {"index": 6, "subkeyword": "drug", "cooccur_num": 0.1974005103111267}, {"index": 7, "subkeyword": "learn", "cooccur_num": 0.18105901777744293}, {"index": 8, "subkeyword": "electrochemical", "cooccur_num": 0.17857027053833008}, {"index": 9, "subkeyword": "excitatory", "cooccur_num": 0.17832618951797485}, {"index": 10, "subkeyword": "lightemitting", "cooccur_num": 0.1754276007413864}]}, {"keyword": "organic", "score": 2, "cooccur": [{"index": 1, "subkeyword": "lightemitting", "cooccur_num": 3}, {"index": 2, "subkeyword": "diode", "cooccur_num": 3}, {"index": 3, "subkeyword": "membrane", "cooccur_num": 2}, {"index": 4, "subkeyword": "solvent", "cooccur_num": 2}, {"index": 5, "subkeyword": "nanofiltration", "cooccur_num": 2}, {"index": 6, "subkeyword": "reflective", "cooccur_num": 2}, {"index": 7, "subkeyword": "pulse", "cooccur_num": 2}, {"index": 8, "subkeyword": "oximetry", "cooccur_num": 2}, {"index": 9, "subkeyword": "design", "cooccur_num": 2}, {"index": 10, "subkeyword": "flexible", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "primary", "cooccur_num": 0.24714520573616028}, {"index": 2, "subkeyword": "this", "cooccur_num": 0.23515141010284424}, {"index": 3, "subkeyword": "the", "cooccur_num": 0.2272137552499771}, {"index": 4, "subkeyword": "property", "cooccur_num": 0.21935336291790009}, {"index": 5, "subkeyword": "resistance", "cooccur_num": 0.20592375099658966}, {"index": 6, "subkeyword": "system", "cooccur_num": 0.19094429910182953}, {"index": 7, "subkeyword": "associate", "cooccur_num": 0.19047236442565918}, {"index": 8, "subkeyword": "cause", "cooccur_num": 0.19045907258987427}, {"index": 9, "subkeyword": "functional", "cooccur_num": 0.18566769361495972}, {"index": 10, "subkeyword": "robot", "cooccur_num": 0.18305334448814392}]}, {"keyword": "oxide", "score": 2, "cooccur": [{"index": 1, "subkeyword": "transition", "cooccur_num": 3}, {"index": 2, "subkeyword": "smallflake", "cooccur_num": 2}, {"index": 3, "subkeyword": "graphene", "cooccur_num": 2}, {"index": 4, "subkeyword": "membrane", "cooccur_num": 2}, {"index": 5, "subkeyword": "metal", "cooccur_num": 2}, {"index": 6, "subkeyword": "highperformance", "cooccur_num": 2}, {"index": 7, "subkeyword": "harness", "cooccur_num": 1}, {"index": 8, "subkeyword": "topotactic", "cooccur_num": 1}, {"index": 9, "subkeyword": "heterostructures", "cooccur_num": 1}, {"index": 10, "subkeyword": "fast", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "heat", "cooccur_num": 0.21020877361297607}, {"index": 2, "subkeyword": "use", "cooccur_num": 0.19942185282707214}, {"index": 3, "subkeyword": "power", "cooccur_num": 0.16927221417427063}, {"index": 4, "subkeyword": "structure", "cooccur_num": 0.16435781121253967}, {"index": 5, "subkeyword": "mea", "cooccur_num": 0.1558089703321457}, {"index": 6, "subkeyword": "substrate", "cooccur_num": 0.1516021341085434}, {"index": 7, "subkeyword": "strong", "cooccur_num": 0.15122321248054504}, {"index": 8, "subkeyword": "layer", "cooccur_num": 0.15068748593330383}, {"index": 9, "subkeyword": "solvent", "cooccur_num": 0.14747846126556396}, {"index": 10, "subkeyword": "jump", "cooccur_num": 0.1435573399066925}]}, {"keyword": "patch", "score": 2, "cooccur": [{"index": 1, "subkeyword": "microneedle", "cooccur_num": 5}, {"index": 2, "subkeyword": "snake", "cooccur_num": 3}, {"index": 3, "subkeyword": "fanginspired", "cooccur_num": 3}, {"index": 4, "subkeyword": "liquid", "cooccur_num": 2}, {"index": 5, "subkeyword": "deliver", "cooccur_num": 2}, {"index": 6, "subkeyword": "stamp", "cooccur_num": 1}, {"index": 7, "subkeyword": "transdermal", "cooccur_num": 1}, {"index": 8, "subkeyword": "delivery", "cooccur_num": 1}, {"index": 9, "subkeyword": "organic", "cooccur_num": 1}, {"index": 10, "subkeyword": "pulse", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "contact", "cooccur_num": 0.1824599653482437}, {"index": 2, "subkeyword": "strategy", "cooccur_num": 0.17109152674674988}, {"index": 3, "subkeyword": "class", "cooccur_num": 0.16588565707206726}, {"index": 4, "subkeyword": "wearable", "cooccur_num": 0.16359734535217285}, {"index": 5, "subkeyword": "drug", "cooccur_num": 0.16261610388755798}, {"index": 6, "subkeyword": "cool", "cooccur_num": 0.15087753534317017}, {"index": 7, "subkeyword": "appear", "cooccur_num": 0.1502143144607544}, {"index": 8, "subkeyword": "combine", "cooccur_num": 0.14817526936531067}, {"index": 9, "subkeyword": "temporal", "cooccur_num": 0.14766767621040344}, {"index": 10, "subkeyword": "antibody", "cooccur_num": 0.143467515707016}]}, {"keyword": "platform", "score": 2, "cooccur": [{"index": 1, "subkeyword": "human", "cooccur_num": 2}, {"index": 2, "subkeyword": "humanoid", "cooccur_num": 2}, {"index": 3, "subkeyword": "frequency", "cooccur_num": 1}, {"index": 4, "subkeyword": "comb", "cooccur_num": 1}, {"index": 5, "subkeyword": "allfiber", "cooccur_num": 1}, {"index": 6, "subkeyword": "photonic", "cooccur_num": 1}, {"index": 7, "subkeyword": "mimetic", "cooccur_num": 1}, {"index": 8, "subkeyword": "study", "cooccur_num": 1}, {"index": 9, "subkeyword": "intelligence", "cooccur_num": 1}, {"index": 10, "subkeyword": "tune", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "challenge", "cooccur_num": 0.22276651859283447}, {"index": 2, "subkeyword": "alleviate", "cooccur_num": 0.18364018201828003}, {"index": 3, "subkeyword": "pdpps", "cooccur_num": 0.17884071171283722}, {"index": 4, "subkeyword": "transcription", "cooccur_num": 0.16699200868606567}, {"index": 5, "subkeyword": "energy", "cooccur_num": 0.1659625768661499}, {"index": 6, "subkeyword": "turnover", "cooccur_num": 0.16253630816936493}, {"index": 7, "subkeyword": "here", "cooccur_num": 0.16186541318893433}, {"index": 8, "subkeyword": "solar", "cooccur_num": 0.1576845496892929}, {"index": 9, "subkeyword": "springtail", "cooccur_num": 0.15662860870361328}, {"index": 10, "subkeyword": "robotic", "cooccur_num": 0.15567748248577118}]}, {"keyword": "polymer", "score": 2, "cooccur": [{"index": 1, "subkeyword": "refractive", "cooccur_num": 4}, {"index": 2, "subkeyword": "index", "cooccur_num": 4}, {"index": 3, "subkeyword": "flexible", "cooccur_num": 3}, {"index": 4, "subkeyword": "transparent", "cooccur_num": 2}, {"index": 5, "subkeyword": "sulfur", "cooccur_num": 2}, {"index": 6, "subkeyword": "blend", "cooccur_num": 1}, {"index": 7, "subkeyword": "direct", "cooccur_num": 1}, {"index": 8, "subkeyword": "anisotropic", "cooccur_num": 1}, {"index": 9, "subkeyword": "sulfurcontaining", "cooccur_num": 1}, {"index": 10, "subkeyword": "overcome", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "factor", "cooccur_num": 0.21615436673164368}, {"index": 2, "subkeyword": "function", "cooccur_num": 0.20495560765266418}, {"index": 3, "subkeyword": "blend", "cooccur_num": 0.18729397654533386}, {"index": 4, "subkeyword": "propose", "cooccur_num": 0.18674539029598236}, {"index": 5, "subkeyword": "process", "cooccur_num": 0.18635359406471252}, {"index": 6, "subkeyword": "type", "cooccur_num": 0.18261709809303284}, {"index": 7, "subkeyword": "treatment", "cooccur_num": 0.1760331690311432}, {"index": 8, "subkeyword": "last", "cooccur_num": 0.17560851573944092}, {"index": 9, "subkeyword": "heart", "cooccur_num": 0.17505836486816406}, {"index": 10, "subkeyword": "here", "cooccur_num": 0.1747119426727295}]}, {"keyword": "pressure", "score": 2, "cooccur": [{"index": 1, "subkeyword": "resistance", "cooccur_num": 8}, {"index": 2, "subkeyword": "surface", "cooccur_num": 4}, {"index": 3, "subkeyword": "extreme", "cooccur_num": 4}, {"index": 4, "subkeyword": "static", "cooccur_num": 4}, {"index": 5, "subkeyword": "repellency", "cooccur_num": 4}, {"index": 6, "subkeyword": "achieve", "cooccur_num": 4}, {"index": 7, "subkeyword": "springtailinspired", "cooccur_num": 2}, {"index": 8, "subkeyword": "superomniphobic", "cooccur_num": 2}, {"index": 9, "subkeyword": "both", "cooccur_num": 2}, {"index": 10, "subkeyword": "critical", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "tie", "cooccur_num": 0.21999874711036682}, {"index": 2, "subkeyword": "fa", "cooccur_num": 0.21416935324668884}, {"index": 3, "subkeyword": "drug", "cooccur_num": 0.21395140886306763}, {"index": 4, "subkeyword": "together", "cooccur_num": 0.213933527469635}, {"index": 5, "subkeyword": "structure", "cooccur_num": 0.20202986896038055}, {"index": 6, "subkeyword": "flue", "cooccur_num": 0.19361010193824768}, {"index": 7, "subkeyword": "engineer", "cooccur_num": 0.19021932780742645}, {"index": 8, "subkeyword": "range", "cooccur_num": 0.18970799446105957}, {"index": 9, "subkeyword": "formation", "cooccur_num": 0.1848028600215912}, {"index": 10, "subkeyword": "enable", "cooccur_num": 0.1847449243068695}]}, {"keyword": "print", "score": 2, "cooccur": [{"index": 1, "subkeyword": "nanotransfer", "cooccur_num": 3}, {"index": 2, "subkeyword": "thermally", "cooccur_num": 2}, {"index": 3, "subkeyword": "assist", "cooccur_num": 2}, {"index": 4, "subkeyword": "supercapacitor", "cooccur_num": 2}, {"index": 5, "subkeyword": "subnm", "cooccur_num": 1}, {"index": 6, "subkeyword": "resolution", "cooccur_num": 1}, {"index": 7, "subkeyword": "inch", "cooccur_num": 1}, {"index": 8, "subkeyword": "wirelessly", "cooccur_num": 1}, {"index": 9, "subkeyword": "rechargeable", "cooccur_num": 1}, {"index": 10, "subkeyword": "solidstate", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "apply", "cooccur_num": 0.19940872490406036}, {"index": 2, "subkeyword": "engineer", "cooccur_num": 0.18750131130218506}, {"index": 3, "subkeyword": "index", "cooccur_num": 0.16228875517845154}, {"index": 4, "subkeyword": "identify", "cooccur_num": 0.15887464582920074}, {"index": 5, "subkeyword": "exist", "cooccur_num": 0.1553809940814972}, {"index": 6, "subkeyword": "metal", "cooccur_num": 0.14947521686553955}, {"index": 7, "subkeyword": "gas", "cooccur_num": 0.14767736196517944}, {"index": 8, "subkeyword": "frequency", "cooccur_num": 0.14296984672546387}, {"index": 9, "subkeyword": "active", "cooccur_num": 0.14129391312599182}, {"index": 10, "subkeyword": "type", "cooccur_num": 0.13640011847019196}]}, {"keyword": "promote", "score": 2, "cooccur": [{"index": 1, "subkeyword": "tie", "cooccur_num": 1}, {"index": 2, "subkeyword": "activation", "cooccur_num": 1}, {"index": 3, "subkeyword": "choriocapillary", "cooccur_num": 1}, {"index": 4, "subkeyword": "regeneration", "cooccur_num": 1}, {"index": 5, "subkeyword": "alleviate", "cooccur_num": 1}, {"index": 6, "subkeyword": "inositol", "cooccur_num": 1}, {"index": 7, "subkeyword": "polyphosphate", "cooccur_num": 1}, {"index": 8, "subkeyword": "multikinase", "cooccur_num": 1}, {"index": 9, "subkeyword": "tolllike", "cooccur_num": 1}, {"index": 10, "subkeyword": "receptorinduced", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "find", "cooccur_num": 0.1840939223766327}, {"index": 2, "subkeyword": "snake", "cooccur_num": 0.1832617223262787}, {"index": 3, "subkeyword": "strategy", "cooccur_num": 0.17597371339797974}, {"index": 4, "subkeyword": "longterm", "cooccur_num": 0.1753232479095459}, {"index": 5, "subkeyword": "network", "cooccur_num": 0.17318123579025269}, {"index": 6, "subkeyword": "furthermore", "cooccur_num": 0.16661635041236877}, {"index": 7, "subkeyword": "bleed", "cooccur_num": 0.16571566462516785}, {"index": 8, "subkeyword": "material", "cooccur_num": 0.1638794094324112}, {"index": 9, "subkeyword": "pathway", "cooccur_num": 0.16130778193473816}, {"index": 10, "subkeyword": "here", "cooccur_num": 0.1522708535194397}]}, {"keyword": "reform", "score": 2, "cooccur": [{"index": 1, "subkeyword": "dry", "cooccur_num": 4}, {"index": 2, "subkeyword": "methane", "cooccur_num": 4}, {"index": 3, "subkeyword": "stable", "cooccur_num": 2}, {"index": 4, "subkeyword": "nimo", "cooccur_num": 2}, {"index": 5, "subkeyword": "production", "cooccur_num": 2}, {"index": 6, "subkeyword": "response", "cooccur_num": 1}, {"index": 7, "subkeyword": "comment", "cooccur_num": 1}, {"index": 8, "subkeyword": "carbon", "cooccur_num": 1}, {"index": 9, "subkeyword": "dioxide", "cooccur_num": 1}, {"index": 10, "subkeyword": "provide", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "covid", "cooccur_num": 0.16122421622276306}, {"index": 2, "subkeyword": "traf", "cooccur_num": 0.16049955785274506}, {"index": 3, "subkeyword": "nsf", "cooccur_num": 0.1577032506465912}, {"index": 4, "subkeyword": "ethylene", "cooccur_num": 0.1565856784582138}, {"index": 5, "subkeyword": "ultrafast", "cooccur_num": 0.15355902910232544}, {"index": 6, "subkeyword": "vascular", "cooccur_num": 0.1522369384765625}, {"index": 7, "subkeyword": "robust", "cooccur_num": 0.14551642537117004}, {"index": 8, "subkeyword": "snake", "cooccur_num": 0.14525555074214935}, {"index": 9, "subkeyword": "health", "cooccur_num": 0.14145293831825256}, {"index": 10, "subkeyword": "elucidate", "cooccur_num": 0.13102774322032928}]}, {"keyword": "robot", "score": 2, "cooccur": [{"index": 1, "subkeyword": "jump", "cooccur_num": 5}, {"index": 2, "subkeyword": "power", "cooccur_num": 4}, {"index": 3, "subkeyword": "wearable", "cooccur_num": 3}, {"index": 4, "subkeyword": "intention", "cooccur_num": 3}, {"index": 5, "subkeyword": "learn", "cooccur_num": 2}, {"index": 6, "subkeyword": "user", "cooccur_num": 2}, {"index": 7, "subkeyword": "locomotion", "cooccur_num": 2}, {"index": 8, "subkeyword": "modulation", "cooccur_num": 2}, {"index": 9, "subkeyword": "vertical", "cooccur_num": 2}, {"index": 10, "subkeyword": "agility", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "wireless", "cooccur_num": 0.2125891000032425}, {"index": 2, "subkeyword": "combine", "cooccur_num": 0.19702591001987457}, {"index": 3, "subkeyword": "nanostructures", "cooccur_num": 0.1929636001586914}, {"index": 4, "subkeyword": "organic", "cooccur_num": 0.18305334448814392}, {"index": 5, "subkeyword": "lens", "cooccur_num": 0.17624643445014954}, {"index": 6, "subkeyword": "domain", "cooccur_num": 0.1747528612613678}, {"index": 7, "subkeyword": "process", "cooccur_num": 0.17474719882011414}, {"index": 8, "subkeyword": "deletion", "cooccur_num": 0.1725170612335205}, {"index": 9, "subkeyword": "motion", "cooccur_num": 0.17093084752559662}, {"index": 10, "subkeyword": "find", "cooccur_num": 0.1707780510187149}]}, {"keyword": "silicon", "score": 2, "cooccur": [{"index": 1, "subkeyword": "anode", "cooccur_num": 3}, {"index": 2, "subkeyword": "stable", "cooccur_num": 2}, {"index": 3, "subkeyword": "enable", "cooccur_num": 2}, {"index": 4, "subkeyword": "binder", "cooccur_num": 2}, {"index": 5, "subkeyword": "microparticle", "cooccur_num": 2}, {"index": 6, "subkeyword": "cycle", "cooccur_num": 2}, {"index": 7, "subkeyword": "efficient", "cooccur_num": 1}, {"index": 8, "subkeyword": "tandem", "cooccur_num": 1}, {"index": 9, "subkeyword": "cell", "cooccur_num": 1}, {"index": 10, "subkeyword": "elastic", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "cell", "cooccur_num": 0.20370818674564362}, {"index": 2, "subkeyword": "repellency", "cooccur_num": 0.20038026571273804}, {"index": 3, "subkeyword": "functional", "cooccur_num": 0.1939377784729004}, {"index": 4, "subkeyword": "condition", "cooccur_num": 0.19383873045444489}, {"index": 5, "subkeyword": "human", "cooccur_num": 0.1919252574443817}, {"index": 6, "subkeyword": "vascular", "cooccur_num": 0.18959958851337433}, {"index": 7, "subkeyword": "absorption", "cooccur_num": 0.18033060431480408}, {"index": 8, "subkeyword": "factor", "cooccur_num": 0.17570799589157104}, {"index": 9, "subkeyword": "trigger", "cooccur_num": 0.17508572340011597}, {"index": 10, "subkeyword": "dynamic", "cooccur_num": 0.17225676774978638}]}, {"keyword": "singlecrystalline", "score": 2, "cooccur": [{"index": 1, "subkeyword": "mgo", "cooccur_num": 3}, {"index": 2, "subkeyword": "methane", "cooccur_num": 2}, {"index": 3, "subkeyword": "stable", "cooccur_num": 2}, {"index": 4, "subkeyword": "nimo", "cooccur_num": 2}, {"index": 5, "subkeyword": "nanocatalysts", "cooccur_num": 2}, {"index": 6, "subkeyword": "nickel", "cooccur_num": 1}, {"index": 7, "subkeyword": "nanocatalyst", "cooccur_num": 1}, {"index": 8, "subkeyword": "stabilize", "cooccur_num": 1}, {"index": 9, "subkeyword": "edge", "cooccur_num": 1}, {"index": 10, "subkeyword": "magnesium", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "light", "cooccur_num": 0.20792590081691742}, {"index": 2, "subkeyword": "signal", "cooccur_num": 0.18030276894569397}, {"index": 3, "subkeyword": "protein", "cooccur_num": 0.17902320623397827}, {"index": 4, "subkeyword": "ms", "cooccur_num": 0.14639884233474731}, {"index": 5, "subkeyword": "metalpolymer", "cooccur_num": 0.14638757705688477}, {"index": 6, "subkeyword": "response", "cooccur_num": 0.14399611949920654}, {"index": 7, "subkeyword": "formulation", "cooccur_num": 0.1417226940393448}, {"index": 8, "subkeyword": "selectivity", "cooccur_num": 0.13982930779457092}, {"index": 9, "subkeyword": "humid", "cooccur_num": 0.1387392282485962}, {"index": 10, "subkeyword": "representative", "cooccur_num": 0.1382654756307602}]}, {"keyword": "smart", "score": 2, "cooccur": [{"index": 1, "subkeyword": "contact", "cooccur_num": 12}, {"index": 2, "subkeyword": "lens", "cooccur_num": 12}, {"index": 3, "subkeyword": "soft", "cooccur_num": 3}, {"index": 4, "subkeyword": "diabetic", "cooccur_num": 2}, {"index": 5, "subkeyword": "continuous", "cooccur_num": 2}, {"index": 6, "subkeyword": "here", "cooccur_num": 2}, {"index": 7, "subkeyword": "wireless", "cooccur_num": 1}, {"index": 8, "subkeyword": "rechargeable", "cooccur_num": 1}, {"index": 9, "subkeyword": "solidstate", "cooccur_num": 1}, {"index": 10, "subkeyword": "supercapacitors", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "nsf", "cooccur_num": 0.2202889621257782}, {"index": 2, "subkeyword": "achieve", "cooccur_num": 0.190880686044693}, {"index": 3, "subkeyword": "use", "cooccur_num": 0.17893457412719727}, {"index": 4, "subkeyword": "associate", "cooccur_num": 0.17474587261676788}, {"index": 5, "subkeyword": "base", "cooccur_num": 0.17227105796337128}, {"index": 6, "subkeyword": "gas", "cooccur_num": 0.16722464561462402}, {"index": 7, "subkeyword": "primary", "cooccur_num": 0.15919452905654907}, {"index": 8, "subkeyword": "exhibit", "cooccur_num": 0.1584160029888153}, {"index": 9, "subkeyword": "study", "cooccur_num": 0.15791508555412292}, {"index": 10, "subkeyword": "cycle", "cooccur_num": 0.15762478113174438}]}, {"keyword": "springtailinspired", "score": 2, "cooccur": [{"index": 1, "subkeyword": "superomniphobic", "cooccur_num": 4}, {"index": 2, "subkeyword": "surface", "cooccur_num": 4}, {"index": 3, "subkeyword": "extreme", "cooccur_num": 2}, {"index": 4, "subkeyword": "tradeoff", "cooccur_num": 2}, {"index": 5, "subkeyword": "characteristic", "cooccur_num": 2}, {"index": 6, "subkeyword": "demonstrate", "cooccur_num": 2}, {"index": 7, "subkeyword": "time", "cooccur_num": 2}, {"index": 8, "subkeyword": "display", "cooccur_num": 2}, {"index": 9, "subkeyword": "resistance", "cooccur_num": 2}, {"index": 10, "subkeyword": "report", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "display", "cooccur_num": 0.15805503726005554}, {"index": 2, "subkeyword": "tie", "cooccur_num": 0.15690389275550842}, {"index": 3, "subkeyword": "substrate", "cooccur_num": 0.15397220849990845}, {"index": 4, "subkeyword": "superior", "cooccur_num": 0.15089890360832214}, {"index": 5, "subkeyword": "organic", "cooccur_num": 0.14575721323490143}, {"index": 6, "subkeyword": "lightemitting", "cooccur_num": 0.1415669471025467}, {"index": 7, "subkeyword": "offer", "cooccur_num": 0.13772544264793396}, {"index": 8, "subkeyword": "ecg", "cooccur_num": 0.13639600574970245}, {"index": 9, "subkeyword": "lead", "cooccur_num": 0.13636517524719238}, {"index": 10, "subkeyword": "smart", "cooccur_num": 0.13599175214767456}]}, {"keyword": "stretchable", "score": 2, "cooccur": [{"index": 1, "subkeyword": "nonthrombogenic", "cooccur_num": 2}, {"index": 2, "subkeyword": "active", "cooccur_num": 2}, {"index": 3, "subkeyword": "multielectrode", "cooccur_num": 2}, {"index": 4, "subkeyword": "array", "cooccur_num": 2}, {"index": 5, "subkeyword": "signaltonoise", "cooccur_num": 2}, {"index": 6, "subkeyword": "ratio", "cooccur_num": 2}, {"index": 7, "subkeyword": "the", "cooccur_num": 2}, {"index": 8, "subkeyword": "novel", "cooccur_num": 2}, {"index": 9, "subkeyword": "mea", "cooccur_num": 2}, {"index": 10, "subkeyword": "carefully", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "enclosure", "cooccur_num": 0.18052679300308228}, {"index": 2, "subkeyword": "analysis", "cooccur_num": 0.16794128715991974}, {"index": 3, "subkeyword": "neutrino", "cooccur_num": 0.14561131596565247}, {"index": 4, "subkeyword": "acid", "cooccur_num": 0.13876080513000488}, {"index": 5, "subkeyword": "role", "cooccur_num": 0.1378316879272461}, {"index": 6, "subkeyword": "our", "cooccur_num": 0.12228948622941971}, {"index": 7, "subkeyword": "binder", "cooccur_num": 0.12200012803077698}, {"index": 8, "subkeyword": "influenza", "cooccur_num": 0.12155476212501526}, {"index": 9, "subkeyword": "strong", "cooccur_num": 0.12131290137767792}, {"index": 10, "subkeyword": "sensitivity", "cooccur_num": 0.12015341222286224}]}, {"keyword": "superomniphobic", "score": 2, "cooccur": [{"index": 1, "subkeyword": "springtailinspired", "cooccur_num": 4}, {"index": 2, "subkeyword": "surface", "cooccur_num": 4}, {"index": 3, "subkeyword": "extreme", "cooccur_num": 2}, {"index": 4, "subkeyword": "pressure", "cooccur_num": 2}, {"index": 5, "subkeyword": "characteristic", "cooccur_num": 2}, {"index": 6, "subkeyword": "demonstrate", "cooccur_num": 2}, {"index": 7, "subkeyword": "time", "cooccur_num": 2}, {"index": 8, "subkeyword": "display", "cooccur_num": 2}, {"index": 9, "subkeyword": "feature", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "prior", "cooccur_num": 0.18514186143875122}, {"index": 2, "subkeyword": "refractive", "cooccur_num": 0.13886737823486328}, {"index": 3, "subkeyword": "result", "cooccur_num": 0.1345188170671463}, {"index": 4, "subkeyword": "memory", "cooccur_num": 0.13198846578598022}, {"index": 5, "subkeyword": "component", "cooccur_num": 0.13108228147029877}, {"index": 6, "subkeyword": "osn", "cooccur_num": 0.12981709837913513}, {"index": 7, "subkeyword": "topological", "cooccur_num": 0.12962621450424194}, {"index": 8, "subkeyword": "decision", "cooccur_num": 0.12789081037044525}, {"index": 9, "subkeyword": "find", "cooccur_num": 0.1265065222978592}, {"index": 10, "subkeyword": "promote", "cooccur_num": 0.12357786297798157}]}]
+        console.log(dataAnalyze)
+        var width = 1300,
+            height = 600
+
+        var svg = d3.select(".wordcloud").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", 'outline');
+
+        var svg = d3.select("svg")
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+
+        showCloud(dataAnalyze)
+
+
+        function showCloud(data) {
+            d3.layout.cloud().size([width, height])
+                //클라우드 레이아웃에 데이터 전달
+                .words(data.map((d, index) => {
+                    return {
+                        index: index,
+                        text: d.keyword,
+                        size: d.score,
+                        cooccur: d.cooccur,
+                        similar: d.similar,
+                    }
+                }))
+                .padding(30)
+                //스케일로 각 단어의 크기를 설정
+                .rotate(function (d) {
+                    return Math.round((Math.random()-0.5)*2) * 45;
+                })
+                .fontSize(d => {
+                    if (d.index < 10) {
+                        return 30;
+                    } else {
+                        return 15;
+                    }
+                })
+                .on("end", draw)
+                .start();
+
+            function draw(words) {
+                var cloud = svg.selectAll("text").data(words)
+                //Entering words
+                cloud.enter()
+                    .append("text")
+                    .style("font-family", 'Black Han Sans')
+                    .style("fill", function (d) {
+                        return (d.index < 10 ? "#fbc280" : "#405275");
+                    })
+                    .style("fill-opacity", .5)
+                    .attr("text-anchor", "center")
+                    .text(function (d) {
+                        return d.text;
+                    })
+                    .on('click', overevent)
+                cloud.transition()
+                    .duration(600)
+                    .style("font-size", function (d) {
+                        return d.size + "px";
+                    })
+                    .attr("transform", function (d) {
+                        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                    })
+                    .style("fill-opacity", 1);
+            }
+
+
+            function overevent(d) {
+                Cooccurdetail(d);
+                similardetail(d);
+            }
+        }
+
+        function Cooccurdetail(d) {
+            var width = 400,
+                height = 400;
+            var central = d.text;
+            var links = d.cooccur.map((d) => {
+                return {
+                    "source": central,
+                    "target": d.subkeyword,
+                    "value": d.cooccur_num
+                }
+            });
+            var nodes = {};
+            linkScale = d3.scale.linear().domain([0, links[0].value]).range([0, 150]).clamp(true);
+
+            console.log(links)
+            // Compute the distinct nodes from the links.
+            links.forEach(function (link) {
+                link.source = nodes[link.source] || (nodes[link.source] = {
+                    name: link.source
+
+                });
+                link.target = nodes[link.target] || (nodes[link.target] = {
+                    name: link.target
+                });
+                
+            });
+
+
+            var force = d3.layout.force()
+                .nodes(d3.values(nodes))
+                .links(links)
+                .size([width, height])
+                .linkDistance((link)=>{
+                    return linkScale(link.value)
+                })
+                .charge(-300)
+                .on("tick", tick)
+                .start();
+
+            var svg = d3.select(".cooccur").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("class",'outline');
+
+            var link = svg.selectAll(".link")
+                .data(force.links())
+                .enter().append("line")
+                .attr("class", "link")
+
+
+            var color = d3.scale.category20();
+
+            var node = svg.selectAll(".node")
+                .data(force.nodes())
+                .enter().append("g")
+                .attr("class", "node")
+                .on("mouseover", mouseover)
+                .on("mouseout", mouseout)
+                .on("click",clickevent)
+                .call(force.drag);
+
+
+            node.append("circle")
+                .attr("r", 8)
+                .attr("fill", function(d,i){return color(i);});
+
+
+            node.append("text")
+                .attr("x", 12)
+                .attr("dy", ".35em")
+                .text(function (d) {
+                    return d.name;
+                });
+
+            function tick() {
+                link
+                    .attr("x1", function (d) {
+                        return d.source.x;
+                    })
+                    .attr("y1", function (d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function (d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function (d) {
+                        return d.target.y;
+                    });
+
+                node
+                    .attr("transform", function (d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+            }
+
+            function clickevent(d){
+                target=dataAnalyze.find((e)=>{
+                    if(e.keyword === d.name){
+                        return e
+                    }
+                })
+                if (target == undefined){
+                    return
+                }
+                var new_links = target.cooccur.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+
+               var new_nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               new_links.forEach(function (link) {
+                   link.source = new_nodes[link.source] || (new_nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = new_nodes[link.target] || (new_nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+                });
+                for (new_link in new_links){
+                    links.push(new_links[new_link])}
+                console.log(nodes)
+                console.log(new_nodes)
+                nodes.add(new_nodes)
+                console.log(links)
+
+            };
+
+            function mouseover() {
+                d3.select(this).select("circle").transition()
+                    .duration(750)
+                    .attr("r", 16);
+            }
+
+            function mouseout() {
+                d3.select(this).select("circle").transition()
+                    .duration(750)
+                    .attr("r", 8);
+            }
+        }
+            linkScale = d3.scale.linear().domain([0, 1]).range([0, 100]).clamp(true);
+           function similardetail(d) {
+               var width = 400,
+                   height = 400;
+               var central = d.text;
+               console.log(d)
+               var links = d.similar.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+               var nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               links.forEach(function (link) {
+                   link.source = nodes[link.source] || (nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = nodes[link.target] || (nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+               });
+   
+   
+               var force = d3.layout.force()
+                   .nodes(d3.values(nodes))
+                   .links(links)
+                   .size([width, height])
+                   .linkDistance((link)=>{
+                       return linkScale(link.value)
+                   })
+                   .charge(-300)
+                   .on("tick", tick)
+                   .start();
+   
+               var svg = d3.select(".similar").append("svg")
+                   .attr("width", width)
+                   .attr("height", height)
+                   .attr("class",'outline');
+   
+               var link = svg.selectAll(".link")
+                   .data(force.links())
+                   .enter().append("line")
+                   .attr("class", "link");
+   
+               var color = d3.scale.category20();
+   
+               var node = svg.selectAll(".node")
+                   .data(force.nodes())
+                   .enter().append("g")
+                   .attr("class", "node")
+                   .on("mouseover", mouseover)
+                   .on("mouseout", mouseout)
+                   .on("click", clickevent)
+                   .call(force.drag);
+   
+               node.append("circle")
+                   .attr("r", 8)
+                   .attr("fill", (d,i)=>color(i));
+   
+   
+               node.append("text")
+                   .attr("x", 12)
+                   .attr("dy", ".35em")
+                   .text(function (d) {
+                       return d.name;
+                   });
+   
+            function clickevent(d){
+                var new_links = d.similar.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+
+               var new_nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               links.forEach(function (link) {
+                   link.source = new_nodes[link.source] || (new_nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = new_nodes[link.target] || (new_nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+                });
+                links.append(new_links)
+                nodes.append(new_nodes)
+            };
+
+               function tick() {
+                   link
+                       .attr("x1", function (d) {
+                           return d.source.x;
+                       })
+                       .attr("y1", function (d) {
+                           return d.source.y;
+                       })
+                       .attr("x2", function (d) {
+                           return d.target.x;
+                       })
+                       .attr("y2", function (d) {
+                           return d.target.y;
+                       });
+   
+                   node
+                       .attr("transform", function (d) {
+                           return "translate(" + d.x + "," + d.y + ")";
+                       });
+               }
+   
+               function mouseover() {
+                   d3.select(this).select("circle").transition()
+                       .duration(750)
+                       .attr("r", 16);
+               }
+   
+               function mouseout() {
+                   d3.select(this).select("circle").transition()
+                       .duration(750)
+                       .attr("r", 8);
+               }
+           }
+        </script>
+
+</body>
+
+</html>

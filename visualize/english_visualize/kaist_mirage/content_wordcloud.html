@@ -1,0 +1,408 @@
+﻿<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+</head>
+<style>
+    .link  {
+    stroke: #999;
+    stroke-opacity: 0.6;
+    }
+
+    .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+    }
+
+    .outline {
+    outline: 6px solid black;
+    outline-style:dashed;
+    margin-right: 20px;
+
+    }
+    .outline-nondash {
+    outline: 6px solid black;
+    outline-style:auto;
+    }
+    .small {
+        font-size: 15px;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+</style>
+
+<body>
+    <div class="wordcloud">
+        <h1 font-family='Black Han Sans', sans-serif;>Word Cloud</h1>
+    </div>
+    <div class="cooccur">
+        <h1 font-family='Black Han Sans', sans-serif;>Cooccurence Detail</h1>
+    </div>
+    <h1 class="small">문장내에서 자주 같이 출연하는 단어들의 상위 10개 단어의 네트워크입니다.</h1>
+    <div class="similar">
+        <h1 font-family='Black Han Sans', sans-serif;>Similar Detail</h1>
+    </div>
+    <h1 class="small">문장 등장 위치에 따른 유사하다고 생각되는 단어 top 10의 네트워크입니다..</h1>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js" type="text/JavaScript">
+    </script>
+    <script>
+        var dataAnalyze = [{"keyword": "cell", "score": 126, "cooccur": [{"index": 1, "subkeyword": "cancer", "cooccur_num": 15}, {"index": 2, "subkeyword": "immune", "cooccur_num": 12}, {"index": 3, "subkeyword": "beta", "cooccur_num": 11}, {"index": 4, "subkeyword": "fuel", "cooccur_num": 10}, {"index": 5, "subkeyword": "differentiate", "cooccur_num": 9}, {"index": 6, "subkeyword": "colon", "cooccur_num": 8}, {"index": 7, "subkeyword": "grow", "cooccur_num": 8}, {"index": 8, "subkeyword": "pancreatic", "cooccur_num": 8}, {"index": 9, "subkeyword": "researcher", "cooccur_num": 7}, {"index": 10, "subkeyword": "analysis", "cooccur_num": 7}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9963538646697998}, {"index": 2, "subkeyword": "time", "cooccur_num": 0.9957494735717773}, {"index": 3, "subkeyword": "team", "cooccur_num": 0.9956983327865601}, {"index": 4, "subkeyword": "use", "cooccur_num": 0.9955769777297974}, {"index": 5, "subkeyword": "develop", "cooccur_num": 0.9954501986503601}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9954487085342407}, {"index": 7, "subkeyword": "provide", "cooccur_num": 0.9952980279922485}, {"index": 8, "subkeyword": "production", "cooccur_num": 0.9952958226203918}, {"index": 9, "subkeyword": "this", "cooccur_num": 0.9952896237373352}, {"index": 10, "subkeyword": "technology", "cooccur_num": 0.995152473449707}]}, {"keyword": "study", "score": 122, "cooccur": [{"index": 1, "subkeyword": "this", "cooccur_num": 20}, {"index": 2, "subkeyword": "professor", "cooccur_num": 9}, {"index": 3, "subkeyword": "support", "cooccur_num": 8}, {"index": 4, "subkeyword": "report", "cooccur_num": 8}, {"index": 5, "subkeyword": "conduct", "cooccur_num": 8}, {"index": 6, "subkeyword": "kaist", "cooccur_num": 7}, {"index": 7, "subkeyword": "research", "cooccur_num": 7}, {"index": 8, "subkeyword": "team", "cooccur_num": 7}, {"index": 9, "subkeyword": "researcher", "cooccur_num": 6}, {"index": 10, "subkeyword": "publish", "cooccur_num": 6}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.996158242225647}, {"index": 2, "subkeyword": "research", "cooccur_num": 0.9955612421035767}, {"index": 3, "subkeyword": "this", "cooccur_num": 0.9953578114509583}, {"index": 4, "subkeyword": "cell", "cooccur_num": 0.9951473474502563}, {"index": 5, "subkeyword": "researcher", "cooccur_num": 0.9951169490814209}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.995021402835846}, {"index": 7, "subkeyword": "provide", "cooccur_num": 0.994996190071106}, {"index": 8, "subkeyword": "kaist", "cooccur_num": 0.9949362277984619}, {"index": 9, "subkeyword": "design", "cooccur_num": 0.9947861433029175}, {"index": 10, "subkeyword": "develop", "cooccur_num": 0.9947419166564941}]}, {"keyword": "technology", "score": 116, "cooccur": [{"index": 1, "subkeyword": "science", "cooccur_num": 14}, {"index": 2, "subkeyword": "advance", "cooccur_num": 12}, {"index": 3, "subkeyword": "korea", "cooccur_num": 11}, {"index": 4, "subkeyword": "institute", "cooccur_num": 11}, {"index": 5, "subkeyword": "this", "cooccur_num": 10}, {"index": 6, "subkeyword": "kaist", "cooccur_num": 8}, {"index": 7, "subkeyword": "research", "cooccur_num": 8}, {"index": 8, "subkeyword": "develop", "cooccur_num": 8}, {"index": 9, "subkeyword": "trl", "cooccur_num": 8}, {"index": 10, "subkeyword": "emerge", "cooccur_num": 7}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9955964684486389}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9951525926589966}, {"index": 3, "subkeyword": "team", "cooccur_num": 0.9951000213623047}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9950876235961914}, {"index": 5, "subkeyword": "science", "cooccur_num": 0.9949016571044922}, {"index": 6, "subkeyword": "use", "cooccur_num": 0.994818925857544}, {"index": 7, "subkeyword": "researcher", "cooccur_num": 0.9947977066040039}, {"index": 8, "subkeyword": "provide", "cooccur_num": 0.99476158618927}, {"index": 9, "subkeyword": "study", "cooccur_num": 0.9945477843284607}, {"index": 10, "subkeyword": "material", "cooccur_num": 0.9944637417793274}]}, {"keyword": "material", "score": 113, "cooccur": [{"index": 1, "subkeyword": "science", "cooccur_num": 20}, {"index": 2, "subkeyword": "engineer", "cooccur_num": 17}, {"index": 3, "subkeyword": "professor", "cooccur_num": 14}, {"index": 4, "subkeyword": "department", "cooccur_num": 12}, {"index": 5, "subkeyword": "research", "cooccur_num": 11}, {"index": 6, "subkeyword": "support", "cooccur_num": 6}, {"index": 7, "subkeyword": "kaist", "cooccur_num": 6}, {"index": 8, "subkeyword": "device", "cooccur_num": 6}, {"index": 9, "subkeyword": "electrode", "cooccur_num": 6}, {"index": 10, "subkeyword": "use", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9955731630325317}, {"index": 2, "subkeyword": "this", "cooccur_num": 0.9955601692199707}, {"index": 3, "subkeyword": "use", "cooccur_num": 0.9950345754623413}, {"index": 4, "subkeyword": "study", "cooccur_num": 0.9946070313453674}, {"index": 5, "subkeyword": "team", "cooccur_num": 0.9945774078369141}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9945617318153381}, {"index": 7, "subkeyword": "researcher", "cooccur_num": 0.9945089817047119}, {"index": 8, "subkeyword": "technology", "cooccur_num": 0.9944636821746826}, {"index": 9, "subkeyword": "cell", "cooccur_num": 0.994425892829895}, {"index": 10, "subkeyword": "professor", "cooccur_num": 0.9943618774414062}]}, {"keyword": "science", "score": 104, "cooccur": [{"index": 1, "subkeyword": "engineer", "cooccur_num": 27}, {"index": 2, "subkeyword": "kaist", "cooccur_num": 22}, {"index": 3, "subkeyword": "material", "cooccur_num": 20}, {"index": 4, "subkeyword": "advance", "cooccur_num": 19}, {"index": 5, "subkeyword": "ict", "cooccur_num": 19}, {"index": 6, "subkeyword": "ministry", "cooccur_num": 18}, {"index": 7, "subkeyword": "institute", "cooccur_num": 17}, {"index": 8, "subkeyword": "research", "cooccur_num": 17}, {"index": 9, "subkeyword": "department", "cooccur_num": 17}, {"index": 10, "subkeyword": "korea", "cooccur_num": 16}], "similar": [{"index": 1, "subkeyword": "research", "cooccur_num": 0.9953548908233643}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9951609373092651}, {"index": 3, "subkeyword": "team", "cooccur_num": 0.9949383735656738}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9949016571044922}, {"index": 5, "subkeyword": "professor", "cooccur_num": 0.9944912195205688}, {"index": 6, "subkeyword": "lead", "cooccur_num": 0.9944689273834229}, {"index": 7, "subkeyword": "kaist", "cooccur_num": 0.994400143623352}, {"index": 8, "subkeyword": "this", "cooccur_num": 0.9942183494567871}, {"index": 9, "subkeyword": "study", "cooccur_num": 0.994057834148407}, {"index": 10, "subkeyword": "researcher", "cooccur_num": 0.9939620494842529}]}, {"keyword": "develop", "score": 101, "cooccur": [{"index": 1, "subkeyword": "team", "cooccur_num": 21}, {"index": 2, "subkeyword": "engineer", "cooccur_num": 15}, {"index": 3, "subkeyword": "research", "cooccur_num": 13}, {"index": 4, "subkeyword": "kaist", "cooccur_num": 11}, {"index": 5, "subkeyword": "researcher", "cooccur_num": 10}, {"index": 6, "subkeyword": "department", "cooccur_num": 7}, {"index": 7, "subkeyword": "brain", "cooccur_num": 7}, {"index": 8, "subkeyword": "park", "cooccur_num": 6}, {"index": 9, "subkeyword": "professor", "cooccur_num": 6}, {"index": 10, "subkeyword": "the", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9955990314483643}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9954503178596497}, {"index": 3, "subkeyword": "team", "cooccur_num": 0.9952631592750549}, {"index": 4, "subkeyword": "design", "cooccur_num": 0.9951040744781494}, {"index": 5, "subkeyword": "kaist", "cooccur_num": 0.9949756860733032}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9948946833610535}, {"index": 7, "subkeyword": "this", "cooccur_num": 0.9947600960731506}, {"index": 8, "subkeyword": "study", "cooccur_num": 0.9947419166564941}, {"index": 9, "subkeyword": "use", "cooccur_num": 0.9947306513786316}, {"index": 10, "subkeyword": "professor", "cooccur_num": 0.9946649670600891}]}, {"keyword": "use", "score": 86, "cooccur": [{"index": 1, "subkeyword": "analysis", "cooccur_num": 7}, {"index": 2, "subkeyword": "device", "cooccur_num": 6}, {"index": 3, "subkeyword": "technology", "cooccur_num": 5}, {"index": 4, "subkeyword": "current", "cooccur_num": 5}, {"index": 5, "subkeyword": "this", "cooccur_num": 5}, {"index": 6, "subkeyword": "battery", "cooccur_num": 4}, {"index": 7, "subkeyword": "technique", "cooccur_num": 4}, {"index": 8, "subkeyword": "brain", "cooccur_num": 4}, {"index": 9, "subkeyword": "team", "cooccur_num": 4}, {"index": 10, "subkeyword": "pressure", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9958586692810059}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9955770969390869}, {"index": 3, "subkeyword": "this", "cooccur_num": 0.9950693845748901}, {"index": 4, "subkeyword": "material", "cooccur_num": 0.9950345754623413}, {"index": 5, "subkeyword": "provide", "cooccur_num": 0.995030403137207}, {"index": 6, "subkeyword": "time", "cooccur_num": 0.9949586391448975}, {"index": 7, "subkeyword": "researcher", "cooccur_num": 0.9948523044586182}, {"index": 8, "subkeyword": "technology", "cooccur_num": 0.994818925857544}, {"index": 9, "subkeyword": "research", "cooccur_num": 0.9947899580001831}, {"index": 10, "subkeyword": "team", "cooccur_num": 0.994774580001831}]}, {"keyword": "engineer", "score": 85, "cooccur": [{"index": 1, "subkeyword": "department", "cooccur_num": 31}, {"index": 2, "subkeyword": "science", "cooccur_num": 27}, {"index": 3, "subkeyword": "kaist", "cooccur_num": 18}, {"index": 4, "subkeyword": "material", "cooccur_num": 16}, {"index": 5, "subkeyword": "school", "cooccur_num": 15}, {"index": 6, "subkeyword": "develop", "cooccur_num": 14}, {"index": 7, "subkeyword": "professor", "cooccur_num": 11}, {"index": 8, "subkeyword": "mechanical", "cooccur_num": 10}, {"index": 9, "subkeyword": "chemical", "cooccur_num": 9}, {"index": 10, "subkeyword": "graduate", "cooccur_num": 8}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9944121837615967}, {"index": 2, "subkeyword": "this", "cooccur_num": 0.9943414926528931}, {"index": 3, "subkeyword": "research", "cooccur_num": 0.9942761659622192}, {"index": 4, "subkeyword": "provide", "cooccur_num": 0.9941602945327759}, {"index": 5, "subkeyword": "professor", "cooccur_num": 0.994123101234436}, {"index": 6, "subkeyword": "kaist", "cooccur_num": 0.9940041303634644}, {"index": 7, "subkeyword": "lead", "cooccur_num": 0.9938732385635376}, {"index": 8, "subkeyword": "study", "cooccur_num": 0.9937765598297119}, {"index": 9, "subkeyword": "develop", "cooccur_num": 0.9937536716461182}, {"index": 10, "subkeyword": "cell", "cooccur_num": 0.9937423467636108}]}, {"keyword": "time", "score": 85, "cooccur": [{"index": 1, "subkeyword": "real", "cooccur_num": 10}, {"index": 2, "subkeyword": "the", "cooccur_num": 9}, {"index": 3, "subkeyword": "support", "cooccur_num": 7}, {"index": 4, "subkeyword": "cough", "cooccur_num": 5}, {"index": 5, "subkeyword": "track", "cooccur_num": 5}, {"index": 6, "subkeyword": "change", "cooccur_num": 5}, {"index": 7, "subkeyword": "enamel", "cooccur_num": 5}, {"index": 8, "subkeyword": "sleep", "cooccur_num": 5}, {"index": 9, "subkeyword": "compare", "cooccur_num": 4}, {"index": 10, "subkeyword": "effect", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9961391091346741}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9957494735717773}, {"index": 3, "subkeyword": "this", "cooccur_num": 0.9949700832366943}, {"index": 4, "subkeyword": "use", "cooccur_num": 0.9949586391448975}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9949244260787964}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9948861002922058}, {"index": 7, "subkeyword": "design", "cooccur_num": 0.9945802688598633}, {"index": 8, "subkeyword": "study", "cooccur_num": 0.994516909122467}, {"index": 9, "subkeyword": "kaist", "cooccur_num": 0.994515061378479}, {"index": 10, "subkeyword": "develop", "cooccur_num": 0.9944919347763062}]}, {"keyword": "kim", "score": 76, "cooccur": [{"index": 1, "subkeyword": "professor", "cooccur_num": 37}, {"index": 2, "subkeyword": "department", "cooccur_num": 7}, {"index": 3, "subkeyword": "phd", "cooccur_num": 7}, {"index": 4, "subkeyword": "lead", "cooccur_num": 7}, {"index": 5, "subkeyword": "park", "cooccur_num": 6}, {"index": 6, "subkeyword": "jae", "cooccur_num": 6}, {"index": 7, "subkeyword": "team", "cooccur_num": 5}, {"index": 8, "subkeyword": "kaist", "cooccur_num": 5}, {"index": 9, "subkeyword": "lee", "cooccur_num": 5}, {"index": 10, "subkeyword": "kyoung", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "cell", "cooccur_num": 0.9935455322265625}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9935263395309448}, {"index": 3, "subkeyword": "kaist", "cooccur_num": 0.9930597543716431}, {"index": 4, "subkeyword": "this", "cooccur_num": 0.9929887056350708}, {"index": 5, "subkeyword": "study", "cooccur_num": 0.9929208159446716}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9928935170173645}, {"index": 7, "subkeyword": "technology", "cooccur_num": 0.9928491115570068}, {"index": 8, "subkeyword": "professor", "cooccur_num": 0.9928393363952637}, {"index": 9, "subkeyword": "develop", "cooccur_num": 0.992786169052124}, {"index": 10, "subkeyword": "use", "cooccur_num": 0.992759108543396}]}, {"keyword": "support", "score": 75, "cooccur": [{"index": 1, "subkeyword": "research", "cooccur_num": 28}, {"index": 2, "subkeyword": "national", "cooccur_num": 21}, {"index": 3, "subkeyword": "foundation", "cooccur_num": 16}, {"index": 4, "subkeyword": "suboxide", "cooccur_num": 12}, {"index": 5, "subkeyword": "tungsten", "cooccur_num": 11}, {"index": 6, "subkeyword": "this", "cooccur_num": 10}, {"index": 7, "subkeyword": "study", "cooccur_num": 9}, {"index": 8, "subkeyword": "science", "cooccur_num": 7}, {"index": 9, "subkeyword": "material", "cooccur_num": 6}, {"index": 10, "subkeyword": "kaist", "cooccur_num": 6}], "similar": [{"index": 1, "subkeyword": "research", "cooccur_num": 0.9950739145278931}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9944920539855957}, {"index": 3, "subkeyword": "this", "cooccur_num": 0.9942774772644043}, {"index": 4, "subkeyword": "cell", "cooccur_num": 0.9941465854644775}, {"index": 5, "subkeyword": "kaist", "cooccur_num": 0.9937472939491272}, {"index": 6, "subkeyword": "researcher", "cooccur_num": 0.9937375783920288}, {"index": 7, "subkeyword": "team", "cooccur_num": 0.9937170743942261}, {"index": 8, "subkeyword": "structure", "cooccur_num": 0.993615448474884}, {"index": 9, "subkeyword": "develop", "cooccur_num": 0.9935988783836365}, {"index": 10, "subkeyword": "technology", "cooccur_num": 0.9935830235481262}]}, {"keyword": "sensor", "score": 74, "cooccur": [{"index": 1, "subkeyword": "pressure", "cooccur_num": 26}, {"index": 2, "subkeyword": "the", "cooccur_num": 9}, {"index": 3, "subkeyword": "health", "cooccur_num": 8}, {"index": 4, "subkeyword": "hysteresis", "cooccur_num": 7}, {"index": 5, "subkeyword": "research", "cooccur_num": 6}, {"index": 6, "subkeyword": "team", "cooccur_num": 6}, {"index": 7, "subkeyword": "soft", "cooccur_num": 6}, {"index": 8, "subkeyword": "sensitivity", "cooccur_num": 6}, {"index": 9, "subkeyword": "uniformity", "cooccur_num": 6}, {"index": 10, "subkeyword": "application", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.993889331817627}, {"index": 2, "subkeyword": "time", "cooccur_num": 0.9935133457183838}, {"index": 3, "subkeyword": "this", "cooccur_num": 0.9933826923370361}, {"index": 4, "subkeyword": "researcher", "cooccur_num": 0.9933304190635681}, {"index": 5, "subkeyword": "use", "cooccur_num": 0.9932863712310791}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9931984543800354}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.9930740594863892}, {"index": 8, "subkeyword": "kaist", "cooccur_num": 0.9929609894752502}, {"index": 9, "subkeyword": "process", "cooccur_num": 0.9928765296936035}, {"index": 10, "subkeyword": "study", "cooccur_num": 0.9928199052810669}]}, {"keyword": "image", "score": 72, "cooccur": [{"index": 1, "subkeyword": "brain", "cooccur_num": 25}, {"index": 2, "subkeyword": "news", "cooccur_num": 15}, {"index": 3, "subkeyword": "analysis", "cooccur_num": 14}, {"index": 4, "subkeyword": "data", "cooccur_num": 14}, {"index": 5, "subkeyword": "organization", "cooccur_num": 7}, {"index": 6, "subkeyword": "redistribute", "cooccur_num": 7}, {"index": 7, "subkeyword": "proper", "cooccur_num": 7}, {"index": 8, "subkeyword": "attribution", "cooccur_num": 7}, {"index": 9, "subkeyword": "fluorescent", "cooccur_num": 5}, {"index": 10, "subkeyword": "restriction", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9939878582954407}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.9934903383255005}, {"index": 3, "subkeyword": "cell", "cooccur_num": 0.9934591054916382}, {"index": 4, "subkeyword": "researcher", "cooccur_num": 0.9933226108551025}, {"index": 5, "subkeyword": "develop", "cooccur_num": 0.9930747747421265}, {"index": 6, "subkeyword": "provide", "cooccur_num": 0.9930591583251953}, {"index": 7, "subkeyword": "this", "cooccur_num": 0.9930574893951416}, {"index": 8, "subkeyword": "research", "cooccur_num": 0.9929996728897095}, {"index": 9, "subkeyword": "design", "cooccur_num": 0.9929007887840271}, {"index": 10, "subkeyword": "material", "cooccur_num": 0.992889404296875}]}, {"keyword": "provide", "score": 71, "cooccur": [{"index": 1, "subkeyword": "this", "cooccur_num": 10}, {"index": 2, "subkeyword": "information", "cooccur_num": 9}, {"index": 3, "subkeyword": "insight", "cooccur_num": 8}, {"index": 4, "subkeyword": "the", "cooccur_num": 6}, {"index": 5, "subkeyword": "method", "cooccur_num": 5}, {"index": 6, "subkeyword": "understand", "cooccur_num": 4}, {"index": 7, "subkeyword": "study", "cooccur_num": 4}, {"index": 8, "subkeyword": "lead", "cooccur_num": 4}, {"index": 9, "subkeyword": "patient", "cooccur_num": 4}, {"index": 10, "subkeyword": "spin", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9958591461181641}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9952981472015381}, {"index": 3, "subkeyword": "use", "cooccur_num": 0.995030403137207}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9949972033500671}, {"index": 5, "subkeyword": "study", "cooccur_num": 0.994996190071106}, {"index": 6, "subkeyword": "this", "cooccur_num": 0.9949507713317871}, {"index": 7, "subkeyword": "kaist", "cooccur_num": 0.9949474334716797}, {"index": 8, "subkeyword": "researcher", "cooccur_num": 0.9948540925979614}, {"index": 9, "subkeyword": "technology", "cooccur_num": 0.99476158618927}, {"index": 10, "subkeyword": "team", "cooccur_num": 0.9947607517242432}]}, {"keyword": "system", "score": 69, "cooccur": [{"index": 1, "subkeyword": "audio", "cooccur_num": 7}, {"index": 2, "subkeyword": "the", "cooccur_num": 7}, {"index": 3, "subkeyword": "control", "cooccur_num": 5}, {"index": 4, "subkeyword": "ranc", "cooccur_num": 5}, {"index": 5, "subkeyword": "sensor", "cooccur_num": 5}, {"index": 6, "subkeyword": "electronics", "cooccur_num": 4}, {"index": 7, "subkeyword": "wearable", "cooccur_num": 4}, {"index": 8, "subkeyword": "technology", "cooccur_num": 4}, {"index": 9, "subkeyword": "this", "cooccur_num": 4}, {"index": 10, "subkeyword": "team", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9953093528747559}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9947380423545837}, {"index": 3, "subkeyword": "provide", "cooccur_num": 0.9946361780166626}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9946076273918152}, {"index": 5, "subkeyword": "use", "cooccur_num": 0.9944455027580261}, {"index": 6, "subkeyword": "this", "cooccur_num": 0.9944326877593994}, {"index": 7, "subkeyword": "study", "cooccur_num": 0.9943552613258362}, {"index": 8, "subkeyword": "control", "cooccur_num": 0.9941756725311279}, {"index": 9, "subkeyword": "researcher", "cooccur_num": 0.9940963387489319}, {"index": 10, "subkeyword": "material", "cooccur_num": 0.9939199686050415}]}, {"keyword": "find", "score": 68, "cooccur": [{"index": 1, "subkeyword": "team", "cooccur_num": 10}, {"index": 2, "subkeyword": "the", "cooccur_num": 6}, {"index": 3, "subkeyword": "researcher", "cooccur_num": 6}, {"index": 4, "subkeyword": "their", "cooccur_num": 6}, {"index": 5, "subkeyword": "cell", "cooccur_num": 5}, {"index": 6, "subkeyword": "research", "cooccur_num": 5}, {"index": 7, "subkeyword": "publish", "cooccur_num": 5}, {"index": 8, "subkeyword": "human", "cooccur_num": 4}, {"index": 9, "subkeyword": "author", "cooccur_num": 4}, {"index": 10, "subkeyword": "protein", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9953626394271851}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.9950603246688843}, {"index": 3, "subkeyword": "study", "cooccur_num": 0.9944435358047485}, {"index": 4, "subkeyword": "this", "cooccur_num": 0.994418740272522}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9941556453704834}, {"index": 6, "subkeyword": "time", "cooccur_num": 0.994144082069397}, {"index": 7, "subkeyword": "use", "cooccur_num": 0.9939993619918823}, {"index": 8, "subkeyword": "material", "cooccur_num": 0.9939751625061035}, {"index": 9, "subkeyword": "cell", "cooccur_num": 0.9939727783203125}, {"index": 10, "subkeyword": "design", "cooccur_num": 0.993929386138916}]}, {"keyword": "brain", "score": 67, "cooccur": [{"index": 1, "subkeyword": "image", "cooccur_num": 26}, {"index": 2, "subkeyword": "data", "cooccur_num": 13}, {"index": 3, "subkeyword": "analysis", "cooccur_num": 11}, {"index": 4, "subkeyword": "bio", "cooccur_num": 7}, {"index": 5, "subkeyword": "neural", "cooccur_num": 6}, {"index": 6, "subkeyword": "develop", "cooccur_num": 6}, {"index": 7, "subkeyword": "region", "cooccur_num": 6}, {"index": 8, "subkeyword": "engineer", "cooccur_num": 5}, {"index": 9, "subkeyword": "mri", "cooccur_num": 5}, {"index": 10, "subkeyword": "insight", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9932206869125366}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9928084015846252}, {"index": 3, "subkeyword": "researcher", "cooccur_num": 0.9923130869865417}, {"index": 4, "subkeyword": "team", "cooccur_num": 0.9921327829360962}, {"index": 5, "subkeyword": "time", "cooccur_num": 0.9920727610588074}, {"index": 6, "subkeyword": "design", "cooccur_num": 0.9919832944869995}, {"index": 7, "subkeyword": "use", "cooccur_num": 0.9918103218078613}, {"index": 8, "subkeyword": "this", "cooccur_num": 0.9918006658554077}, {"index": 9, "subkeyword": "image", "cooccur_num": 0.9917915463447571}, {"index": 10, "subkeyword": "study", "cooccur_num": 0.9916948080062866}]}, {"keyword": "device", "score": 65, "cooccur": [{"index": 1, "subkeyword": "wearable", "cooccur_num": 11}, {"index": 2, "subkeyword": "material", "cooccur_num": 7}, {"index": 3, "subkeyword": "semiconductor", "cooccur_num": 7}, {"index": 4, "subkeyword": "smart", "cooccur_num": 6}, {"index": 5, "subkeyword": "application", "cooccur_num": 6}, {"index": 6, "subkeyword": "use", "cooccur_num": 6}, {"index": 7, "subkeyword": "the", "cooccur_num": 5}, {"index": 8, "subkeyword": "display", "cooccur_num": 5}, {"index": 9, "subkeyword": "neural", "cooccur_num": 5}, {"index": 10, "subkeyword": "monitor", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "study", "cooccur_num": 0.9941418766975403}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9940561056137085}, {"index": 3, "subkeyword": "this", "cooccur_num": 0.9935886859893799}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9934951066970825}, {"index": 5, "subkeyword": "use", "cooccur_num": 0.9933369755744934}, {"index": 6, "subkeyword": "researcher", "cooccur_num": 0.9933263063430786}, {"index": 7, "subkeyword": "design", "cooccur_num": 0.9932474493980408}, {"index": 8, "subkeyword": "lead", "cooccur_num": 0.9931918382644653}, {"index": 9, "subkeyword": "team", "cooccur_num": 0.9929977655410767}, {"index": 10, "subkeyword": "cell", "cooccur_num": 0.9927753210067749}]}, {"keyword": "lee", "score": 63, "cooccur": [{"index": 1, "subkeyword": "professor", "cooccur_num": 28}, {"index": 2, "subkeyword": "lead", "cooccur_num": 9}, {"index": 3, "subkeyword": "team", "cooccur_num": 8}, {"index": 4, "subkeyword": "jang", "cooccur_num": 7}, {"index": 5, "subkeyword": "department", "cooccur_num": 6}, {"index": 6, "subkeyword": "researcher", "cooccur_num": 6}, {"index": 7, "subkeyword": "support", "cooccur_num": 5}, {"index": 8, "subkeyword": "kim", "cooccur_num": 5}, {"index": 9, "subkeyword": "research", "cooccur_num": 5}, {"index": 10, "subkeyword": "author", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9941534399986267}, {"index": 2, "subkeyword": "lead", "cooccur_num": 0.9938796758651733}, {"index": 3, "subkeyword": "provide", "cooccur_num": 0.9938337802886963}, {"index": 4, "subkeyword": "cell", "cooccur_num": 0.9938260316848755}, {"index": 5, "subkeyword": "develop", "cooccur_num": 0.9938160181045532}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9937670826911926}, {"index": 7, "subkeyword": "researcher", "cooccur_num": 0.9936012029647827}, {"index": 8, "subkeyword": "kaist", "cooccur_num": 0.9935907125473022}, {"index": 9, "subkeyword": "study", "cooccur_num": 0.9935736656188965}, {"index": 10, "subkeyword": "this", "cooccur_num": 0.9935362339019775}]}, {"keyword": "process", "score": 59, "cooccur": [{"index": 1, "subkeyword": "research", "cooccur_num": 6}, {"index": 2, "subkeyword": "analysis", "cooccur_num": 5}, {"index": 3, "subkeyword": "visual", "cooccur_num": 4}, {"index": 4, "subkeyword": "human", "cooccur_num": 4}, {"index": 5, "subkeyword": "understand", "cooccur_num": 4}, {"index": 6, "subkeyword": "manufacture", "cooccur_num": 4}, {"index": 7, "subkeyword": "team", "cooccur_num": 4}, {"index": 8, "subkeyword": "fabrication", "cooccur_num": 4}, {"index": 9, "subkeyword": "develop", "cooccur_num": 4}, {"index": 10, "subkeyword": "gas", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9954165816307068}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.9949562549591064}, {"index": 3, "subkeyword": "cell", "cooccur_num": 0.9946930408477783}, {"index": 4, "subkeyword": "researcher", "cooccur_num": 0.9946855306625366}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9946842193603516}, {"index": 6, "subkeyword": "provide", "cooccur_num": 0.9943494200706482}, {"index": 7, "subkeyword": "this", "cooccur_num": 0.9943175911903381}, {"index": 8, "subkeyword": "time", "cooccur_num": 0.9941999316215515}, {"index": 9, "subkeyword": "study", "cooccur_num": 0.9941471815109253}, {"index": 10, "subkeyword": "use", "cooccur_num": 0.9940834641456604}]}, {"keyword": "human", "score": 58, "cooccur": [{"index": 1, "subkeyword": "model", "cooccur_num": 6}, {"index": 2, "subkeyword": "brain", "cooccur_num": 5}, {"index": 3, "subkeyword": "motion", "cooccur_num": 5}, {"index": 4, "subkeyword": "similar", "cooccur_num": 5}, {"index": 5, "subkeyword": "sensor", "cooccur_num": 5}, {"index": 6, "subkeyword": "solve", "cooccur_num": 4}, {"index": 7, "subkeyword": "process", "cooccur_num": 4}, {"index": 8, "subkeyword": "test", "cooccur_num": 4}, {"index": 9, "subkeyword": "learn", "cooccur_num": 4}, {"index": 10, "subkeyword": "computational", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "cell", "cooccur_num": 0.9939041137695312}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9935732483863831}, {"index": 3, "subkeyword": "use", "cooccur_num": 0.9935289621353149}, {"index": 4, "subkeyword": "study", "cooccur_num": 0.9932477474212646}, {"index": 5, "subkeyword": "provide", "cooccur_num": 0.9930640459060669}, {"index": 6, "subkeyword": "researcher", "cooccur_num": 0.9930157661437988}, {"index": 7, "subkeyword": "develop", "cooccur_num": 0.9929887056350708}, {"index": 8, "subkeyword": "time", "cooccur_num": 0.9929485321044922}, {"index": 9, "subkeyword": "lead", "cooccur_num": 0.9927940368652344}, {"index": 10, "subkeyword": "engineer", "cooccur_num": 0.9927045106887817}]}, {"keyword": "model", "score": 57, "cooccur": [{"index": 1, "subkeyword": "the", "cooccur_num": 12}, {"index": 2, "subkeyword": "learn", "cooccur_num": 10}, {"index": 3, "subkeyword": "cough", "cooccur_num": 9}, {"index": 4, "subkeyword": "disease", "cooccur_num": 7}, {"index": 5, "subkeyword": "deep", "cooccur_num": 6}, {"index": 6, "subkeyword": "recognition", "cooccur_num": 5}, {"index": 7, "subkeyword": "human", "cooccur_num": 5}, {"index": 8, "subkeyword": "sound", "cooccur_num": 5}, {"index": 9, "subkeyword": "mathematical", "cooccur_num": 4}, {"index": 10, "subkeyword": "computational", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9944736361503601}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9940886497497559}, {"index": 3, "subkeyword": "researcher", "cooccur_num": 0.9940681457519531}, {"index": 4, "subkeyword": "this", "cooccur_num": 0.9939674735069275}, {"index": 5, "subkeyword": "develop", "cooccur_num": 0.9937212467193604}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9934961795806885}, {"index": 7, "subkeyword": "production", "cooccur_num": 0.9934156537055969}, {"index": 8, "subkeyword": "use", "cooccur_num": 0.9933987855911255}, {"index": 9, "subkeyword": "provide", "cooccur_num": 0.993308424949646}, {"index": 10, "subkeyword": "design", "cooccur_num": 0.9933043718338013}]}, {"keyword": "application", "score": 56, "cooccur": [{"index": 1, "subkeyword": "graphene", "cooccur_num": 11}, {"index": 2, "subkeyword": "device", "cooccur_num": 8}, {"index": 3, "subkeyword": "sensor", "cooccur_num": 6}, {"index": 4, "subkeyword": "potential", "cooccur_num": 6}, {"index": 5, "subkeyword": "wide", "cooccur_num": 6}, {"index": 6, "subkeyword": "wearable", "cooccur_num": 5}, {"index": 7, "subkeyword": "health", "cooccur_num": 4}, {"index": 8, "subkeyword": "monitor", "cooccur_num": 4}, {"index": 9, "subkeyword": "various", "cooccur_num": 4}, {"index": 10, "subkeyword": "material", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9949289560317993}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9944754838943481}, {"index": 3, "subkeyword": "team", "cooccur_num": 0.9944500923156738}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9941818714141846}, {"index": 5, "subkeyword": "this", "cooccur_num": 0.9941798448562622}, {"index": 6, "subkeyword": "provide", "cooccur_num": 0.9941706657409668}, {"index": 7, "subkeyword": "use", "cooccur_num": 0.9941279888153076}, {"index": 8, "subkeyword": "spin", "cooccur_num": 0.9940531253814697}, {"index": 9, "subkeyword": "graphene", "cooccur_num": 0.9939947128295898}, {"index": 10, "subkeyword": "study", "cooccur_num": 0.9938559532165527}]}, {"keyword": "analysis", "score": 55, "cooccur": [{"index": 1, "subkeyword": "image", "cooccur_num": 15}, {"index": 2, "subkeyword": "data", "cooccur_num": 10}, {"index": 3, "subkeyword": "brain", "cooccur_num": 10}, {"index": 4, "subkeyword": "method", "cooccur_num": 9}, {"index": 5, "subkeyword": "chiral", "cooccur_num": 8}, {"index": 6, "subkeyword": "use", "cooccur_num": 7}, {"index": 7, "subkeyword": "cell", "cooccur_num": 7}, {"index": 8, "subkeyword": "team", "cooccur_num": 5}, {"index": 9, "subkeyword": "study", "cooccur_num": 5}, {"index": 10, "subkeyword": "process", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.993906557559967}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9927273392677307}, {"index": 3, "subkeyword": "use", "cooccur_num": 0.9927096366882324}, {"index": 4, "subkeyword": "provide", "cooccur_num": 0.9926435351371765}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9925544261932373}, {"index": 6, "subkeyword": "study", "cooccur_num": 0.9923293590545654}, {"index": 7, "subkeyword": "this", "cooccur_num": 0.9922909736633301}, {"index": 8, "subkeyword": "technology", "cooccur_num": 0.9920581579208374}, {"index": 9, "subkeyword": "lead", "cooccur_num": 0.9920375347137451}, {"index": 10, "subkeyword": "researcher", "cooccur_num": 0.9919643998146057}]}, {"keyword": "control", "score": 55, "cooccur": [{"index": 1, "subkeyword": "spin", "cooccur_num": 8}, {"index": 2, "subkeyword": "generate", "cooccur_num": 6}, {"index": 3, "subkeyword": "detect", "cooccur_num": 6}, {"index": 4, "subkeyword": "graphene", "cooccur_num": 6}, {"index": 5, "subkeyword": "system", "cooccur_num": 5}, {"index": 6, "subkeyword": "current", "cooccur_num": 5}, {"index": 7, "subkeyword": "technology", "cooccur_num": 5}, {"index": 8, "subkeyword": "use", "cooccur_num": 5}, {"index": 9, "subkeyword": "active", "cooccur_num": 4}, {"index": 10, "subkeyword": "noise", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9955806136131287}, {"index": 2, "subkeyword": "use", "cooccur_num": 0.9945976138114929}, {"index": 3, "subkeyword": "time", "cooccur_num": 0.9944757223129272}, {"index": 4, "subkeyword": "study", "cooccur_num": 0.9944732785224915}, {"index": 5, "subkeyword": "cell", "cooccur_num": 0.9944307804107666}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9943747520446777}, {"index": 7, "subkeyword": "researcher", "cooccur_num": 0.9943239092826843}, {"index": 8, "subkeyword": "system", "cooccur_num": 0.9941756725311279}, {"index": 9, "subkeyword": "this", "cooccur_num": 0.9940785765647888}, {"index": 10, "subkeyword": "research", "cooccur_num": 0.9939596652984619}]}, {"keyword": "drug", "score": 54, "cooccur": [{"index": 1, "subkeyword": "cancer", "cooccur_num": 8}, {"index": 2, "subkeyword": "resistance", "cooccur_num": 7}, {"index": 3, "subkeyword": "delivery", "cooccur_num": 6}, {"index": 4, "subkeyword": "light", "cooccur_num": 6}, {"index": 5, "subkeyword": "anticancer", "cooccur_num": 5}, {"index": 6, "subkeyword": "develop", "cooccur_num": 5}, {"index": 7, "subkeyword": "find", "cooccur_num": 4}, {"index": 8, "subkeyword": "cartridge", "cooccur_num": 4}, {"index": 9, "subkeyword": "combination", "cooccur_num": 3}, {"index": 10, "subkeyword": "national", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9941208362579346}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9936317205429077}, {"index": 3, "subkeyword": "use", "cooccur_num": 0.9936107397079468}, {"index": 4, "subkeyword": "this", "cooccur_num": 0.9934712052345276}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.993462085723877}, {"index": 6, "subkeyword": "study", "cooccur_num": 0.9934141635894775}, {"index": 7, "subkeyword": "design", "cooccur_num": 0.9933152198791504}, {"index": 8, "subkeyword": "professor", "cooccur_num": 0.9932530522346497}, {"index": 9, "subkeyword": "provide", "cooccur_num": 0.9932036399841309}, {"index": 10, "subkeyword": "system", "cooccur_num": 0.9931666851043701}]}, {"keyword": "national", "score": 54, "cooccur": [{"index": 1, "subkeyword": "research", "cooccur_num": 37}, {"index": 2, "subkeyword": "foundation", "cooccur_num": 35}, {"index": 3, "subkeyword": "korea", "cooccur_num": 24}, {"index": 4, "subkeyword": "support", "cooccur_num": 21}, {"index": 5, "subkeyword": "science", "cooccur_num": 15}, {"index": 6, "subkeyword": "university", "cooccur_num": 9}, {"index": 7, "subkeyword": "institute", "cooccur_num": 8}, {"index": 8, "subkeyword": "nrf", "cooccur_num": 8}, {"index": 9, "subkeyword": "seoul", "cooccur_num": 6}, {"index": 10, "subkeyword": "project", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "research", "cooccur_num": 0.9919446706771851}, {"index": 2, "subkeyword": "support", "cooccur_num": 0.9911297559738159}, {"index": 3, "subkeyword": "kaist", "cooccur_num": 0.9906953573226929}, {"index": 4, "subkeyword": "professor", "cooccur_num": 0.9905440211296082}, {"index": 5, "subkeyword": "science", "cooccur_num": 0.9904403686523438}, {"index": 6, "subkeyword": "this", "cooccur_num": 0.9903546571731567}, {"index": 7, "subkeyword": "team", "cooccur_num": 0.9901272654533386}, {"index": 8, "subkeyword": "study", "cooccur_num": 0.9899061322212219}, {"index": 9, "subkeyword": "the", "cooccur_num": 0.9898818731307983}, {"index": 10, "subkeyword": "system", "cooccur_num": 0.989825963973999}]}, {"keyword": "method", "score": 53, "cooccur": [{"index": 1, "subkeyword": "analysis", "cooccur_num": 9}, {"index": 2, "subkeyword": "the", "cooccur_num": 7}, {"index": 3, "subkeyword": "develop", "cooccur_num": 6}, {"index": 4, "subkeyword": "conventional", "cooccur_num": 5}, {"index": 5, "subkeyword": "provide", "cooccur_num": 5}, {"index": 6, "subkeyword": "use", "cooccur_num": 4}, {"index": 7, "subkeyword": "advance", "cooccur_num": 4}, {"index": 8, "subkeyword": "model", "cooccur_num": 4}, {"index": 9, "subkeyword": "this", "cooccur_num": 4}, {"index": 10, "subkeyword": "report", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9940760135650635}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9940699338912964}, {"index": 3, "subkeyword": "this", "cooccur_num": 0.9936410784721375}, {"index": 4, "subkeyword": "kaist", "cooccur_num": 0.9934486150741577}, {"index": 5, "subkeyword": "technology", "cooccur_num": 0.9934096336364746}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9934022426605225}, {"index": 7, "subkeyword": "application", "cooccur_num": 0.9933919906616211}, {"index": 8, "subkeyword": "research", "cooccur_num": 0.9933900833129883}, {"index": 9, "subkeyword": "provide", "cooccur_num": 0.9933563470840454}, {"index": 10, "subkeyword": "develop", "cooccur_num": 0.9933376312255859}]}, {"keyword": "design", "score": 52, "cooccur": [{"index": 1, "subkeyword": "team", "cooccur_num": 6}, {"index": 2, "subkeyword": "researcher", "cooccur_num": 6}, {"index": 3, "subkeyword": "optimize", "cooccur_num": 4}, {"index": 4, "subkeyword": "route", "cooccur_num": 4}, {"index": 5, "subkeyword": "study", "cooccur_num": 4}, {"index": 6, "subkeyword": "kaist", "cooccur_num": 4}, {"index": 7, "subkeyword": "provide", "cooccur_num": 4}, {"index": 8, "subkeyword": "material", "cooccur_num": 3}, {"index": 9, "subkeyword": "this", "cooccur_num": 3}, {"index": 10, "subkeyword": "generation", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9955466985702515}, {"index": 2, "subkeyword": "develop", "cooccur_num": 0.9951040744781494}, {"index": 3, "subkeyword": "research", "cooccur_num": 0.995010256767273}, {"index": 4, "subkeyword": "cell", "cooccur_num": 0.994813084602356}, {"index": 5, "subkeyword": "this", "cooccur_num": 0.9948046207427979}, {"index": 6, "subkeyword": "study", "cooccur_num": 0.9947861433029175}, {"index": 7, "subkeyword": "use", "cooccur_num": 0.9945820569992065}, {"index": 8, "subkeyword": "time", "cooccur_num": 0.9945802688598633}, {"index": 9, "subkeyword": "researcher", "cooccur_num": 0.994475781917572}, {"index": 10, "subkeyword": "team", "cooccur_num": 0.9944053888320923}]}, {"keyword": "include", "score": 51, "cooccur": [{"index": 1, "subkeyword": "research", "cooccur_num": 5}, {"index": 2, "subkeyword": "various", "cooccur_num": 4}, {"index": 3, "subkeyword": "declare", "cooccur_num": 3}, {"index": 4, "subkeyword": "composition", "cooccur_num": 3}, {"index": 5, "subkeyword": "composer", "cooccur_num": 3}, {"index": 6, "subkeyword": "range", "cooccur_num": 3}, {"index": 7, "subkeyword": "energy", "cooccur_num": 3}, {"index": 8, "subkeyword": "variety", "cooccur_num": 2}, {"index": 9, "subkeyword": "measure", "cooccur_num": 2}, {"index": 10, "subkeyword": "indicator", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9948010444641113}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.9946757555007935}, {"index": 3, "subkeyword": "professor", "cooccur_num": 0.9940376281738281}, {"index": 4, "subkeyword": "this", "cooccur_num": 0.9940054416656494}, {"index": 5, "subkeyword": "kaist", "cooccur_num": 0.99395352602005}, {"index": 6, "subkeyword": "researcher", "cooccur_num": 0.993942379951477}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.9939214587211609}, {"index": 8, "subkeyword": "cell", "cooccur_num": 0.9939152598381042}, {"index": 9, "subkeyword": "technology", "cooccur_num": 0.9939130544662476}, {"index": 10, "subkeyword": "provide", "cooccur_num": 0.9938063621520996}]}, {"keyword": "change", "score": 50, "cooccur": [{"index": 1, "subkeyword": "climate", "cooccur_num": 13}, {"index": 2, "subkeyword": "time", "cooccur_num": 5}, {"index": 3, "subkeyword": "arctic", "cooccur_num": 5}, {"index": 4, "subkeyword": "insect", "cooccur_num": 4}, {"index": 5, "subkeyword": "community", "cooccur_num": 4}, {"index": 6, "subkeyword": "study", "cooccur_num": 4}, {"index": 7, "subkeyword": "affect", "cooccur_num": 4}, {"index": 8, "subkeyword": "global", "cooccur_num": 4}, {"index": 9, "subkeyword": "effect", "cooccur_num": 4}, {"index": 10, "subkeyword": "electronic", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "cell", "cooccur_num": 0.9944545030593872}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9940407276153564}, {"index": 3, "subkeyword": "team", "cooccur_num": 0.9939837455749512}, {"index": 4, "subkeyword": "researcher", "cooccur_num": 0.9935969114303589}, {"index": 5, "subkeyword": "this", "cooccur_num": 0.9935371279716492}, {"index": 6, "subkeyword": "study", "cooccur_num": 0.9934460520744324}, {"index": 7, "subkeyword": "application", "cooccur_num": 0.9931594133377075}, {"index": 8, "subkeyword": "process", "cooccur_num": 0.9931201338768005}, {"index": 9, "subkeyword": "research", "cooccur_num": 0.9930393099784851}, {"index": 10, "subkeyword": "provide", "cooccur_num": 0.992933988571167}]}, {"keyword": "increase", "score": 50, "cooccur": [{"index": 1, "subkeyword": "rate", "cooccur_num": 5}, {"index": 2, "subkeyword": "the", "cooccur_num": 5}, {"index": 3, "subkeyword": "concentration", "cooccur_num": 5}, {"index": 4, "subkeyword": "lead", "cooccur_num": 4}, {"index": 5, "subkeyword": "time", "cooccur_num": 4}, {"index": 6, "subkeyword": "reduce", "cooccur_num": 4}, {"index": 7, "subkeyword": "significantly", "cooccur_num": 4}, {"index": 8, "subkeyword": "expression", "cooccur_num": 4}, {"index": 9, "subkeyword": "intracellular", "cooccur_num": 4}, {"index": 10, "subkeyword": "pressure", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9949996471405029}, {"index": 2, "subkeyword": "production", "cooccur_num": 0.9944812059402466}, {"index": 3, "subkeyword": "research", "cooccur_num": 0.9941948652267456}, {"index": 4, "subkeyword": "cell", "cooccur_num": 0.994145393371582}, {"index": 5, "subkeyword": "this", "cooccur_num": 0.994088888168335}, {"index": 6, "subkeyword": "use", "cooccur_num": 0.9940348863601685}, {"index": 7, "subkeyword": "researcher", "cooccur_num": 0.9939499497413635}, {"index": 8, "subkeyword": "study", "cooccur_num": 0.9937920570373535}, {"index": 9, "subkeyword": "provide", "cooccur_num": 0.993606448173523}, {"index": 10, "subkeyword": "technology", "cooccur_num": 0.993598461151123}]}, {"keyword": "various", "score": 50, "cooccur": [{"index": 1, "subkeyword": "cell", "cooccur_num": 6}, {"index": 2, "subkeyword": "technology", "cooccur_num": 6}, {"index": 3, "subkeyword": "condition", "cooccur_num": 5}, {"index": 4, "subkeyword": "quantum", "cooccur_num": 5}, {"index": 5, "subkeyword": "application", "cooccur_num": 4}, {"index": 6, "subkeyword": "include", "cooccur_num": 4}, {"index": 7, "subkeyword": "immune", "cooccur_num": 4}, {"index": 8, "subkeyword": "human", "cooccur_num": 3}, {"index": 9, "subkeyword": "factor", "cooccur_num": 3}, {"index": 10, "subkeyword": "complex", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9940611124038696}, {"index": 2, "subkeyword": "provide", "cooccur_num": 0.9936882257461548}, {"index": 3, "subkeyword": "cell", "cooccur_num": 0.9934830069541931}, {"index": 4, "subkeyword": "researcher", "cooccur_num": 0.9932839274406433}, {"index": 5, "subkeyword": "team", "cooccur_num": 0.9931867122650146}, {"index": 6, "subkeyword": "this", "cooccur_num": 0.9930368661880493}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.9927682876586914}, {"index": 8, "subkeyword": "material", "cooccur_num": 0.9927199482917786}, {"index": 9, "subkeyword": "system", "cooccur_num": 0.9926689863204956}, {"index": 10, "subkeyword": "develop", "cooccur_num": 0.9926283359527588}]}, {"keyword": "identify", "score": 49, "cooccur": [{"index": 1, "subkeyword": "the", "cooccur_num": 7}, {"index": 2, "subkeyword": "researcher", "cooccur_num": 6}, {"index": 3, "subkeyword": "team", "cooccur_num": 5}, {"index": 4, "subkeyword": "research", "cooccur_num": 4}, {"index": 5, "subkeyword": "somatic", "cooccur_num": 4}, {"index": 6, "subkeyword": "mutation", "cooccur_num": 4}, {"index": 7, "subkeyword": "optimal", "cooccur_num": 3}, {"index": 8, "subkeyword": "key", "cooccur_num": 3}, {"index": 9, "subkeyword": "sensor", "cooccur_num": 3}, {"index": 10, "subkeyword": "accurately", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9939375519752502}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.9938299655914307}, {"index": 3, "subkeyword": "use", "cooccur_num": 0.9932894706726074}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9932630062103271}, {"index": 5, "subkeyword": "kaist", "cooccur_num": 0.9931123852729797}, {"index": 6, "subkeyword": "system", "cooccur_num": 0.9930216670036316}, {"index": 7, "subkeyword": "this", "cooccur_num": 0.9930204153060913}, {"index": 8, "subkeyword": "cell", "cooccur_num": 0.99298095703125}, {"index": 9, "subkeyword": "study", "cooccur_num": 0.9929107427597046}, {"index": 10, "subkeyword": "provide", "cooccur_num": 0.9928463101387024}]}, {"keyword": "korea", "score": 49, "cooccur": [{"index": 1, "subkeyword": "national", "cooccur_num": 25}, {"index": 2, "subkeyword": "research", "cooccur_num": 24}, {"index": 3, "subkeyword": "foundation", "cooccur_num": 23}, {"index": 4, "subkeyword": "institute", "cooccur_num": 15}, {"index": 5, "subkeyword": "science", "cooccur_num": 15}, {"index": 6, "subkeyword": "support", "cooccur_num": 11}, {"index": 7, "subkeyword": "nrf", "cooccur_num": 9}, {"index": 8, "subkeyword": "kaist", "cooccur_num": 8}, {"index": 9, "subkeyword": "south", "cooccur_num": 6}, {"index": 10, "subkeyword": "grant", "cooccur_num": 6}], "similar": [{"index": 1, "subkeyword": "research", "cooccur_num": 0.9911750555038452}, {"index": 2, "subkeyword": "kaist", "cooccur_num": 0.9907375574111938}, {"index": 3, "subkeyword": "the", "cooccur_num": 0.9898619651794434}, {"index": 4, "subkeyword": "support", "cooccur_num": 0.9898329973220825}, {"index": 5, "subkeyword": "team", "cooccur_num": 0.9896864295005798}, {"index": 6, "subkeyword": "national", "cooccur_num": 0.9896398782730103}, {"index": 7, "subkeyword": "this", "cooccur_num": 0.9892851114273071}, {"index": 8, "subkeyword": "study", "cooccur_num": 0.9892204999923706}, {"index": 9, "subkeyword": "professor", "cooccur_num": 0.9891298413276672}, {"index": 10, "subkeyword": "science", "cooccur_num": 0.9891064167022705}]}, {"keyword": "production", "score": 49, "cooccur": [{"index": 1, "subkeyword": "acid", "cooccur_num": 12}, {"index": 2, "subkeyword": "succinic", "cooccur_num": 10}, {"index": 3, "subkeyword": "hydrogen", "cooccur_num": 9}, {"index": 4, "subkeyword": "chemical", "cooccur_num": 9}, {"index": 5, "subkeyword": "engineer", "cooccur_num": 5}, {"index": 6, "subkeyword": "efficiency", "cooccur_num": 4}, {"index": 7, "subkeyword": "capable", "cooccur_num": 4}, {"index": 8, "subkeyword": "strain", "cooccur_num": 4}, {"index": 9, "subkeyword": "this", "cooccur_num": 4}, {"index": 10, "subkeyword": "biobased", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "cell", "cooccur_num": 0.9952958822250366}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9950860738754272}, {"index": 3, "subkeyword": "increase", "cooccur_num": 0.9944812059402466}, {"index": 4, "subkeyword": "researcher", "cooccur_num": 0.9944479465484619}, {"index": 5, "subkeyword": "use", "cooccur_num": 0.9943251609802246}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9942740201950073}, {"index": 7, "subkeyword": "this", "cooccur_num": 0.9942585229873657}, {"index": 8, "subkeyword": "material", "cooccur_num": 0.9941442012786865}, {"index": 9, "subkeyword": "research", "cooccur_num": 0.9940774440765381}, {"index": 10, "subkeyword": "study", "cooccur_num": 0.9939079880714417}]}, {"keyword": "quantum", "score": 49, "cooccur": [{"index": 1, "subkeyword": "graphene", "cooccur_num": 9}, {"index": 2, "subkeyword": "dot", "cooccur_num": 8}, {"index": 3, "subkeyword": "data", "cooccur_num": 8}, {"index": 4, "subkeyword": "classifier", "cooccur_num": 7}, {"index": 5, "subkeyword": "learn", "cooccur_num": 7}, {"index": 6, "subkeyword": "kernel", "cooccur_num": 6}, {"index": 7, "subkeyword": "machine", "cooccur_num": 6}, {"index": 8, "subkeyword": "feature", "cooccur_num": 6}, {"index": 9, "subkeyword": "tailor", "cooccur_num": 5}, {"index": 10, "subkeyword": "singlecrystalline", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9918981194496155}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.9914907217025757}, {"index": 3, "subkeyword": "study", "cooccur_num": 0.9911901950836182}, {"index": 4, "subkeyword": "graphene", "cooccur_num": 0.9911727905273438}, {"index": 5, "subkeyword": "cell", "cooccur_num": 0.9909133911132812}, {"index": 6, "subkeyword": "provide", "cooccur_num": 0.9908406734466553}, {"index": 7, "subkeyword": "process", "cooccur_num": 0.9908159971237183}, {"index": 8, "subkeyword": "find", "cooccur_num": 0.9908116459846497}, {"index": 9, "subkeyword": "effect", "cooccur_num": 0.9907344579696655}, {"index": 10, "subkeyword": "researcher", "cooccur_num": 0.9906510710716248}]}, {"keyword": "structure", "score": 49, "cooccur": [{"index": 1, "subkeyword": "electronic", "cooccur_num": 5}, {"index": 2, "subkeyword": "grow", "cooccur_num": 5}, {"index": 3, "subkeyword": "function", "cooccur_num": 5}, {"index": 4, "subkeyword": "change", "cooccur_num": 4}, {"index": 5, "subkeyword": "metal", "cooccur_num": 4}, {"index": 6, "subkeyword": "crystal", "cooccur_num": 4}, {"index": 7, "subkeyword": "design", "cooccur_num": 4}, {"index": 8, "subkeyword": "print", "cooccur_num": 4}, {"index": 9, "subkeyword": "cop", "cooccur_num": 4}, {"index": 10, "subkeyword": "induce", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9953968524932861}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9949278831481934}, {"index": 3, "subkeyword": "study", "cooccur_num": 0.9945828914642334}, {"index": 4, "subkeyword": "researcher", "cooccur_num": 0.9945200681686401}, {"index": 5, "subkeyword": "provide", "cooccur_num": 0.9943771362304688}, {"index": 6, "subkeyword": "this", "cooccur_num": 0.9942536950111389}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.9941710233688354}, {"index": 8, "subkeyword": "time", "cooccur_num": 0.9941532611846924}, {"index": 9, "subkeyword": "use", "cooccur_num": 0.994055449962616}, {"index": 10, "subkeyword": "develop", "cooccur_num": 0.9940249919891357}]}, {"keyword": "disease", "score": 48, "cooccur": [{"index": 1, "subkeyword": "alzheimers", "cooccur_num": 13}, {"index": 2, "subkeyword": "liver", "cooccur_num": 8}, {"index": 3, "subkeyword": "model", "cooccur_num": 8}, {"index": 4, "subkeyword": "cause", "cooccur_num": 7}, {"index": 5, "subkeyword": "mouse", "cooccur_num": 7}, {"index": 6, "subkeyword": "infectious", "cooccur_num": 6}, {"index": 7, "subkeyword": "progression", "cooccur_num": 6}, {"index": 8, "subkeyword": "nafld", "cooccur_num": 6}, {"index": 9, "subkeyword": "lead", "cooccur_num": 5}, {"index": 10, "subkeyword": "the", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9936918020248413}, {"index": 2, "subkeyword": "study", "cooccur_num": 0.9932385683059692}, {"index": 3, "subkeyword": "researcher", "cooccur_num": 0.9931710958480835}, {"index": 4, "subkeyword": "system", "cooccur_num": 0.9931461811065674}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9930486679077148}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9930281639099121}, {"index": 7, "subkeyword": "this", "cooccur_num": 0.992936372756958}, {"index": 8, "subkeyword": "cell", "cooccur_num": 0.992915153503418}, {"index": 9, "subkeyword": "technology", "cooccur_num": 0.9928311705589294}, {"index": 10, "subkeyword": "kaist", "cooccur_num": 0.9927712082862854}]}, {"keyword": "patient", "score": 48, "cooccur": [{"index": 1, "subkeyword": "severe", "cooccur_num": 11}, {"index": 2, "subkeyword": "covid", "cooccur_num": 11}, {"index": 3, "subkeyword": "treatment", "cooccur_num": 6}, {"index": 4, "subkeyword": "cell", "cooccur_num": 6}, {"index": 5, "subkeyword": "cohort", "cooccur_num": 5}, {"index": 6, "subkeyword": "provide", "cooccur_num": 4}, {"index": 7, "subkeyword": "cancer", "cooccur_num": 4}, {"index": 8, "subkeyword": "drug", "cooccur_num": 4}, {"index": 9, "subkeyword": "condition", "cooccur_num": 4}, {"index": 10, "subkeyword": "immune", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "cell", "cooccur_num": 0.992832362651825}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9918657541275024}, {"index": 3, "subkeyword": "use", "cooccur_num": 0.9917277097702026}, {"index": 4, "subkeyword": "provide", "cooccur_num": 0.9917226433753967}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9914177656173706}, {"index": 6, "subkeyword": "this", "cooccur_num": 0.9913690090179443}, {"index": 7, "subkeyword": "team", "cooccur_num": 0.9912066459655762}, {"index": 8, "subkeyword": "process", "cooccur_num": 0.9911139607429504}, {"index": 9, "subkeyword": "researcher", "cooccur_num": 0.9910889863967896}, {"index": 10, "subkeyword": "study", "cooccur_num": 0.9910588264465332}]}, {"keyword": "effect", "score": 47, "cooccur": [{"index": 1, "subkeyword": "graphene", "cooccur_num": 6}, {"index": 2, "subkeyword": "the", "cooccur_num": 5}, {"index": 3, "subkeyword": "support", "cooccur_num": 5}, {"index": 4, "subkeyword": "gatetunable", "cooccur_num": 5}, {"index": 5, "subkeyword": "rashbaedelstein", "cooccur_num": 5}, {"index": 6, "subkeyword": "cancer", "cooccur_num": 4}, {"index": 7, "subkeyword": "induce", "cooccur_num": 4}, {"index": 8, "subkeyword": "spin", "cooccur_num": 4}, {"index": 9, "subkeyword": "time", "cooccur_num": 4}, {"index": 10, "subkeyword": "change", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9950267672538757}, {"index": 2, "subkeyword": "cell", "cooccur_num": 0.9946293830871582}, {"index": 3, "subkeyword": "this", "cooccur_num": 0.9945178031921387}, {"index": 4, "subkeyword": "team", "cooccur_num": 0.9942867755889893}, {"index": 5, "subkeyword": "researcher", "cooccur_num": 0.9942770600318909}, {"index": 6, "subkeyword": "develop", "cooccur_num": 0.9937707781791687}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.9937577247619629}, {"index": 8, "subkeyword": "study", "cooccur_num": 0.993757426738739}, {"index": 9, "subkeyword": "control", "cooccur_num": 0.9937525391578674}, {"index": 10, "subkeyword": "structure", "cooccur_num": 0.9936761856079102}]}, {"keyword": "report", "score": 47, "cooccur": [{"index": 1, "subkeyword": "study", "cooccur_num": 8}, {"index": 2, "subkeyword": "this", "cooccur_num": 6}, {"index": 3, "subkeyword": "science", "cooccur_num": 6}, {"index": 4, "subkeyword": "advance", "cooccur_num": 5}, {"index": 5, "subkeyword": "their", "cooccur_num": 5}, {"index": 6, "subkeyword": "team", "cooccur_num": 4}, {"index": 7, "subkeyword": "professor", "cooccur_num": 4}, {"index": 8, "subkeyword": "kim", "cooccur_num": 4}, {"index": 9, "subkeyword": "research", "cooccur_num": 4}, {"index": 10, "subkeyword": "researcher", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9933774471282959}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.9933406114578247}, {"index": 3, "subkeyword": "science", "cooccur_num": 0.993087649345398}, {"index": 4, "subkeyword": "lead", "cooccur_num": 0.9928438663482666}, {"index": 5, "subkeyword": "technology", "cooccur_num": 0.9927927255630493}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.992537260055542}, {"index": 7, "subkeyword": "kaist", "cooccur_num": 0.9924194812774658}, {"index": 8, "subkeyword": "professor", "cooccur_num": 0.9923961758613586}, {"index": 9, "subkeyword": "material", "cooccur_num": 0.9923567771911621}, {"index": 10, "subkeyword": "researcher", "cooccur_num": 0.9922472834587097}]}, {"keyword": "chemical", "score": 46, "cooccur": [{"index": 1, "subkeyword": "engineer", "cooccur_num": 9}, {"index": 2, "subkeyword": "production", "cooccur_num": 9}, {"index": 3, "subkeyword": "professor", "cooccur_num": 8}, {"index": 4, "subkeyword": "department", "cooccur_num": 7}, {"index": 5, "subkeyword": "biomolecular", "cooccur_num": 6}, {"index": 6, "subkeyword": "kim", "cooccur_num": 4}, {"index": 7, "subkeyword": "reaction", "cooccur_num": 4}, {"index": 8, "subkeyword": "scissor", "cooccur_num": 3}, {"index": 9, "subkeyword": "industrially", "cooccur_num": 3}, {"index": 10, "subkeyword": "the", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9934791922569275}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.9933682680130005}, {"index": 3, "subkeyword": "kaist", "cooccur_num": 0.9932770729064941}, {"index": 4, "subkeyword": "cell", "cooccur_num": 0.9931219816207886}, {"index": 5, "subkeyword": "provide", "cooccur_num": 0.9927045702934265}, {"index": 6, "subkeyword": "use", "cooccur_num": 0.9926269054412842}, {"index": 7, "subkeyword": "study", "cooccur_num": 0.9926228523254395}, {"index": 8, "subkeyword": "research", "cooccur_num": 0.9926174879074097}, {"index": 9, "subkeyword": "professor", "cooccur_num": 0.9922963380813599}, {"index": 10, "subkeyword": "develop", "cooccur_num": 0.9922822713851929}]}, {"keyword": "data", "score": 46, "cooccur": [{"index": 1, "subkeyword": "brain", "cooccur_num": 14}, {"index": 2, "subkeyword": "image", "cooccur_num": 13}, {"index": 3, "subkeyword": "analysis", "cooccur_num": 11}, {"index": 4, "subkeyword": "quantum", "cooccur_num": 8}, {"index": 5, "subkeyword": "label", "cooccur_num": 6}, {"index": 6, "subkeyword": "train", "cooccur_num": 6}, {"index": 7, "subkeyword": "obtain", "cooccur_num": 3}, {"index": 8, "subkeyword": "this", "cooccur_num": 3}, {"index": 9, "subkeyword": "collect", "cooccur_num": 3}, {"index": 10, "subkeyword": "performance", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9877678155899048}, {"index": 2, "subkeyword": "kaist", "cooccur_num": 0.9872961640357971}, {"index": 3, "subkeyword": "this", "cooccur_num": 0.9872375130653381}, {"index": 4, "subkeyword": "team", "cooccur_num": 0.9869976043701172}, {"index": 5, "subkeyword": "include", "cooccur_num": 0.9869720339775085}, {"index": 6, "subkeyword": "time", "cooccur_num": 0.9869240522384644}, {"index": 7, "subkeyword": "method", "cooccur_num": 0.9868015050888062}, {"index": 8, "subkeyword": "science", "cooccur_num": 0.9865665435791016}, {"index": 9, "subkeyword": "image", "cooccur_num": 0.9864338040351868}, {"index": 10, "subkeyword": "researcher", "cooccur_num": 0.9863796830177307}]}, {"keyword": "department", "score": 46, "cooccur": [{"index": 1, "subkeyword": "engineer", "cooccur_num": 32}, {"index": 2, "subkeyword": "professor", "cooccur_num": 31}, {"index": 3, "subkeyword": "science", "cooccur_num": 17}, {"index": 4, "subkeyword": "lead", "cooccur_num": 15}, {"index": 5, "subkeyword": "kaist", "cooccur_num": 11}, {"index": 6, "subkeyword": "material", "cooccur_num": 11}, {"index": 7, "subkeyword": "lee", "cooccur_num": 7}, {"index": 8, "subkeyword": "chemical", "cooccur_num": 7}, {"index": 9, "subkeyword": "biological", "cooccur_num": 7}, {"index": 10, "subkeyword": "kim", "cooccur_num": 6}], "similar": [{"index": 1, "subkeyword": "research", "cooccur_num": 0.989266574382782}, {"index": 2, "subkeyword": "this", "cooccur_num": 0.9890059232711792}, {"index": 3, "subkeyword": "science", "cooccur_num": 0.9888213872909546}, {"index": 4, "subkeyword": "lead", "cooccur_num": 0.9886181354522705}, {"index": 5, "subkeyword": "engineer", "cooccur_num": 0.9885255098342896}, {"index": 6, "subkeyword": "kaist", "cooccur_num": 0.9885079860687256}, {"index": 7, "subkeyword": "provide", "cooccur_num": 0.9883544445037842}, {"index": 8, "subkeyword": "professor", "cooccur_num": 0.9883526563644409}, {"index": 9, "subkeyword": "team", "cooccur_num": 0.9883393049240112}, {"index": 10, "subkeyword": "the", "cooccur_num": 0.9883005619049072}]}, {"keyword": "energy", "score": 46, "cooccur": [{"index": 1, "subkeyword": "storage", "cooccur_num": 6}, {"index": 2, "subkeyword": "cell", "cooccur_num": 6}, {"index": 3, "subkeyword": "cellular", "cooccur_num": 6}, {"index": 4, "subkeyword": "convert", "cooccur_num": 4}, {"index": 5, "subkeyword": "support", "cooccur_num": 4}, {"index": 6, "subkeyword": "low", "cooccur_num": 4}, {"index": 7, "subkeyword": "technology", "cooccur_num": 4}, {"index": 8, "subkeyword": "level", "cooccur_num": 4}, {"index": 9, "subkeyword": "electron", "cooccur_num": 3}, {"index": 10, "subkeyword": "light", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9936745166778564}, {"index": 2, "subkeyword": "study", "cooccur_num": 0.9933515191078186}, {"index": 3, "subkeyword": "team", "cooccur_num": 0.9932612180709839}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9931401014328003}, {"index": 5, "subkeyword": "this", "cooccur_num": 0.9930756688117981}, {"index": 6, "subkeyword": "design", "cooccur_num": 0.9930223226547241}, {"index": 7, "subkeyword": "cell", "cooccur_num": 0.9929870963096619}, {"index": 8, "subkeyword": "lead", "cooccur_num": 0.9929747581481934}, {"index": 9, "subkeyword": "process", "cooccur_num": 0.9929354786872864}, {"index": 10, "subkeyword": "researcher", "cooccur_num": 0.9928439259529114}]}, {"keyword": "light", "score": 46, "cooccur": [{"index": 1, "subkeyword": "drug", "cooccur_num": 6}, {"index": 2, "subkeyword": "pollution", "cooccur_num": 5}, {"index": 3, "subkeyword": "blue", "cooccur_num": 5}, {"index": 4, "subkeyword": "scatter", "cooccur_num": 4}, {"index": 5, "subkeyword": "shed", "cooccur_num": 4}, {"index": 6, "subkeyword": "lead", "cooccur_num": 4}, {"index": 7, "subkeyword": "source", "cooccur_num": 4}, {"index": 8, "subkeyword": "emit", "cooccur_num": 4}, {"index": 9, "subkeyword": "use", "cooccur_num": 3}, {"index": 10, "subkeyword": "capture", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9946175217628479}, {"index": 2, "subkeyword": "this", "cooccur_num": 0.9941328167915344}, {"index": 3, "subkeyword": "study", "cooccur_num": 0.9935644865036011}, {"index": 4, "subkeyword": "cell", "cooccur_num": 0.9934736490249634}, {"index": 5, "subkeyword": "researcher", "cooccur_num": 0.9933834075927734}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9933310151100159}, {"index": 7, "subkeyword": "use", "cooccur_num": 0.9933239221572876}, {"index": 8, "subkeyword": "time", "cooccur_num": 0.9932898283004761}, {"index": 9, "subkeyword": "develop", "cooccur_num": 0.9930736422538757}, {"index": 10, "subkeyword": "design", "cooccur_num": 0.9929668307304382}]}, {"keyword": "result", "score": 45, "cooccur": [{"index": 1, "subkeyword": "the", "cooccur_num": 8}, {"index": 2, "subkeyword": "composer", "cooccur_num": 4}, {"index": 3, "subkeyword": "patient", "cooccur_num": 4}, {"index": 4, "subkeyword": "this", "cooccur_num": 3}, {"index": 5, "subkeyword": "interaction", "cooccur_num": 3}, {"index": 6, "subkeyword": "test", "cooccur_num": 3}, {"index": 7, "subkeyword": "suggest", "cooccur_num": 3}, {"index": 8, "subkeyword": "study", "cooccur_num": 3}, {"index": 9, "subkeyword": "animal", "cooccur_num": 2}, {"index": 10, "subkeyword": "suboxide", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9930249452590942}, {"index": 2, "subkeyword": "research", "cooccur_num": 0.9930073022842407}, {"index": 3, "subkeyword": "researcher", "cooccur_num": 0.9928592443466187}, {"index": 4, "subkeyword": "cell", "cooccur_num": 0.9928499460220337}, {"index": 5, "subkeyword": "provide", "cooccur_num": 0.9924744367599487}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9924399256706238}, {"index": 7, "subkeyword": "study", "cooccur_num": 0.9923883080482483}, {"index": 8, "subkeyword": "technology", "cooccur_num": 0.9923107624053955}, {"index": 9, "subkeyword": "this", "cooccur_num": 0.9922941327095032}, {"index": 10, "subkeyword": "support", "cooccur_num": 0.9921640157699585}]}, {"keyword": "university", "score": 45, "cooccur": [{"index": 1, "subkeyword": "national", "cooccur_num": 10}, {"index": 2, "subkeyword": "hospital", "cooccur_num": 9}, {"index": 3, "subkeyword": "professor", "cooccur_num": 7}, {"index": 4, "subkeyword": "science", "cooccur_num": 7}, {"index": 5, "subkeyword": "researcher", "cooccur_num": 6}, {"index": 6, "subkeyword": "seoul", "cooccur_num": 6}, {"index": 7, "subkeyword": "rank", "cooccur_num": 6}, {"index": 8, "subkeyword": "korea", "cooccur_num": 5}, {"index": 9, "subkeyword": "top", "cooccur_num": 5}, {"index": 10, "subkeyword": "innovative", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.989444375038147}, {"index": 2, "subkeyword": "research", "cooccur_num": 0.9893484711647034}, {"index": 3, "subkeyword": "kaist", "cooccur_num": 0.989041805267334}, {"index": 4, "subkeyword": "team", "cooccur_num": 0.989004373550415}, {"index": 5, "subkeyword": "this", "cooccur_num": 0.9886752367019653}, {"index": 6, "subkeyword": "professor", "cooccur_num": 0.9885686635971069}, {"index": 7, "subkeyword": "process", "cooccur_num": 0.988562822341919}, {"index": 8, "subkeyword": "design", "cooccur_num": 0.9885476231575012}, {"index": 9, "subkeyword": "lead", "cooccur_num": 0.9884922504425049}, {"index": 10, "subkeyword": "cell", "cooccur_num": 0.9883682727813721}]}, {"keyword": "foundation", "score": 43, "cooccur": [{"index": 1, "subkeyword": "research", "cooccur_num": 37}, {"index": 2, "subkeyword": "national", "cooccur_num": 35}, {"index": 3, "subkeyword": "support", "cooccur_num": 22}, {"index": 4, "subkeyword": "korea", "cooccur_num": 21}, {"index": 5, "subkeyword": "nrf", "cooccur_num": 13}, {"index": 6, "subkeyword": "science", "cooccur_num": 9}, {"index": 7, "subkeyword": "grant", "cooccur_num": 8}, {"index": 8, "subkeyword": "lay", "cooccur_num": 4}, {"index": 9, "subkeyword": "ministry", "cooccur_num": 4}, {"index": 10, "subkeyword": "kaist", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "research", "cooccur_num": 0.9866938591003418}, {"index": 2, "subkeyword": "kaist", "cooccur_num": 0.9853062629699707}, {"index": 3, "subkeyword": "support", "cooccur_num": 0.9849649667739868}, {"index": 4, "subkeyword": "national", "cooccur_num": 0.9846605658531189}, {"index": 5, "subkeyword": "professor", "cooccur_num": 0.9846574068069458}, {"index": 6, "subkeyword": "team", "cooccur_num": 0.9845886826515198}, {"index": 7, "subkeyword": "system", "cooccur_num": 0.9845865964889526}, {"index": 8, "subkeyword": "the", "cooccur_num": 0.9841741919517517}, {"index": 9, "subkeyword": "science", "cooccur_num": 0.9841095209121704}, {"index": 10, "subkeyword": "researcher", "cooccur_num": 0.9839594960212708}]}]
+        console.log(dataAnalyze)
+        var width = 1300,
+            height = 600
+
+        var svg = d3.select(".wordcloud").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", 'outline');
+
+        var svg = d3.select("svg")
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+
+        showCloud(dataAnalyze)
+
+
+        function showCloud(data) {
+            d3.layout.cloud().size([width, height])
+                //클라우드 레이아웃에 데이터 전달
+                .words(data.map((d, index) => {
+                    return {
+                        index: index,
+                        text: d.keyword,
+                        size: d.score,
+                        cooccur: d.cooccur,
+                        similar: d.similar,
+                    }
+                }))
+                .padding(30)
+                //스케일로 각 단어의 크기를 설정
+                .rotate(function (d) {
+                    return Math.round((Math.random()-0.5)*2) * 45;
+                })
+                .fontSize(d => {
+                    if (d.index < 10) {
+                        return 30;
+                    } else {
+                        return 15;
+                    }
+                })
+                .on("end", draw)
+                .start();
+
+            function draw(words) {
+                var cloud = svg.selectAll("text").data(words)
+                //Entering words
+                cloud.enter()
+                    .append("text")
+                    .style("font-family", 'Black Han Sans')
+                    .style("fill", function (d) {
+                        return (d.index < 10 ? "#fbc280" : "#405275");
+                    })
+                    .style("fill-opacity", .5)
+                    .attr("text-anchor", "center")
+                    .text(function (d) {
+                        return d.text;
+                    })
+                    .on('click', overevent)
+                cloud.transition()
+                    .duration(600)
+                    .style("font-size", function (d) {
+                        return d.size + "px";
+                    })
+                    .attr("transform", function (d) {
+                        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                    })
+                    .style("fill-opacity", 1);
+            }
+
+
+            function overevent(d) {
+                Cooccurdetail(d);
+                similardetail(d);
+            }
+        }
+
+        function Cooccurdetail(d) {
+            var width = 400,
+                height = 400;
+            var central = d.text;
+            var links = d.cooccur.map((d) => {
+                return {
+                    "source": central,
+                    "target": d.subkeyword,
+                    "value": d.cooccur_num
+                }
+            });
+            var nodes = {};
+            linkScale = d3.scale.linear().domain([0, links[0].value]).range([0, 150]).clamp(true);
+
+            console.log(links)
+            // Compute the distinct nodes from the links.
+            links.forEach(function (link) {
+                link.source = nodes[link.source] || (nodes[link.source] = {
+                    name: link.source
+
+                });
+                link.target = nodes[link.target] || (nodes[link.target] = {
+                    name: link.target
+                });
+                
+            });
+
+
+            var force = d3.layout.force()
+                .nodes(d3.values(nodes))
+                .links(links)
+                .size([width, height])
+                .linkDistance((link)=>{
+                    return linkScale(link.value)
+                })
+                .charge(-300)
+                .on("tick", tick)
+                .start();
+
+            var svg = d3.select(".cooccur").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("class",'outline');
+
+            var link = svg.selectAll(".link")
+                .data(force.links())
+                .enter().append("line")
+                .attr("class", "link")
+
+
+            var color = d3.scale.category20();
+
+            var node = svg.selectAll(".node")
+                .data(force.nodes())
+                .enter().append("g")
+                .attr("class", "node")
+                .on("mouseover", mouseover)
+                .on("mouseout", mouseout)
+                .on("click",clickevent)
+                .call(force.drag);
+
+
+            node.append("circle")
+                .attr("r", 8)
+                .attr("fill", function(d,i){return color(i);});
+
+
+            node.append("text")
+                .attr("x", 12)
+                .attr("dy", ".35em")
+                .text(function (d) {
+                    return d.name;
+                });
+
+            function tick() {
+                link
+                    .attr("x1", function (d) {
+                        return d.source.x;
+                    })
+                    .attr("y1", function (d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function (d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function (d) {
+                        return d.target.y;
+                    });
+
+                node
+                    .attr("transform", function (d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+            }
+
+            function clickevent(d){
+                target=dataAnalyze.find((e)=>{
+                    if(e.keyword === d.name){
+                        return e
+                    }
+                })
+                if (target == undefined){
+                    return
+                }
+                var new_links = target.cooccur.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+
+               var new_nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               new_links.forEach(function (link) {
+                   link.source = new_nodes[link.source] || (new_nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = new_nodes[link.target] || (new_nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+                });
+                for (new_link in new_links){
+                    links.push(new_links[new_link])}
+                console.log(nodes)
+                console.log(new_nodes)
+                nodes.add(new_nodes)
+                console.log(links)
+
+            };
+
+            function mouseover() {
+                d3.select(this).select("circle").transition()
+                    .duration(750)
+                    .attr("r", 16);
+            }
+
+            function mouseout() {
+                d3.select(this).select("circle").transition()
+                    .duration(750)
+                    .attr("r", 8);
+            }
+        }
+            linkScale = d3.scale.linear().domain([0, 1]).range([0, 100]).clamp(true);
+           function similardetail(d) {
+               var width = 400,
+                   height = 400;
+               var central = d.text;
+               console.log(d)
+               var links = d.similar.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+               var nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               links.forEach(function (link) {
+                   link.source = nodes[link.source] || (nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = nodes[link.target] || (nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+               });
+   
+   
+               var force = d3.layout.force()
+                   .nodes(d3.values(nodes))
+                   .links(links)
+                   .size([width, height])
+                   .linkDistance((link)=>{
+                       return linkScale(link.value)
+                   })
+                   .charge(-300)
+                   .on("tick", tick)
+                   .start();
+   
+               var svg = d3.select(".similar").append("svg")
+                   .attr("width", width)
+                   .attr("height", height)
+                   .attr("class",'outline');
+   
+               var link = svg.selectAll(".link")
+                   .data(force.links())
+                   .enter().append("line")
+                   .attr("class", "link");
+   
+               var color = d3.scale.category20();
+   
+               var node = svg.selectAll(".node")
+                   .data(force.nodes())
+                   .enter().append("g")
+                   .attr("class", "node")
+                   .on("mouseover", mouseover)
+                   .on("mouseout", mouseout)
+                   .on("click", clickevent)
+                   .call(force.drag);
+   
+               node.append("circle")
+                   .attr("r", 8)
+                   .attr("fill", (d,i)=>color(i));
+   
+   
+               node.append("text")
+                   .attr("x", 12)
+                   .attr("dy", ".35em")
+                   .text(function (d) {
+                       return d.name;
+                   });
+   
+            function clickevent(d){
+                var new_links = d.similar.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+
+               var new_nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               links.forEach(function (link) {
+                   link.source = new_nodes[link.source] || (new_nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = new_nodes[link.target] || (new_nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+                });
+                links.append(new_links)
+                nodes.append(new_nodes)
+            };
+
+               function tick() {
+                   link
+                       .attr("x1", function (d) {
+                           return d.source.x;
+                       })
+                       .attr("y1", function (d) {
+                           return d.source.y;
+                       })
+                       .attr("x2", function (d) {
+                           return d.target.x;
+                       })
+                       .attr("y2", function (d) {
+                           return d.target.y;
+                       });
+   
+                   node
+                       .attr("transform", function (d) {
+                           return "translate(" + d.x + "," + d.y + ")";
+                       });
+               }
+   
+               function mouseover() {
+                   d3.select(this).select("circle").transition()
+                       .duration(750)
+                       .attr("r", 16);
+               }
+   
+               function mouseout() {
+                   d3.select(this).select("circle").transition()
+                       .duration(750)
+                       .attr("r", 8);
+               }
+           }
+        </script>
+
+</body>
+
+</html>

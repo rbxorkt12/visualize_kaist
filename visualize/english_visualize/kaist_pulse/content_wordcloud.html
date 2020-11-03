@@ -1,0 +1,408 @@
+﻿<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+</head>
+<style>
+    .link  {
+    stroke: #999;
+    stroke-opacity: 0.6;
+    }
+
+    .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+    }
+
+    .outline {
+    outline: 6px solid black;
+    outline-style:dashed;
+    margin-right: 20px;
+
+    }
+    .outline-nondash {
+    outline: 6px solid black;
+    outline-style:auto;
+    }
+    .small {
+        font-size: 15px;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+</style>
+
+<body>
+    <div class="wordcloud">
+        <h1 font-family='Black Han Sans', sans-serif;>Word Cloud</h1>
+    </div>
+    <div class="cooccur">
+        <h1 font-family='Black Han Sans', sans-serif;>Cooccurence Detail</h1>
+    </div>
+    <h1 class="small">문장내에서 자주 같이 출연하는 단어들의 상위 10개 단어의 네트워크입니다.</h1>
+    <div class="similar">
+        <h1 font-family='Black Han Sans', sans-serif;>Similar Detail</h1>
+    </div>
+    <h1 class="small">문장 등장 위치에 따른 유사하다고 생각되는 단어 top 10의 네트워크입니다..</h1>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js" type="text/JavaScript">
+    </script>
+    <script>
+        var dataAnalyze = [{"keyword": "university", "score": 173, "cooccur": [{"index": 1, "subkeyword": "national", "cooccur_num": 37}, {"index": 2, "subkeyword": "korea", "cooccur_num": 33}, {"index": 3, "subkeyword": "seoul", "cooccur_num": 31}, {"index": 4, "subkeyword": "technology", "cooccur_num": 26}, {"index": 5, "subkeyword": "science", "cooccur_num": 24}, {"index": 6, "subkeyword": "kaist", "cooccur_num": 19}, {"index": 7, "subkeyword": "korean", "cooccur_num": 17}, {"index": 8, "subkeyword": "professor", "cooccur_num": 17}, {"index": 9, "subkeyword": "the", "cooccur_num": 16}, {"index": 10, "subkeyword": "top", "cooccur_num": 15}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9980174899101257}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9978222846984863}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.997429609298706}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9973928332328796}, {"index": 5, "subkeyword": "data", "cooccur_num": 0.9973123073577881}, {"index": 6, "subkeyword": "lead", "cooccur_num": 0.9971843361854553}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.9971396923065186}, {"index": 8, "subkeyword": "professor", "cooccur_num": 0.9971315264701843}, {"index": 9, "subkeyword": "kim", "cooccur_num": 0.9970701932907104}, {"index": 10, "subkeyword": "kaist", "cooccur_num": 0.9969778060913086}]}, {"keyword": "company", "score": 141, "cooccur": [{"index": 1, "subkeyword": "the", "cooccur_num": 34}, {"index": 2, "subkeyword": "korean", "cooccur_num": 17}, {"index": 3, "subkeyword": "technology", "cooccur_num": 15}, {"index": 4, "subkeyword": "market", "cooccur_num": 12}, {"index": 5, "subkeyword": "korea", "cooccur_num": 12}, {"index": 6, "subkeyword": "robot", "cooccur_num": 9}, {"index": 7, "subkeyword": "research", "cooccur_num": 8}, {"index": 8, "subkeyword": "investment", "cooccur_num": 8}, {"index": 9, "subkeyword": "service", "cooccur_num": 8}, {"index": 10, "subkeyword": "global", "cooccur_num": 8}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9985992908477783}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9984275698661804}, {"index": 3, "subkeyword": "technology", "cooccur_num": 0.998115599155426}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9980171918869019}, {"index": 5, "subkeyword": "data", "cooccur_num": 0.9979521036148071}, {"index": 6, "subkeyword": "develop", "cooccur_num": 0.997747004032135}, {"index": 7, "subkeyword": "lead", "cooccur_num": 0.9977245926856995}, {"index": 8, "subkeyword": "korean", "cooccur_num": 0.9976670742034912}, {"index": 9, "subkeyword": "business", "cooccur_num": 0.9976320862770081}, {"index": 10, "subkeyword": "professor", "cooccur_num": 0.9976071119308472}]}, {"keyword": "professor", "score": 98, "cooccur": [{"index": 1, "subkeyword": "kaist", "cooccur_num": 22}, {"index": 2, "subkeyword": "university", "cooccur_num": 16}, {"index": 3, "subkeyword": "engineer", "cooccur_num": 15}, {"index": 4, "subkeyword": "research", "cooccur_num": 12}, {"index": 5, "subkeyword": "million", "cooccur_num": 10}, {"index": 6, "subkeyword": "kim", "cooccur_num": 9}, {"index": 7, "subkeyword": "lead", "cooccur_num": 9}, {"index": 8, "subkeyword": "lee", "cooccur_num": 8}, {"index": 9, "subkeyword": "korea", "cooccur_num": 8}, {"index": 10, "subkeyword": "associate", "cooccur_num": 8}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9979243278503418}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.997687578201294}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9976071119308472}, {"index": 4, "subkeyword": "korean", "cooccur_num": 0.9973289966583252}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9973284602165222}, {"index": 6, "subkeyword": "technology", "cooccur_num": 0.9972996711730957}, {"index": 7, "subkeyword": "university", "cooccur_num": 0.9971315264701843}, {"index": 8, "subkeyword": "million", "cooccur_num": 0.9970660209655762}, {"index": 9, "subkeyword": "data", "cooccur_num": 0.9970219135284424}, {"index": 10, "subkeyword": "science", "cooccur_num": 0.9969991445541382}]}, {"keyword": "develop", "score": 94, "cooccur": [{"index": 1, "subkeyword": "technology", "cooccur_num": 38}, {"index": 2, "subkeyword": "korean", "cooccur_num": 20}, {"index": 3, "subkeyword": "kaist", "cooccur_num": 12}, {"index": 4, "subkeyword": "research", "cooccur_num": 12}, {"index": 5, "subkeyword": "researcher", "cooccur_num": 11}, {"index": 6, "subkeyword": "robot", "cooccur_num": 10}, {"index": 7, "subkeyword": "korea", "cooccur_num": 10}, {"index": 8, "subkeyword": "the", "cooccur_num": 10}, {"index": 9, "subkeyword": "team", "cooccur_num": 8}, {"index": 10, "subkeyword": "lead", "cooccur_num": 7}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.997783899307251}, {"index": 2, "subkeyword": "company", "cooccur_num": 0.997747004032135}, {"index": 3, "subkeyword": "korea", "cooccur_num": 0.9975594282150269}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9971615076065063}, {"index": 5, "subkeyword": "technology", "cooccur_num": 0.9970160722732544}, {"index": 6, "subkeyword": "professor", "cooccur_num": 0.9969709515571594}, {"index": 7, "subkeyword": "data", "cooccur_num": 0.9969698190689087}, {"index": 8, "subkeyword": "korean", "cooccur_num": 0.9969218969345093}, {"index": 9, "subkeyword": "student", "cooccur_num": 0.9968080520629883}, {"index": 10, "subkeyword": "million", "cooccur_num": 0.9967899322509766}]}, {"keyword": "business", "score": 82, "cooccur": [{"index": 1, "subkeyword": "newspaper", "cooccur_num": 18}, {"index": 2, "subkeyword": "maeil", "cooccur_num": 14}, {"index": 3, "subkeyword": "school", "cooccur_num": 11}, {"index": 4, "subkeyword": "creation", "cooccur_num": 9}, {"index": 5, "subkeyword": "science", "cooccur_num": 8}, {"index": 6, "subkeyword": "professor", "cooccur_num": 7}, {"index": 7, "subkeyword": "company", "cooccur_num": 7}, {"index": 8, "subkeyword": "korea", "cooccur_num": 7}, {"index": 9, "subkeyword": "technology", "cooccur_num": 6}, {"index": 10, "subkeyword": "opportunity", "cooccur_num": 6}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9979605674743652}, {"index": 2, "subkeyword": "company", "cooccur_num": 0.9976320862770081}, {"index": 3, "subkeyword": "korea", "cooccur_num": 0.9975041151046753}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9971808195114136}, {"index": 5, "subkeyword": "data", "cooccur_num": 0.9971106648445129}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9970566034317017}, {"index": 7, "subkeyword": "science", "cooccur_num": 0.9970120191574097}, {"index": 8, "subkeyword": "lead", "cooccur_num": 0.9968940019607544}, {"index": 9, "subkeyword": "country", "cooccur_num": 0.9968816041946411}, {"index": 10, "subkeyword": "startup", "cooccur_num": 0.9967222213745117}]}, {"keyword": "robot", "score": 65, "cooccur": [{"index": 1, "subkeyword": "korea", "cooccur_num": 19}, {"index": 2, "subkeyword": "industry", "cooccur_num": 12}, {"index": 3, "subkeyword": "technology", "cooccur_num": 11}, {"index": 4, "subkeyword": "develop", "cooccur_num": 10}, {"index": 5, "subkeyword": "korean", "cooccur_num": 10}, {"index": 6, "subkeyword": "research", "cooccur_num": 8}, {"index": 7, "subkeyword": "company", "cooccur_num": 8}, {"index": 8, "subkeyword": "hubo", "cooccur_num": 6}, {"index": 9, "subkeyword": "market", "cooccur_num": 6}, {"index": 10, "subkeyword": "humanoid", "cooccur_num": 6}], "similar": [{"index": 1, "subkeyword": "korea", "cooccur_num": 0.9974991679191589}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9974346160888672}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9971845149993896}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9969223737716675}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9968268275260925}, {"index": 6, "subkeyword": "university", "cooccur_num": 0.9967716932296753}, {"index": 7, "subkeyword": "professor", "cooccur_num": 0.9967625141143799}, {"index": 8, "subkeyword": "million", "cooccur_num": 0.9967561960220337}, {"index": 9, "subkeyword": "data", "cooccur_num": 0.9966833591461182}, {"index": 10, "subkeyword": "country", "cooccur_num": 0.9966579675674438}]}, {"keyword": "market", "score": 62, "cooccur": [{"index": 1, "subkeyword": "billion", "cooccur_num": 13}, {"index": 2, "subkeyword": "global", "cooccur_num": 11}, {"index": 3, "subkeyword": "the", "cooccur_num": 10}, {"index": 4, "subkeyword": "company", "cooccur_num": 9}, {"index": 5, "subkeyword": "robot", "cooccur_num": 7}, {"index": 6, "subkeyword": "smart", "cooccur_num": 7}, {"index": 7, "subkeyword": "percent", "cooccur_num": 7}, {"index": 8, "subkeyword": "kim", "cooccur_num": 6}, {"index": 9, "subkeyword": "korean", "cooccur_num": 5}, {"index": 10, "subkeyword": "annual", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "korea", "cooccur_num": 0.9969657063484192}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9968404173851013}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9964802265167236}, {"index": 4, "subkeyword": "korean", "cooccur_num": 0.9962722063064575}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9962466955184937}, {"index": 6, "subkeyword": "technology", "cooccur_num": 0.9962418079376221}, {"index": 7, "subkeyword": "kim", "cooccur_num": 0.996148943901062}, {"index": 8, "subkeyword": "data", "cooccur_num": 0.9961153268814087}, {"index": 9, "subkeyword": "startup", "cooccur_num": 0.996065080165863}, {"index": 10, "subkeyword": "government", "cooccur_num": 0.9960458278656006}]}, {"keyword": "percent", "score": 62, "cooccur": [{"index": 1, "subkeyword": "foundation", "cooccur_num": 10}, {"index": 2, "subkeyword": "rate", "cooccur_num": 9}, {"index": 3, "subkeyword": "growth", "cooccur_num": 7}, {"index": 4, "subkeyword": "the", "cooccur_num": 7}, {"index": 5, "subkeyword": "share", "cooccur_num": 7}, {"index": 6, "subkeyword": "market", "cooccur_num": 7}, {"index": 7, "subkeyword": "annual", "cooccur_num": 6}, {"index": 8, "subkeyword": "science", "cooccur_num": 5}, {"index": 9, "subkeyword": "korea", "cooccur_num": 5}, {"index": 10, "subkeyword": "student", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9977742433547974}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9972183108329773}, {"index": 3, "subkeyword": "research", "cooccur_num": 0.9971712827682495}, {"index": 4, "subkeyword": "company", "cooccur_num": 0.9971632957458496}, {"index": 5, "subkeyword": "technology", "cooccur_num": 0.9970512390136719}, {"index": 6, "subkeyword": "lead", "cooccur_num": 0.9968531727790833}, {"index": 7, "subkeyword": "science", "cooccur_num": 0.9968273639678955}, {"index": 8, "subkeyword": "data", "cooccur_num": 0.9968118667602539}, {"index": 9, "subkeyword": "professor", "cooccur_num": 0.9967829585075378}, {"index": 10, "subkeyword": "startup", "cooccur_num": 0.9967585802078247}]}, {"keyword": "country", "score": 61, "cooccur": [{"index": 1, "subkeyword": "korea", "cooccur_num": 10}, {"index": 2, "subkeyword": "the", "cooccur_num": 8}, {"index": 3, "subkeyword": "technology", "cooccur_num": 5}, {"index": 4, "subkeyword": "develop", "cooccur_num": 5}, {"index": 5, "subkeyword": "asian", "cooccur_num": 5}, {"index": 6, "subkeyword": "financial", "cooccur_num": 4}, {"index": 7, "subkeyword": "day", "cooccur_num": 4}, {"index": 8, "subkeyword": "global", "cooccur_num": 4}, {"index": 9, "subkeyword": "growth", "cooccur_num": 4}, {"index": 10, "subkeyword": "company", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.997681200504303}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9976661205291748}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9973403811454773}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9973276853561401}, {"index": 5, "subkeyword": "business", "cooccur_num": 0.9968816041946411}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9968598484992981}, {"index": 7, "subkeyword": "development", "cooccur_num": 0.9968279600143433}, {"index": 8, "subkeyword": "percent", "cooccur_num": 0.996732771396637}, {"index": 9, "subkeyword": "science", "cooccur_num": 0.9967299699783325}, {"index": 10, "subkeyword": "billion", "cooccur_num": 0.9967204928398132}]}, {"keyword": "national", "score": 61, "cooccur": [{"index": 1, "subkeyword": "university", "cooccur_num": 34}, {"index": 2, "subkeyword": "seoul", "cooccur_num": 28}, {"index": 3, "subkeyword": "korea", "cooccur_num": 15}, {"index": 4, "subkeyword": "science", "cooccur_num": 13}, {"index": 5, "subkeyword": "institute", "cooccur_num": 12}, {"index": 6, "subkeyword": "research", "cooccur_num": 10}, {"index": 7, "subkeyword": "technology", "cooccur_num": 10}, {"index": 8, "subkeyword": "assembly", "cooccur_num": 6}, {"index": 9, "subkeyword": "snu", "cooccur_num": 5}, {"index": 10, "subkeyword": "the", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "korea", "cooccur_num": 0.9969245791435242}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9966769218444824}, {"index": 3, "subkeyword": "professor", "cooccur_num": 0.9963429570198059}, {"index": 4, "subkeyword": "university", "cooccur_num": 0.9963189363479614}, {"index": 5, "subkeyword": "korean", "cooccur_num": 0.9962476491928101}, {"index": 6, "subkeyword": "company", "cooccur_num": 0.9962166547775269}, {"index": 7, "subkeyword": "technology", "cooccur_num": 0.996160089969635}, {"index": 8, "subkeyword": "research", "cooccur_num": 0.9961563348770142}, {"index": 9, "subkeyword": "data", "cooccur_num": 0.9961153268814087}, {"index": 10, "subkeyword": "lead", "cooccur_num": 0.9959892630577087}]}, {"keyword": "lead", "score": 58, "cooccur": [{"index": 1, "subkeyword": "research", "cooccur_num": 14}, {"index": 2, "subkeyword": "team", "cooccur_num": 13}, {"index": 3, "subkeyword": "technology", "cooccur_num": 10}, {"index": 4, "subkeyword": "professor", "cooccur_num": 10}, {"index": 5, "subkeyword": "the", "cooccur_num": 9}, {"index": 6, "subkeyword": "science", "cooccur_num": 8}, {"index": 7, "subkeyword": "develop", "cooccur_num": 6}, {"index": 8, "subkeyword": "kaist", "cooccur_num": 6}, {"index": 9, "subkeyword": "lee", "cooccur_num": 5}, {"index": 10, "subkeyword": "oled", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9979999661445618}, {"index": 2, "subkeyword": "company", "cooccur_num": 0.9977245926856995}, {"index": 3, "subkeyword": "korea", "cooccur_num": 0.9976754784584045}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9974318146705627}, {"index": 5, "subkeyword": "data", "cooccur_num": 0.9973339438438416}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9972922801971436}, {"index": 7, "subkeyword": "science", "cooccur_num": 0.9972874522209167}, {"index": 8, "subkeyword": "university", "cooccur_num": 0.9971843361854553}, {"index": 9, "subkeyword": "kim", "cooccur_num": 0.996917724609375}, {"index": 10, "subkeyword": "professor", "cooccur_num": 0.9968973398208618}]}, {"keyword": "government", "score": 56, "cooccur": [{"index": 1, "subkeyword": "the", "cooccur_num": 15}, {"index": 2, "subkeyword": "korean", "cooccur_num": 10}, {"index": 3, "subkeyword": "support", "cooccur_num": 6}, {"index": 4, "subkeyword": "expand", "cooccur_num": 5}, {"index": 5, "subkeyword": "trillion", "cooccur_num": 5}, {"index": 6, "subkeyword": "technology", "cooccur_num": 4}, {"index": 7, "subkeyword": "project", "cooccur_num": 4}, {"index": 8, "subkeyword": "billion", "cooccur_num": 4}, {"index": 9, "subkeyword": "plan", "cooccur_num": 4}, {"index": 10, "subkeyword": "vision", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9976717829704285}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9976187944412231}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.997342586517334}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9970303177833557}, {"index": 5, "subkeyword": "data", "cooccur_num": 0.9968557357788086}, {"index": 6, "subkeyword": "kaist", "cooccur_num": 0.9967435598373413}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.996687650680542}, {"index": 8, "subkeyword": "billion", "cooccur_num": 0.9966714382171631}, {"index": 9, "subkeyword": "korean", "cooccur_num": 0.9966022968292236}, {"index": 10, "subkeyword": "country", "cooccur_num": 0.99656742811203}]}, {"keyword": "kim", "score": 55, "cooccur": [{"index": 1, "subkeyword": "chief", "cooccur_num": 14}, {"index": 2, "subkeyword": "professor", "cooccur_num": 8}, {"index": 3, "subkeyword": "technology", "cooccur_num": 7}, {"index": 4, "subkeyword": "executive", "cooccur_num": 6}, {"index": 5, "subkeyword": "president", "cooccur_num": 5}, {"index": 6, "subkeyword": "market", "cooccur_num": 5}, {"index": 7, "subkeyword": "join", "cooccur_num": 4}, {"index": 8, "subkeyword": "officer", "cooccur_num": 4}, {"index": 9, "subkeyword": "director", "cooccur_num": 4}, {"index": 10, "subkeyword": "korea", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9977496266365051}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9975621700286865}, {"index": 3, "subkeyword": "technology", "cooccur_num": 0.9974032640457153}, {"index": 4, "subkeyword": "company", "cooccur_num": 0.9973337650299072}, {"index": 5, "subkeyword": "university", "cooccur_num": 0.9970701932907104}, {"index": 6, "subkeyword": "lead", "cooccur_num": 0.996917724609375}, {"index": 7, "subkeyword": "data", "cooccur_num": 0.9968129396438599}, {"index": 8, "subkeyword": "korean", "cooccur_num": 0.9968066215515137}, {"index": 9, "subkeyword": "research", "cooccur_num": 0.9968060851097107}, {"index": 10, "subkeyword": "develop", "cooccur_num": 0.996775209903717}]}, {"keyword": "school", "score": 55, "cooccur": [{"index": 1, "subkeyword": "graduate", "cooccur_num": 28}, {"index": 2, "subkeyword": "science", "cooccur_num": 11}, {"index": 3, "subkeyword": "university", "cooccur_num": 10}, {"index": 4, "subkeyword": "kaist", "cooccur_num": 10}, {"index": 5, "subkeyword": "business", "cooccur_num": 9}, {"index": 6, "subkeyword": "korea", "cooccur_num": 7}, {"index": 7, "subkeyword": "student", "cooccur_num": 7}, {"index": 8, "subkeyword": "data", "cooccur_num": 5}, {"index": 9, "subkeyword": "engineer", "cooccur_num": 5}, {"index": 10, "subkeyword": "professor", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9975665807723999}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9972506761550903}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9971287250518799}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.996944010257721}, {"index": 5, "subkeyword": "data", "cooccur_num": 0.9969093203544617}, {"index": 6, "subkeyword": "student", "cooccur_num": 0.996767520904541}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.9967553019523621}, {"index": 8, "subkeyword": "science", "cooccur_num": 0.996739387512207}, {"index": 9, "subkeyword": "business", "cooccur_num": 0.9967131614685059}, {"index": 10, "subkeyword": "startup", "cooccur_num": 0.9966813921928406}]}, {"keyword": "development", "score": 54, "cooccur": [{"index": 1, "subkeyword": "research", "cooccur_num": 14}, {"index": 2, "subkeyword": "technology", "cooccur_num": 13}, {"index": 3, "subkeyword": "korea", "cooccur_num": 10}, {"index": 4, "subkeyword": "center", "cooccur_num": 7}, {"index": 5, "subkeyword": "robot", "cooccur_num": 6}, {"index": 6, "subkeyword": "the", "cooccur_num": 5}, {"index": 7, "subkeyword": "future", "cooccur_num": 5}, {"index": 8, "subkeyword": "resource", "cooccur_num": 5}, {"index": 9, "subkeyword": "company", "cooccur_num": 4}, {"index": 10, "subkeyword": "joint", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9977177381515503}, {"index": 2, "subkeyword": "technology", "cooccur_num": 0.9972749948501587}, {"index": 3, "subkeyword": "korea", "cooccur_num": 0.9972542524337769}, {"index": 4, "subkeyword": "company", "cooccur_num": 0.9971078038215637}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9969441890716553}, {"index": 6, "subkeyword": "lead", "cooccur_num": 0.9968550205230713}, {"index": 7, "subkeyword": "science", "cooccur_num": 0.9968518018722534}, {"index": 8, "subkeyword": "korean", "cooccur_num": 0.9968403577804565}, {"index": 9, "subkeyword": "country", "cooccur_num": 0.9968279600143433}, {"index": 10, "subkeyword": "data", "cooccur_num": 0.9966971278190613}]}, {"keyword": "student", "score": 53, "cooccur": [{"index": 1, "subkeyword": "university", "cooccur_num": 11}, {"index": 2, "subkeyword": "kaist", "cooccur_num": 8}, {"index": 3, "subkeyword": "school", "cooccur_num": 8}, {"index": 4, "subkeyword": "college", "cooccur_num": 6}, {"index": 5, "subkeyword": "business", "cooccur_num": 6}, {"index": 6, "subkeyword": "the", "cooccur_num": 6}, {"index": 7, "subkeyword": "encourage", "cooccur_num": 4}, {"index": 8, "subkeyword": "korean", "cooccur_num": 4}, {"index": 9, "subkeyword": "faculty", "cooccur_num": 4}, {"index": 10, "subkeyword": "percent", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9974509477615356}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9973636865615845}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9972798824310303}, {"index": 4, "subkeyword": "data", "cooccur_num": 0.9969709515571594}, {"index": 5, "subkeyword": "technology", "cooccur_num": 0.9969518780708313}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9969055652618408}, {"index": 7, "subkeyword": "korean", "cooccur_num": 0.9968865513801575}, {"index": 8, "subkeyword": "develop", "cooccur_num": 0.9968080520629883}, {"index": 9, "subkeyword": "school", "cooccur_num": 0.9967675805091858}, {"index": 10, "subkeyword": "science", "cooccur_num": 0.9967576265335083}]}, {"keyword": "engineer", "score": 50, "cooccur": [{"index": 1, "subkeyword": "professor", "cooccur_num": 17}, {"index": 2, "subkeyword": "science", "cooccur_num": 14}, {"index": 3, "subkeyword": "korea", "cooccur_num": 10}, {"index": 4, "subkeyword": "kaist", "cooccur_num": 10}, {"index": 5, "subkeyword": "mechanical", "cooccur_num": 10}, {"index": 6, "subkeyword": "advance", "cooccur_num": 7}, {"index": 7, "subkeyword": "university", "cooccur_num": 7}, {"index": 8, "subkeyword": "institute", "cooccur_num": 6}, {"index": 9, "subkeyword": "technology", "cooccur_num": 6}, {"index": 10, "subkeyword": "material", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.995323657989502}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9951102137565613}, {"index": 3, "subkeyword": "data", "cooccur_num": 0.9949000477790833}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9948440790176392}, {"index": 5, "subkeyword": "lead", "cooccur_num": 0.994805097579956}, {"index": 6, "subkeyword": "kim", "cooccur_num": 0.9947518110275269}, {"index": 7, "subkeyword": "korean", "cooccur_num": 0.9947261214256287}, {"index": 8, "subkeyword": "science", "cooccur_num": 0.9946937561035156}, {"index": 9, "subkeyword": "technology", "cooccur_num": 0.9946102499961853}, {"index": 10, "subkeyword": "professor", "cooccur_num": 0.9945625066757202}]}, {"keyword": "world", "score": 50, "cooccur": [{"index": 1, "subkeyword": "the", "cooccur_num": 8}, {"index": 2, "subkeyword": "global", "cooccur_num": 7}, {"index": 3, "subkeyword": "largest", "cooccur_num": 6}, {"index": 4, "subkeyword": "technology", "cooccur_num": 6}, {"index": 5, "subkeyword": "korea", "cooccur_num": 5}, {"index": 6, "subkeyword": "top", "cooccur_num": 5}, {"index": 7, "subkeyword": "robot", "cooccur_num": 5}, {"index": 8, "subkeyword": "lead", "cooccur_num": 4}, {"index": 9, "subkeyword": "file", "cooccur_num": 3}, {"index": 10, "subkeyword": "kaist", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9967864751815796}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9964600801467896}, {"index": 3, "subkeyword": "data", "cooccur_num": 0.9963864684104919}, {"index": 4, "subkeyword": "company", "cooccur_num": 0.9963347315788269}, {"index": 5, "subkeyword": "lead", "cooccur_num": 0.9961478114128113}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9961434602737427}, {"index": 7, "subkeyword": "startup", "cooccur_num": 0.9960240125656128}, {"index": 8, "subkeyword": "science", "cooccur_num": 0.9960111975669861}, {"index": 9, "subkeyword": "business", "cooccur_num": 0.9959319233894348}, {"index": 10, "subkeyword": "technology", "cooccur_num": 0.9959081411361694}]}, {"keyword": "global", "score": 49, "cooccur": [{"index": 1, "subkeyword": "market", "cooccur_num": 11}, {"index": 2, "subkeyword": "company", "cooccur_num": 8}, {"index": 3, "subkeyword": "world", "cooccur_num": 7}, {"index": 4, "subkeyword": "the", "cooccur_num": 7}, {"index": 5, "subkeyword": "technology", "cooccur_num": 6}, {"index": 6, "subkeyword": "korea", "cooccur_num": 5}, {"index": 7, "subkeyword": "giant", "cooccur_num": 4}, {"index": 8, "subkeyword": "percent", "cooccur_num": 4}, {"index": 9, "subkeyword": "robot", "cooccur_num": 3}, {"index": 10, "subkeyword": "corp", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9973871111869812}, {"index": 2, "subkeyword": "company", "cooccur_num": 0.9972103238105774}, {"index": 3, "subkeyword": "korea", "cooccur_num": 0.9971683621406555}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9968127608299255}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9965973496437073}, {"index": 6, "subkeyword": "korean", "cooccur_num": 0.996504545211792}, {"index": 7, "subkeyword": "data", "cooccur_num": 0.9964737892150879}, {"index": 8, "subkeyword": "university", "cooccur_num": 0.9964487552642822}, {"index": 9, "subkeyword": "lead", "cooccur_num": 0.996414303779602}, {"index": 10, "subkeyword": "professor", "cooccur_num": 0.9964104294776917}]}, {"keyword": "time", "score": 49, "cooccur": [{"index": 1, "subkeyword": "the", "cooccur_num": 8}, {"index": 2, "subkeyword": "minute", "cooccur_num": 5}, {"index": 3, "subkeyword": "education", "cooccur_num": 4}, {"index": 4, "subkeyword": "this", "cooccur_num": 4}, {"index": 5, "subkeyword": "voice", "cooccur_num": 4}, {"index": 6, "subkeyword": "korean", "cooccur_num": 3}, {"index": 7, "subkeyword": "technology", "cooccur_num": 3}, {"index": 8, "subkeyword": "research", "cooccur_num": 3}, {"index": 9, "subkeyword": "business", "cooccur_num": 3}, {"index": 10, "subkeyword": "top", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9977158904075623}, {"index": 2, "subkeyword": "company", "cooccur_num": 0.9974782466888428}, {"index": 3, "subkeyword": "korea", "cooccur_num": 0.9971739053726196}, {"index": 4, "subkeyword": "data", "cooccur_num": 0.9969345927238464}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9968571066856384}, {"index": 6, "subkeyword": "technology", "cooccur_num": 0.996764063835144}, {"index": 7, "subkeyword": "korean", "cooccur_num": 0.9966409206390381}, {"index": 8, "subkeyword": "lead", "cooccur_num": 0.9966378808021545}, {"index": 9, "subkeyword": "professor", "cooccur_num": 0.9965689778327942}, {"index": 10, "subkeyword": "percent", "cooccur_num": 0.9965055584907532}]}, {"keyword": "billion", "score": 47, "cooccur": [{"index": 1, "subkeyword": "market", "cooccur_num": 15}, {"index": 2, "subkeyword": "trillion", "cooccur_num": 10}, {"index": 3, "subkeyword": "million", "cooccur_num": 10}, {"index": 4, "subkeyword": "the", "cooccur_num": 9}, {"index": 5, "subkeyword": "project", "cooccur_num": 7}, {"index": 6, "subkeyword": "worth", "cooccur_num": 5}, {"index": 7, "subkeyword": "invest", "cooccur_num": 5}, {"index": 8, "subkeyword": "five", "cooccur_num": 4}, {"index": 9, "subkeyword": "develop", "cooccur_num": 4}, {"index": 10, "subkeyword": "research", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "korea", "cooccur_num": 0.9975307583808899}, {"index": 2, "subkeyword": "company", "cooccur_num": 0.9975130558013916}, {"index": 3, "subkeyword": "the", "cooccur_num": 0.997480571269989}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9971654415130615}, {"index": 5, "subkeyword": "data", "cooccur_num": 0.9969643354415894}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9968075156211853}, {"index": 7, "subkeyword": "country", "cooccur_num": 0.9967204928398132}, {"index": 8, "subkeyword": "million", "cooccur_num": 0.9966959357261658}, {"index": 9, "subkeyword": "government", "cooccur_num": 0.9966714382171631}, {"index": 10, "subkeyword": "korean", "cooccur_num": 0.9966456294059753}]}, {"keyword": "center", "score": 46, "cooccur": [{"index": 1, "subkeyword": "research", "cooccur_num": 31}, {"index": 2, "subkeyword": "technology", "cooccur_num": 11}, {"index": 3, "subkeyword": "the", "cooccur_num": 10}, {"index": 4, "subkeyword": "development", "cooccur_num": 7}, {"index": 5, "subkeyword": "mobility", "cooccur_num": 5}, {"index": 6, "subkeyword": "company", "cooccur_num": 5}, {"index": 7, "subkeyword": "signal", "cooccur_num": 5}, {"index": 8, "subkeyword": "set", "cooccur_num": 4}, {"index": 9, "subkeyword": "joint", "cooccur_num": 4}, {"index": 10, "subkeyword": "innovation", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9976613521575928}, {"index": 2, "subkeyword": "company", "cooccur_num": 0.9973715543746948}, {"index": 3, "subkeyword": "korea", "cooccur_num": 0.9973285794258118}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9971115589141846}, {"index": 5, "subkeyword": "technology", "cooccur_num": 0.996873676776886}, {"index": 6, "subkeyword": "data", "cooccur_num": 0.9968200325965881}, {"index": 7, "subkeyword": "science", "cooccur_num": 0.996720552444458}, {"index": 8, "subkeyword": "korean", "cooccur_num": 0.9966339468955994}, {"index": 9, "subkeyword": "university", "cooccur_num": 0.9966208338737488}, {"index": 10, "subkeyword": "lead", "cooccur_num": 0.9966199994087219}]}, {"keyword": "data", "score": 46, "cooccur": [{"index": 1, "subkeyword": "science", "cooccur_num": 14}, {"index": 2, "subkeyword": "the", "cooccur_num": 10}, {"index": 3, "subkeyword": "school", "cooccur_num": 5}, {"index": 4, "subkeyword": "disclosure", "cooccur_num": 5}, {"index": 5, "subkeyword": "government", "cooccur_num": 5}, {"index": 6, "subkeyword": "access", "cooccur_num": 5}, {"index": 7, "subkeyword": "technology", "cooccur_num": 4}, {"index": 8, "subkeyword": "graduate", "cooccur_num": 4}, {"index": 9, "subkeyword": "startup", "cooccur_num": 3}, {"index": 10, "subkeyword": "future", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9982889890670776}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9979956150054932}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9979521036148071}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9976600408554077}, {"index": 5, "subkeyword": "korean", "cooccur_num": 0.9975224137306213}, {"index": 6, "subkeyword": "science", "cooccur_num": 0.9974393248558044}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.9974013566970825}, {"index": 8, "subkeyword": "lead", "cooccur_num": 0.9973339438438416}, {"index": 9, "subkeyword": "university", "cooccur_num": 0.9973123073577881}, {"index": 10, "subkeyword": "kaist", "cooccur_num": 0.9972225427627563}]}, {"keyword": "future", "score": 46, "cooccur": [{"index": 1, "subkeyword": "technology", "cooccur_num": 20}, {"index": 2, "subkeyword": "mobility", "cooccur_num": 10}, {"index": 3, "subkeyword": "korea", "cooccur_num": 9}, {"index": 4, "subkeyword": "science", "cooccur_num": 8}, {"index": 5, "subkeyword": "research", "cooccur_num": 7}, {"index": 6, "subkeyword": "the", "cooccur_num": 7}, {"index": 7, "subkeyword": "car", "cooccur_num": 6}, {"index": 8, "subkeyword": "development", "cooccur_num": 6}, {"index": 9, "subkeyword": "ministry", "cooccur_num": 6}, {"index": 10, "subkeyword": "ict", "cooccur_num": 6}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9967696070671082}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9967212080955505}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9963446855545044}, {"index": 4, "subkeyword": "data", "cooccur_num": 0.9963054656982422}, {"index": 5, "subkeyword": "lead", "cooccur_num": 0.9959841966629028}, {"index": 6, "subkeyword": "million", "cooccur_num": 0.9959125518798828}, {"index": 7, "subkeyword": "student", "cooccur_num": 0.9959083199501038}, {"index": 8, "subkeyword": "korean", "cooccur_num": 0.995884358882904}, {"index": 9, "subkeyword": "technology", "cooccur_num": 0.9958609938621521}, {"index": 10, "subkeyword": "research", "cooccur_num": 0.9958556294441223}]}, {"keyword": "plan", "score": 46, "cooccur": [{"index": 1, "subkeyword": "science", "cooccur_num": 9}, {"index": 2, "subkeyword": "the", "cooccur_num": 8}, {"index": 3, "subkeyword": "ministry", "cooccur_num": 7}, {"index": 4, "subkeyword": "ict", "cooccur_num": 6}, {"index": 5, "subkeyword": "future", "cooccur_num": 6}, {"index": 6, "subkeyword": "korea", "cooccur_num": 5}, {"index": 7, "subkeyword": "company", "cooccur_num": 4}, {"index": 8, "subkeyword": "government", "cooccur_num": 4}, {"index": 9, "subkeyword": "action", "cooccur_num": 4}, {"index": 10, "subkeyword": "party", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9975024461746216}, {"index": 2, "subkeyword": "research", "cooccur_num": 0.9973995685577393}, {"index": 3, "subkeyword": "korea", "cooccur_num": 0.9973642230033875}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9973435401916504}, {"index": 5, "subkeyword": "company", "cooccur_num": 0.9973391890525818}, {"index": 6, "subkeyword": "data", "cooccur_num": 0.9971945285797119}, {"index": 7, "subkeyword": "korean", "cooccur_num": 0.996837854385376}, {"index": 8, "subkeyword": "million", "cooccur_num": 0.9968338012695312}, {"index": 9, "subkeyword": "lead", "cooccur_num": 0.9968221783638}, {"index": 10, "subkeyword": "professor", "cooccur_num": 0.9967654943466187}]}, {"keyword": "team", "score": 46, "cooccur": [{"index": 1, "subkeyword": "research", "cooccur_num": 24}, {"index": 2, "subkeyword": "lead", "cooccur_num": 13}, {"index": 3, "subkeyword": "the", "cooccur_num": 11}, {"index": 4, "subkeyword": "kaist", "cooccur_num": 9}, {"index": 5, "subkeyword": "develop", "cooccur_num": 8}, {"index": 6, "subkeyword": "technology", "cooccur_num": 8}, {"index": 7, "subkeyword": "korean", "cooccur_num": 6}, {"index": 8, "subkeyword": "professor", "cooccur_num": 6}, {"index": 9, "subkeyword": "one", "cooccur_num": 5}, {"index": 10, "subkeyword": "joint", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9970029592514038}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.996875524520874}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9968022704124451}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9966627359390259}, {"index": 5, "subkeyword": "korean", "cooccur_num": 0.9966118335723877}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9964119791984558}, {"index": 7, "subkeyword": "science", "cooccur_num": 0.9963470697402954}, {"index": 8, "subkeyword": "data", "cooccur_num": 0.9962921142578125}, {"index": 9, "subkeyword": "develop", "cooccur_num": 0.9961817264556885}, {"index": 10, "subkeyword": "lead", "cooccur_num": 0.9961581230163574}]}, {"keyword": "include", "score": 45, "cooccur": [{"index": 1, "subkeyword": "korea", "cooccur_num": 6}, {"index": 2, "subkeyword": "project", "cooccur_num": 5}, {"index": 3, "subkeyword": "the", "cooccur_num": 4}, {"index": 4, "subkeyword": "korean", "cooccur_num": 4}, {"index": 5, "subkeyword": "million", "cooccur_num": 4}, {"index": 6, "subkeyword": "school", "cooccur_num": 4}, {"index": 7, "subkeyword": "university", "cooccur_num": 4}, {"index": 8, "subkeyword": "program", "cooccur_num": 3}, {"index": 9, "subkeyword": "data", "cooccur_num": 3}, {"index": 10, "subkeyword": "science", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9974850416183472}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9972678422927856}, {"index": 3, "subkeyword": "technology", "cooccur_num": 0.9971776008605957}, {"index": 4, "subkeyword": "company", "cooccur_num": 0.9971441030502319}, {"index": 5, "subkeyword": "data", "cooccur_num": 0.9970343112945557}, {"index": 6, "subkeyword": "professor", "cooccur_num": 0.9968689680099487}, {"index": 7, "subkeyword": "university", "cooccur_num": 0.9968506097793579}, {"index": 8, "subkeyword": "research", "cooccur_num": 0.9967856407165527}, {"index": 9, "subkeyword": "lead", "cooccur_num": 0.9967300891876221}, {"index": 10, "subkeyword": "science", "cooccur_num": 0.9965804219245911}]}, {"keyword": "project", "score": 45, "cooccur": [{"index": 1, "subkeyword": "science", "cooccur_num": 11}, {"index": 2, "subkeyword": "research", "cooccur_num": 10}, {"index": 3, "subkeyword": "the", "cooccur_num": 10}, {"index": 4, "subkeyword": "technology", "cooccur_num": 7}, {"index": 5, "subkeyword": "include", "cooccur_num": 5}, {"index": 6, "subkeyword": "government", "cooccur_num": 5}, {"index": 7, "subkeyword": "lead", "cooccur_num": 4}, {"index": 8, "subkeyword": "billion", "cooccur_num": 4}, {"index": 9, "subkeyword": "million", "cooccur_num": 4}, {"index": 10, "subkeyword": "develop", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9960594177246094}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9960123896598816}, {"index": 3, "subkeyword": "research", "cooccur_num": 0.995707631111145}, {"index": 4, "subkeyword": "company", "cooccur_num": 0.9956057071685791}, {"index": 5, "subkeyword": "kaist", "cooccur_num": 0.9955579042434692}, {"index": 6, "subkeyword": "data", "cooccur_num": 0.9955578446388245}, {"index": 7, "subkeyword": "technology", "cooccur_num": 0.9955210089683533}, {"index": 8, "subkeyword": "professor", "cooccur_num": 0.9954742193222046}, {"index": 9, "subkeyword": "science", "cooccur_num": 0.9953657388687134}, {"index": 10, "subkeyword": "korean", "cooccur_num": 0.9951928853988647}]}, {"keyword": "startup", "score": 45, "cooccur": [{"index": 1, "subkeyword": "company", "cooccur_num": 9}, {"index": 2, "subkeyword": "technology", "cooccur_num": 7}, {"index": 3, "subkeyword": "the", "cooccur_num": 7}, {"index": 4, "subkeyword": "kaist", "cooccur_num": 6}, {"index": 5, "subkeyword": "korean", "cooccur_num": 6}, {"index": 6, "subkeyword": "investment", "cooccur_num": 5}, {"index": 7, "subkeyword": "graduate", "cooccur_num": 4}, {"index": 8, "subkeyword": "mobility", "cooccur_num": 4}, {"index": 9, "subkeyword": "south", "cooccur_num": 4}, {"index": 10, "subkeyword": "data", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9977844953536987}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9974530935287476}, {"index": 3, "subkeyword": "research", "cooccur_num": 0.997305154800415}, {"index": 4, "subkeyword": "company", "cooccur_num": 0.9972689151763916}, {"index": 5, "subkeyword": "korean", "cooccur_num": 0.9972254037857056}, {"index": 6, "subkeyword": "technology", "cooccur_num": 0.997061014175415}, {"index": 7, "subkeyword": "data", "cooccur_num": 0.9969902634620667}, {"index": 8, "subkeyword": "lead", "cooccur_num": 0.9968209862709045}, {"index": 9, "subkeyword": "percent", "cooccur_num": 0.9967585802078247}, {"index": 10, "subkeyword": "kim", "cooccur_num": 0.9967309832572937}]}, {"keyword": "lee", "score": 43, "cooccur": [{"index": 1, "subkeyword": "professor", "cooccur_num": 9}, {"index": 2, "subkeyword": "research", "cooccur_num": 7}, {"index": 3, "subkeyword": "team", "cooccur_num": 5}, {"index": 4, "subkeyword": "president", "cooccur_num": 4}, {"index": 5, "subkeyword": "the", "cooccur_num": 4}, {"index": 6, "subkeyword": "win", "cooccur_num": 4}, {"index": 7, "subkeyword": "dongeun", "cooccur_num": 4}, {"index": 8, "subkeyword": "khs", "cooccur_num": 4}, {"index": 9, "subkeyword": "chairman", "cooccur_num": 4}, {"index": 10, "subkeyword": "write", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "korea", "cooccur_num": 0.9959025979042053}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9956094622612}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9954464435577393}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9953267574310303}, {"index": 5, "subkeyword": "university", "cooccur_num": 0.9953159093856812}, {"index": 6, "subkeyword": "lead", "cooccur_num": 0.9952454566955566}, {"index": 7, "subkeyword": "science", "cooccur_num": 0.9951527118682861}, {"index": 8, "subkeyword": "develop", "cooccur_num": 0.9949538707733154}, {"index": 9, "subkeyword": "business", "cooccur_num": 0.9949496984481812}, {"index": 10, "subkeyword": "kim", "cooccur_num": 0.9948750734329224}]}, {"keyword": "million", "score": 43, "cooccur": [{"index": 1, "subkeyword": "billion", "cooccur_num": 10}, {"index": 2, "subkeyword": "professor", "cooccur_num": 10}, {"index": 3, "subkeyword": "the", "cooccur_num": 8}, {"index": 4, "subkeyword": "company", "cooccur_num": 7}, {"index": 5, "subkeyword": "invest", "cooccur_num": 5}, {"index": 6, "subkeyword": "research", "cooccur_num": 5}, {"index": 7, "subkeyword": "total", "cooccur_num": 5}, {"index": 8, "subkeyword": "include", "cooccur_num": 4}, {"index": 9, "subkeyword": "job", "cooccur_num": 4}, {"index": 10, "subkeyword": "user", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9976563453674316}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9975340366363525}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.99720698595047}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9971497654914856}, {"index": 5, "subkeyword": "professor", "cooccur_num": 0.9970660209655762}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9970493316650391}, {"index": 7, "subkeyword": "plan", "cooccur_num": 0.9968338012695312}, {"index": 8, "subkeyword": "develop", "cooccur_num": 0.9967898726463318}, {"index": 9, "subkeyword": "data", "cooccur_num": 0.9967657923698425}, {"index": 10, "subkeyword": "korean", "cooccur_num": 0.9967648983001709}]}, {"keyword": "industry", "score": 42, "cooccur": [{"index": 1, "subkeyword": "robot", "cooccur_num": 13}, {"index": 2, "subkeyword": "korea", "cooccur_num": 10}, {"index": 3, "subkeyword": "accord", "cooccur_num": 6}, {"index": 4, "subkeyword": "source", "cooccur_num": 5}, {"index": 5, "subkeyword": "korean", "cooccur_num": 5}, {"index": 6, "subkeyword": "hyundai", "cooccur_num": 5}, {"index": 7, "subkeyword": "heavy", "cooccur_num": 5}, {"index": 8, "subkeyword": "hold", "cooccur_num": 5}, {"index": 9, "subkeyword": "the", "cooccur_num": 4}, {"index": 10, "subkeyword": "company", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.997385561466217}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9972861409187317}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9971513748168945}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9967417120933533}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9965692758560181}, {"index": 6, "subkeyword": "data", "cooccur_num": 0.9965088367462158}, {"index": 7, "subkeyword": "science", "cooccur_num": 0.9964785575866699}, {"index": 8, "subkeyword": "korean", "cooccur_num": 0.9963492155075073}, {"index": 9, "subkeyword": "plan", "cooccur_num": 0.9962607622146606}, {"index": 10, "subkeyword": "lead", "cooccur_num": 0.9962393641471863}]}, {"keyword": "seoul", "score": 42, "cooccur": [{"index": 1, "subkeyword": "university", "cooccur_num": 31}, {"index": 2, "subkeyword": "national", "cooccur_num": 28}, {"index": 3, "subkeyword": "korea", "cooccur_num": 7}, {"index": 4, "subkeyword": "snu", "cooccur_num": 5}, {"index": 5, "subkeyword": "kaist", "cooccur_num": 5}, {"index": 6, "subkeyword": "science", "cooccur_num": 5}, {"index": 7, "subkeyword": "graduate", "cooccur_num": 4}, {"index": 8, "subkeyword": "samsung", "cooccur_num": 3}, {"index": 9, "subkeyword": "electronics", "cooccur_num": 3}, {"index": 10, "subkeyword": "rank", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9966371059417725}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9964232444763184}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9961813688278198}, {"index": 4, "subkeyword": "professor", "cooccur_num": 0.9961112141609192}, {"index": 5, "subkeyword": "korean", "cooccur_num": 0.9961099624633789}, {"index": 6, "subkeyword": "technology", "cooccur_num": 0.9961060881614685}, {"index": 7, "subkeyword": "university", "cooccur_num": 0.9960848093032837}, {"index": 8, "subkeyword": "research", "cooccur_num": 0.9959625005722046}, {"index": 9, "subkeyword": "data", "cooccur_num": 0.9958305358886719}, {"index": 10, "subkeyword": "science", "cooccur_num": 0.9957044720649719}]}, {"keyword": "samsung", "score": 41, "cooccur": [{"index": 1, "subkeyword": "electronics", "cooccur_num": 29}, {"index": 2, "subkeyword": "file", "cooccur_num": 6}, {"index": 3, "subkeyword": "company", "cooccur_num": 6}, {"index": 4, "subkeyword": "institute", "cooccur_num": 6}, {"index": 5, "subkeyword": "patent", "cooccur_num": 5}, {"index": 6, "subkeyword": "technology", "cooccur_num": 5}, {"index": 7, "subkeyword": "market", "cooccur_num": 5}, {"index": 8, "subkeyword": "elec", "cooccur_num": 4}, {"index": 9, "subkeyword": "sd", "cooccur_num": 4}, {"index": 10, "subkeyword": "research", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9952206015586853}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9952046871185303}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.994942307472229}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9948540925979614}, {"index": 5, "subkeyword": "data", "cooccur_num": 0.9947444200515747}, {"index": 6, "subkeyword": "technology", "cooccur_num": 0.9947184920310974}, {"index": 7, "subkeyword": "billion", "cooccur_num": 0.9944436550140381}, {"index": 8, "subkeyword": "lead", "cooccur_num": 0.9943608045578003}, {"index": 9, "subkeyword": "startup", "cooccur_num": 0.9942982196807861}, {"index": 10, "subkeyword": "institute", "cooccur_num": 0.9942580461502075}]}, {"keyword": "electronics", "score": 40, "cooccur": [{"index": 1, "subkeyword": "samsung", "cooccur_num": 31}, {"index": 2, "subkeyword": "research", "cooccur_num": 12}, {"index": 3, "subkeyword": "patent", "cooccur_num": 7}, {"index": 4, "subkeyword": "institute", "cooccur_num": 7}, {"index": 5, "subkeyword": "telecommunication", "cooccur_num": 6}, {"index": 6, "subkeyword": "technology", "cooccur_num": 5}, {"index": 7, "subkeyword": "inc", "cooccur_num": 5}, {"index": 8, "subkeyword": "korea", "cooccur_num": 5}, {"index": 9, "subkeyword": "kaist", "cooccur_num": 4}, {"index": 10, "subkeyword": "team", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9951760768890381}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9950315356254578}, {"index": 3, "subkeyword": "development", "cooccur_num": 0.9949873089790344}, {"index": 4, "subkeyword": "korean", "cooccur_num": 0.9948729276657104}, {"index": 5, "subkeyword": "company", "cooccur_num": 0.994672954082489}, {"index": 6, "subkeyword": "university", "cooccur_num": 0.9946091175079346}, {"index": 7, "subkeyword": "professor", "cooccur_num": 0.9945356845855713}, {"index": 8, "subkeyword": "technology", "cooccur_num": 0.994525671005249}, {"index": 9, "subkeyword": "science", "cooccur_num": 0.9943952560424805}, {"index": 10, "subkeyword": "data", "cooccur_num": 0.9942840933799744}]}, {"keyword": "president", "score": 40, "cooccur": [{"index": 1, "subkeyword": "moon", "cooccur_num": 6}, {"index": 2, "subkeyword": "radio", "cooccur_num": 5}, {"index": 3, "subkeyword": "vice", "cooccur_num": 5}, {"index": 4, "subkeyword": "kim", "cooccur_num": 5}, {"index": 5, "subkeyword": "good", "cooccur_num": 5}, {"index": 6, "subkeyword": "morning", "cooccur_num": 5}, {"index": 7, "subkeyword": "internet", "cooccur_num": 4}, {"index": 8, "subkeyword": "address", "cooccur_num": 4}, {"index": 9, "subkeyword": "lee", "cooccur_num": 4}, {"index": 10, "subkeyword": "korean", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "korea", "cooccur_num": 0.9969905018806458}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9969586133956909}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9963863492012024}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9962735772132874}, {"index": 5, "subkeyword": "business", "cooccur_num": 0.99605792760849}, {"index": 6, "subkeyword": "korean", "cooccur_num": 0.9960321187973022}, {"index": 7, "subkeyword": "university", "cooccur_num": 0.9960283041000366}, {"index": 8, "subkeyword": "research", "cooccur_num": 0.995973527431488}, {"index": 9, "subkeyword": "student", "cooccur_num": 0.995969295501709}, {"index": 10, "subkeyword": "country", "cooccur_num": 0.9959583878517151}]}, {"keyword": "system", "score": 39, "cooccur": [{"index": 1, "subkeyword": "develop", "cooccur_num": 7}, {"index": 2, "subkeyword": "energy", "cooccur_num": 6}, {"index": 3, "subkeyword": "world", "cooccur_num": 5}, {"index": 4, "subkeyword": "light", "cooccur_num": 5}, {"index": 5, "subkeyword": "advance", "cooccur_num": 5}, {"index": 6, "subkeyword": "engineer", "cooccur_num": 4}, {"index": 7, "subkeyword": "company", "cooccur_num": 4}, {"index": 8, "subkeyword": "base", "cooccur_num": 4}, {"index": 9, "subkeyword": "university", "cooccur_num": 4}, {"index": 10, "subkeyword": "driver", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9966562390327454}, {"index": 2, "subkeyword": "company", "cooccur_num": 0.9961689114570618}, {"index": 3, "subkeyword": "korea", "cooccur_num": 0.9961296319961548}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.995944082736969}, {"index": 5, "subkeyword": "technology", "cooccur_num": 0.9958750009536743}, {"index": 6, "subkeyword": "country", "cooccur_num": 0.9958311319351196}, {"index": 7, "subkeyword": "university", "cooccur_num": 0.9957321882247925}, {"index": 8, "subkeyword": "business", "cooccur_num": 0.9957106113433838}, {"index": 9, "subkeyword": "science", "cooccur_num": 0.9956855773925781}, {"index": 10, "subkeyword": "kim", "cooccur_num": 0.9956813454627991}]}, {"keyword": "graduate", "score": 38, "cooccur": [{"index": 1, "subkeyword": "school", "cooccur_num": 27}, {"index": 2, "subkeyword": "university", "cooccur_num": 12}, {"index": 3, "subkeyword": "science", "cooccur_num": 9}, {"index": 4, "subkeyword": "korea", "cooccur_num": 7}, {"index": 5, "subkeyword": "seoul", "cooccur_num": 6}, {"index": 6, "subkeyword": "program", "cooccur_num": 5}, {"index": 7, "subkeyword": "data", "cooccur_num": 5}, {"index": 8, "subkeyword": "startup", "cooccur_num": 4}, {"index": 9, "subkeyword": "national", "cooccur_num": 4}, {"index": 10, "subkeyword": "kim", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9965806007385254}, {"index": 2, "subkeyword": "data", "cooccur_num": 0.9963449239730835}, {"index": 3, "subkeyword": "university", "cooccur_num": 0.9962098598480225}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9961725473403931}, {"index": 5, "subkeyword": "company", "cooccur_num": 0.9961006045341492}, {"index": 6, "subkeyword": "korea", "cooccur_num": 0.996041476726532}, {"index": 7, "subkeyword": "school", "cooccur_num": 0.9959137439727783}, {"index": 8, "subkeyword": "kaist", "cooccur_num": 0.9958145618438721}, {"index": 9, "subkeyword": "business", "cooccur_num": 0.9957901239395142}, {"index": 10, "subkeyword": "korean", "cooccur_num": 0.9957265853881836}]}, {"keyword": "patent", "score": 37, "cooccur": [{"index": 1, "subkeyword": "company", "cooccur_num": 9}, {"index": 2, "subkeyword": "file", "cooccur_num": 9}, {"index": 3, "subkeyword": "samsung", "cooccur_num": 7}, {"index": 4, "subkeyword": "electronics", "cooccur_num": 6}, {"index": 5, "subkeyword": "the", "cooccur_num": 5}, {"index": 6, "subkeyword": "law", "cooccur_num": 4}, {"index": 7, "subkeyword": "korea", "cooccur_num": 4}, {"index": 8, "subkeyword": "lawsuit", "cooccur_num": 4}, {"index": 9, "subkeyword": "technology", "cooccur_num": 4}, {"index": 10, "subkeyword": "third", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9967584013938904}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9960576891899109}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9959815144538879}, {"index": 4, "subkeyword": "data", "cooccur_num": 0.9959466457366943}, {"index": 5, "subkeyword": "lead", "cooccur_num": 0.9958301186561584}, {"index": 6, "subkeyword": "startup", "cooccur_num": 0.9958254098892212}, {"index": 7, "subkeyword": "technology", "cooccur_num": 0.9957751631736755}, {"index": 8, "subkeyword": "research", "cooccur_num": 0.9957705736160278}, {"index": 9, "subkeyword": "country", "cooccur_num": 0.9957103133201599}, {"index": 10, "subkeyword": "develop", "cooccur_num": 0.995643138885498}]}, {"keyword": "accord", "score": 36, "cooccur": [{"index": 1, "subkeyword": "source", "cooccur_num": 8}, {"index": 2, "subkeyword": "company", "cooccur_num": 7}, {"index": 3, "subkeyword": "korea", "cooccur_num": 7}, {"index": 4, "subkeyword": "thursday", "cooccur_num": 4}, {"index": 5, "subkeyword": "industry", "cooccur_num": 4}, {"index": 6, "subkeyword": "research", "cooccur_num": 3}, {"index": 7, "subkeyword": "team", "cooccur_num": 3}, {"index": 8, "subkeyword": "government", "cooccur_num": 3}, {"index": 9, "subkeyword": "data", "cooccur_num": 3}, {"index": 10, "subkeyword": "kaist", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "korea", "cooccur_num": 0.9966440200805664}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9965260028839111}, {"index": 3, "subkeyword": "university", "cooccur_num": 0.9962130784988403}, {"index": 4, "subkeyword": "company", "cooccur_num": 0.9961206912994385}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9959757328033447}, {"index": 6, "subkeyword": "percent", "cooccur_num": 0.9959542751312256}, {"index": 7, "subkeyword": "professor", "cooccur_num": 0.9958449006080627}, {"index": 8, "subkeyword": "science", "cooccur_num": 0.9958184957504272}, {"index": 9, "subkeyword": "technology", "cooccur_num": 0.9957886934280396}, {"index": 10, "subkeyword": "business", "cooccur_num": 0.9957355260848999}]}, {"keyword": "people", "score": 36, "cooccur": [{"index": 1, "subkeyword": "robot", "cooccur_num": 5}, {"index": 2, "subkeyword": "question", "cooccur_num": 5}, {"index": 3, "subkeyword": "percent", "cooccur_num": 4}, {"index": 4, "subkeyword": "believe", "cooccur_num": 4}, {"index": 5, "subkeyword": "understand", "cooccur_num": 4}, {"index": 6, "subkeyword": "voice", "cooccur_num": 4}, {"index": 7, "subkeyword": "help", "cooccur_num": 3}, {"index": 8, "subkeyword": "world", "cooccur_num": 3}, {"index": 9, "subkeyword": "address", "cooccur_num": 3}, {"index": 10, "subkeyword": "intention", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9963493347167969}, {"index": 2, "subkeyword": "company", "cooccur_num": 0.9961345195770264}, {"index": 3, "subkeyword": "research", "cooccur_num": 0.9958879947662354}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9958094358444214}, {"index": 5, "subkeyword": "korea", "cooccur_num": 0.9958049654960632}, {"index": 6, "subkeyword": "professor", "cooccur_num": 0.9957685470581055}, {"index": 7, "subkeyword": "develop", "cooccur_num": 0.9956719875335693}, {"index": 8, "subkeyword": "korean", "cooccur_num": 0.9955645799636841}, {"index": 9, "subkeyword": "data", "cooccur_num": 0.9954763650894165}, {"index": 10, "subkeyword": "lead", "cooccur_num": 0.9954448342323303}]}, {"keyword": "top", "score": 36, "cooccur": [{"index": 1, "subkeyword": "university", "cooccur_num": 15}, {"index": 2, "subkeyword": "rank", "cooccur_num": 10}, {"index": 3, "subkeyword": "korea", "cooccur_num": 9}, {"index": 4, "subkeyword": "kaist", "cooccur_num": 6}, {"index": 5, "subkeyword": "korean", "cooccur_num": 6}, {"index": 6, "subkeyword": "world", "cooccur_num": 5}, {"index": 7, "subkeyword": "south", "cooccur_num": 5}, {"index": 8, "subkeyword": "professor", "cooccur_num": 5}, {"index": 9, "subkeyword": "institution", "cooccur_num": 4}, {"index": 10, "subkeyword": "etri", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "company", "cooccur_num": 0.9959237575531006}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.99579918384552}, {"index": 3, "subkeyword": "technology", "cooccur_num": 0.9957367777824402}, {"index": 4, "subkeyword": "korea", "cooccur_num": 0.9957020282745361}, {"index": 5, "subkeyword": "lead", "cooccur_num": 0.9955373406410217}, {"index": 6, "subkeyword": "data", "cooccur_num": 0.9954540729522705}, {"index": 7, "subkeyword": "university", "cooccur_num": 0.9954285025596619}, {"index": 8, "subkeyword": "plan", "cooccur_num": 0.9952889084815979}, {"index": 9, "subkeyword": "korean", "cooccur_num": 0.9952065944671631}, {"index": 10, "subkeyword": "science", "cooccur_num": 0.9952017664909363}]}, {"keyword": "internet", "score": 32, "cooccur": [{"index": 1, "subkeyword": "governance", "cooccur_num": 8}, {"index": 2, "subkeyword": "thing", "cooccur_num": 7}, {"index": 3, "subkeyword": "korea", "cooccur_num": 6}, {"index": 4, "subkeyword": "address", "cooccur_num": 6}, {"index": 5, "subkeyword": "the", "cooccur_num": 6}, {"index": 6, "subkeyword": "president", "cooccur_num": 5}, {"index": 7, "subkeyword": "iot", "cooccur_num": 5}, {"index": 8, "subkeyword": "session", "cooccur_num": 4}, {"index": 9, "subkeyword": "public", "cooccur_num": 4}, {"index": 10, "subkeyword": "radio", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "korea", "cooccur_num": 0.9949315190315247}, {"index": 2, "subkeyword": "the", "cooccur_num": 0.9948357343673706}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9944995641708374}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9944114685058594}, {"index": 5, "subkeyword": "student", "cooccur_num": 0.994281530380249}, {"index": 6, "subkeyword": "school", "cooccur_num": 0.9942502379417419}, {"index": 7, "subkeyword": "korean", "cooccur_num": 0.9941962957382202}, {"index": 8, "subkeyword": "professor", "cooccur_num": 0.9941806197166443}, {"index": 9, "subkeyword": "technology", "cooccur_num": 0.9941602945327759}, {"index": 10, "subkeyword": "data", "cooccur_num": 0.994099497795105}]}, {"keyword": "product", "score": 32, "cooccur": [{"index": 1, "subkeyword": "the", "cooccur_num": 8}, {"index": 2, "subkeyword": "company", "cooccur_num": 7}, {"index": 3, "subkeyword": "service", "cooccur_num": 4}, {"index": 4, "subkeyword": "technology", "cooccur_num": 3}, {"index": 5, "subkeyword": "mobility", "cooccur_num": 3}, {"index": 6, "subkeyword": "lead", "cooccur_num": 3}, {"index": 7, "subkeyword": "launch", "cooccur_num": 3}, {"index": 8, "subkeyword": "overseas", "cooccur_num": 3}, {"index": 9, "subkeyword": "light", "cooccur_num": 3}, {"index": 10, "subkeyword": "target", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9963095188140869}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9960260987281799}, {"index": 3, "subkeyword": "research", "cooccur_num": 0.9959093928337097}, {"index": 4, "subkeyword": "company", "cooccur_num": 0.9956009387969971}, {"index": 5, "subkeyword": "technology", "cooccur_num": 0.9954690933227539}, {"index": 6, "subkeyword": "korean", "cooccur_num": 0.9954293966293335}, {"index": 7, "subkeyword": "data", "cooccur_num": 0.9953620433807373}, {"index": 8, "subkeyword": "global", "cooccur_num": 0.9953426718711853}, {"index": 9, "subkeyword": "startup", "cooccur_num": 0.9953272342681885}, {"index": 10, "subkeyword": "university", "cooccur_num": 0.995274543762207}]}, {"keyword": "public", "score": 32, "cooccur": [{"index": 1, "subkeyword": "the", "cooccur_num": 9}, {"index": 2, "subkeyword": "policy", "cooccur_num": 5}, {"index": 3, "subkeyword": "government", "cooccur_num": 4}, {"index": 4, "subkeyword": "company", "cooccur_num": 4}, {"index": 5, "subkeyword": "session", "cooccur_num": 3}, {"index": 6, "subkeyword": "internet", "cooccur_num": 3}, {"index": 7, "subkeyword": "private", "cooccur_num": 3}, {"index": 8, "subkeyword": "understand", "cooccur_num": 3}, {"index": 9, "subkeyword": "global", "cooccur_num": 3}, {"index": 10, "subkeyword": "access", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9969584941864014}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9965777397155762}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9965726137161255}, {"index": 4, "subkeyword": "data", "cooccur_num": 0.9963226318359375}, {"index": 5, "subkeyword": "kaist", "cooccur_num": 0.9959721565246582}, {"index": 6, "subkeyword": "billion", "cooccur_num": 0.9959714412689209}, {"index": 7, "subkeyword": "technology", "cooccur_num": 0.9958562850952148}, {"index": 8, "subkeyword": "science", "cooccur_num": 0.9958549737930298}, {"index": 9, "subkeyword": "business", "cooccur_num": 0.9957910776138306}, {"index": 10, "subkeyword": "global", "cooccur_num": 0.9957672953605652}]}, {"keyword": "hold", "score": 31, "cooccur": [{"index": 1, "subkeyword": "company", "cooccur_num": 5}, {"index": 2, "subkeyword": "industry", "cooccur_num": 5}, {"index": 3, "subkeyword": "ceremony", "cooccur_num": 4}, {"index": 4, "subkeyword": "hyundai", "cooccur_num": 4}, {"index": 5, "subkeyword": "heavy", "cooccur_num": 4}, {"index": 6, "subkeyword": "institute", "cooccur_num": 4}, {"index": 7, "subkeyword": "country", "cooccur_num": 3}, {"index": 8, "subkeyword": "the", "cooccur_num": 3}, {"index": 9, "subkeyword": "korea", "cooccur_num": 3}, {"index": 10, "subkeyword": "event", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9966711401939392}, {"index": 2, "subkeyword": "company", "cooccur_num": 0.9962392449378967}, {"index": 3, "subkeyword": "korea", "cooccur_num": 0.9961915016174316}, {"index": 4, "subkeyword": "lead", "cooccur_num": 0.9960271716117859}, {"index": 5, "subkeyword": "technology", "cooccur_num": 0.9959714412689209}, {"index": 6, "subkeyword": "research", "cooccur_num": 0.9958710670471191}, {"index": 7, "subkeyword": "country", "cooccur_num": 0.995844841003418}, {"index": 8, "subkeyword": "school", "cooccur_num": 0.9957827925682068}, {"index": 9, "subkeyword": "kaist", "cooccur_num": 0.9957820177078247}, {"index": 10, "subkeyword": "plan", "cooccur_num": 0.9957200288772583}]}, {"keyword": "create", "score": 30, "cooccur": [{"index": 1, "subkeyword": "job", "cooccur_num": 7}, {"index": 2, "subkeyword": "business", "cooccur_num": 6}, {"index": 3, "subkeyword": "school", "cooccur_num": 5}, {"index": 4, "subkeyword": "global", "cooccur_num": 4}, {"index": 5, "subkeyword": "opportunity", "cooccur_num": 4}, {"index": 6, "subkeyword": "ecosystem", "cooccur_num": 4}, {"index": 7, "subkeyword": "technology", "cooccur_num": 4}, {"index": 8, "subkeyword": "micro", "cooccur_num": 4}, {"index": 9, "subkeyword": "water", "cooccur_num": 4}, {"index": 10, "subkeyword": "university", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9960780143737793}, {"index": 2, "subkeyword": "company", "cooccur_num": 0.9959299564361572}, {"index": 3, "subkeyword": "data", "cooccur_num": 0.995916485786438}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.9955323338508606}, {"index": 5, "subkeyword": "research", "cooccur_num": 0.9955013990402222}, {"index": 6, "subkeyword": "korean", "cooccur_num": 0.9955013394355774}, {"index": 7, "subkeyword": "korea", "cooccur_num": 0.9954487085342407}, {"index": 8, "subkeyword": "percent", "cooccur_num": 0.9952839612960815}, {"index": 9, "subkeyword": "professor", "cooccur_num": 0.9952626824378967}, {"index": 10, "subkeyword": "business", "cooccur_num": 0.9952493906021118}]}, {"keyword": "education", "score": 30, "cooccur": [{"index": 1, "subkeyword": "university", "cooccur_num": 9}, {"index": 2, "subkeyword": "the", "cooccur_num": 6}, {"index": 3, "subkeyword": "korea", "cooccur_num": 5}, {"index": 4, "subkeyword": "ministry", "cooccur_num": 5}, {"index": 5, "subkeyword": "business", "cooccur_num": 4}, {"index": 6, "subkeyword": "time", "cooccur_num": 4}, {"index": 7, "subkeyword": "student", "cooccur_num": 4}, {"index": 8, "subkeyword": "city", "cooccur_num": 3}, {"index": 9, "subkeyword": "science", "cooccur_num": 3}, {"index": 10, "subkeyword": "smart", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9949861168861389}, {"index": 2, "subkeyword": "university", "cooccur_num": 0.9947245121002197}, {"index": 3, "subkeyword": "technology", "cooccur_num": 0.9945504665374756}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.9945235252380371}, {"index": 5, "subkeyword": "data", "cooccur_num": 0.9944827556610107}, {"index": 6, "subkeyword": "company", "cooccur_num": 0.9944601655006409}, {"index": 7, "subkeyword": "korea", "cooccur_num": 0.9944201707839966}, {"index": 8, "subkeyword": "lead", "cooccur_num": 0.9941664934158325}, {"index": 9, "subkeyword": "business", "cooccur_num": 0.9940214157104492}, {"index": 10, "subkeyword": "million", "cooccur_num": 0.9938756823539734}]}, {"keyword": "growth", "score": 30, "cooccur": [{"index": 1, "subkeyword": "market", "cooccur_num": 7}, {"index": 2, "subkeyword": "rate", "cooccur_num": 7}, {"index": 3, "subkeyword": "percent", "cooccur_num": 6}, {"index": 4, "subkeyword": "engine", "cooccur_num": 6}, {"index": 5, "subkeyword": "future", "cooccur_num": 5}, {"index": 6, "subkeyword": "robot", "cooccur_num": 5}, {"index": 7, "subkeyword": "annual", "cooccur_num": 4}, {"index": 8, "subkeyword": "country", "cooccur_num": 4}, {"index": 9, "subkeyword": "help", "cooccur_num": 3}, {"index": 10, "subkeyword": "industry", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9957677721977234}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9955966472625732}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9951949119567871}, {"index": 4, "subkeyword": "korean", "cooccur_num": 0.9951876401901245}, {"index": 5, "subkeyword": "professor", "cooccur_num": 0.9950926899909973}, {"index": 6, "subkeyword": "science", "cooccur_num": 0.9949266910552979}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.9949241876602173}, {"index": 8, "subkeyword": "school", "cooccur_num": 0.9949067831039429}, {"index": 9, "subkeyword": "percent", "cooccur_num": 0.9949020147323608}, {"index": 10, "subkeyword": "technology", "cooccur_num": 0.994877815246582}]}, {"keyword": "help", "score": 30, "cooccur": [{"index": 1, "subkeyword": "growth", "cooccur_num": 4}, {"index": 2, "subkeyword": "technology", "cooccur_num": 4}, {"index": 3, "subkeyword": "job", "cooccur_num": 4}, {"index": 4, "subkeyword": "engine", "cooccur_num": 3}, {"index": 5, "subkeyword": "the", "cooccur_num": 3}, {"index": 6, "subkeyword": "people", "cooccur_num": 3}, {"index": 7, "subkeyword": "this", "cooccur_num": 2}, {"index": 8, "subkeyword": "secure", "cooccur_num": 2}, {"index": 9, "subkeyword": "develop", "cooccur_num": 2}, {"index": 10, "subkeyword": "future", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.9958733320236206}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.9956509470939636}, {"index": 3, "subkeyword": "company", "cooccur_num": 0.9954034686088562}, {"index": 4, "subkeyword": "data", "cooccur_num": 0.9952109456062317}, {"index": 5, "subkeyword": "lead", "cooccur_num": 0.9951833486557007}, {"index": 6, "subkeyword": "startup", "cooccur_num": 0.9950771331787109}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.9950380325317383}, {"index": 8, "subkeyword": "science", "cooccur_num": 0.99493408203125}, {"index": 9, "subkeyword": "student", "cooccur_num": 0.9949160814285278}, {"index": 10, "subkeyword": "include", "cooccur_num": 0.9948801398277283}]}]
+        console.log(dataAnalyze)
+        var width = 1300,
+            height = 600
+
+        var svg = d3.select(".wordcloud").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", 'outline');
+
+        var svg = d3.select("svg")
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+
+        showCloud(dataAnalyze)
+
+
+        function showCloud(data) {
+            d3.layout.cloud().size([width, height])
+                //클라우드 레이아웃에 데이터 전달
+                .words(data.map((d, index) => {
+                    return {
+                        index: index,
+                        text: d.keyword,
+                        size: d.score,
+                        cooccur: d.cooccur,
+                        similar: d.similar,
+                    }
+                }))
+                .padding(30)
+                //스케일로 각 단어의 크기를 설정
+                .rotate(function (d) {
+                    return Math.round((Math.random()-0.5)*2) * 45;
+                })
+                .fontSize(d => {
+                    if (d.index < 10) {
+                        return 30;
+                    } else {
+                        return 15;
+                    }
+                })
+                .on("end", draw)
+                .start();
+
+            function draw(words) {
+                var cloud = svg.selectAll("text").data(words)
+                //Entering words
+                cloud.enter()
+                    .append("text")
+                    .style("font-family", 'Black Han Sans')
+                    .style("fill", function (d) {
+                        return (d.index < 10 ? "#fbc280" : "#405275");
+                    })
+                    .style("fill-opacity", .5)
+                    .attr("text-anchor", "center")
+                    .text(function (d) {
+                        return d.text;
+                    })
+                    .on('click', overevent)
+                cloud.transition()
+                    .duration(600)
+                    .style("font-size", function (d) {
+                        return d.size + "px";
+                    })
+                    .attr("transform", function (d) {
+                        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                    })
+                    .style("fill-opacity", 1);
+            }
+
+
+            function overevent(d) {
+                Cooccurdetail(d);
+                similardetail(d);
+            }
+        }
+
+        function Cooccurdetail(d) {
+            var width = 400,
+                height = 400;
+            var central = d.text;
+            var links = d.cooccur.map((d) => {
+                return {
+                    "source": central,
+                    "target": d.subkeyword,
+                    "value": d.cooccur_num
+                }
+            });
+            var nodes = {};
+            linkScale = d3.scale.linear().domain([0, links[0].value]).range([0, 150]).clamp(true);
+
+            console.log(links)
+            // Compute the distinct nodes from the links.
+            links.forEach(function (link) {
+                link.source = nodes[link.source] || (nodes[link.source] = {
+                    name: link.source
+
+                });
+                link.target = nodes[link.target] || (nodes[link.target] = {
+                    name: link.target
+                });
+                
+            });
+
+
+            var force = d3.layout.force()
+                .nodes(d3.values(nodes))
+                .links(links)
+                .size([width, height])
+                .linkDistance((link)=>{
+                    return linkScale(link.value)
+                })
+                .charge(-300)
+                .on("tick", tick)
+                .start();
+
+            var svg = d3.select(".cooccur").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("class",'outline');
+
+            var link = svg.selectAll(".link")
+                .data(force.links())
+                .enter().append("line")
+                .attr("class", "link")
+
+
+            var color = d3.scale.category20();
+
+            var node = svg.selectAll(".node")
+                .data(force.nodes())
+                .enter().append("g")
+                .attr("class", "node")
+                .on("mouseover", mouseover)
+                .on("mouseout", mouseout)
+                .on("click",clickevent)
+                .call(force.drag);
+
+
+            node.append("circle")
+                .attr("r", 8)
+                .attr("fill", function(d,i){return color(i);});
+
+
+            node.append("text")
+                .attr("x", 12)
+                .attr("dy", ".35em")
+                .text(function (d) {
+                    return d.name;
+                });
+
+            function tick() {
+                link
+                    .attr("x1", function (d) {
+                        return d.source.x;
+                    })
+                    .attr("y1", function (d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function (d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function (d) {
+                        return d.target.y;
+                    });
+
+                node
+                    .attr("transform", function (d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+            }
+
+            function clickevent(d){
+                target=dataAnalyze.find((e)=>{
+                    if(e.keyword === d.name){
+                        return e
+                    }
+                })
+                if (target == undefined){
+                    return
+                }
+                var new_links = target.cooccur.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+
+               var new_nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               new_links.forEach(function (link) {
+                   link.source = new_nodes[link.source] || (new_nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = new_nodes[link.target] || (new_nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+                });
+                for (new_link in new_links){
+                    links.push(new_links[new_link])}
+                console.log(nodes)
+                console.log(new_nodes)
+                nodes.add(new_nodes)
+                console.log(links)
+
+            };
+
+            function mouseover() {
+                d3.select(this).select("circle").transition()
+                    .duration(750)
+                    .attr("r", 16);
+            }
+
+            function mouseout() {
+                d3.select(this).select("circle").transition()
+                    .duration(750)
+                    .attr("r", 8);
+            }
+        }
+            linkScale = d3.scale.linear().domain([0, 1]).range([0, 100]).clamp(true);
+           function similardetail(d) {
+               var width = 400,
+                   height = 400;
+               var central = d.text;
+               console.log(d)
+               var links = d.similar.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+               var nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               links.forEach(function (link) {
+                   link.source = nodes[link.source] || (nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = nodes[link.target] || (nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+               });
+   
+   
+               var force = d3.layout.force()
+                   .nodes(d3.values(nodes))
+                   .links(links)
+                   .size([width, height])
+                   .linkDistance((link)=>{
+                       return linkScale(link.value)
+                   })
+                   .charge(-300)
+                   .on("tick", tick)
+                   .start();
+   
+               var svg = d3.select(".similar").append("svg")
+                   .attr("width", width)
+                   .attr("height", height)
+                   .attr("class",'outline');
+   
+               var link = svg.selectAll(".link")
+                   .data(force.links())
+                   .enter().append("line")
+                   .attr("class", "link");
+   
+               var color = d3.scale.category20();
+   
+               var node = svg.selectAll(".node")
+                   .data(force.nodes())
+                   .enter().append("g")
+                   .attr("class", "node")
+                   .on("mouseover", mouseover)
+                   .on("mouseout", mouseout)
+                   .on("click", clickevent)
+                   .call(force.drag);
+   
+               node.append("circle")
+                   .attr("r", 8)
+                   .attr("fill", (d,i)=>color(i));
+   
+   
+               node.append("text")
+                   .attr("x", 12)
+                   .attr("dy", ".35em")
+                   .text(function (d) {
+                       return d.name;
+                   });
+   
+            function clickevent(d){
+                var new_links = d.similar.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+
+               var new_nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               links.forEach(function (link) {
+                   link.source = new_nodes[link.source] || (new_nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = new_nodes[link.target] || (new_nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+                });
+                links.append(new_links)
+                nodes.append(new_nodes)
+            };
+
+               function tick() {
+                   link
+                       .attr("x1", function (d) {
+                           return d.source.x;
+                       })
+                       .attr("y1", function (d) {
+                           return d.source.y;
+                       })
+                       .attr("x2", function (d) {
+                           return d.target.x;
+                       })
+                       .attr("y2", function (d) {
+                           return d.target.y;
+                       });
+   
+                   node
+                       .attr("transform", function (d) {
+                           return "translate(" + d.x + "," + d.y + ")";
+                       });
+               }
+   
+               function mouseover() {
+                   d3.select(this).select("circle").transition()
+                       .duration(750)
+                       .attr("r", 16);
+               }
+   
+               function mouseout() {
+                   d3.select(this).select("circle").transition()
+                       .duration(750)
+                       .attr("r", 8);
+               }
+           }
+        </script>
+
+</body>
+
+</html>

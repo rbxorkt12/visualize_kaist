@@ -9,7 +9,7 @@ import re
 
 
 def tokenize(text):
-    try : 
+    try:
         text =str(text)
         # tokenize into words
         text = re.sub('[^A-Za-z ]', '', text)
@@ -29,12 +29,10 @@ def tokenize(text):
         tokens = [lmtzr.lemmatize(word, 'v') for word in tokens]
         # stemming
         return tokens
-    except :
-        return [' ']
-
-
+    except:
+        return ['']
 def call_stopwords():
-    with open('stopwords.txt', 'r') as f:
+    with open('./tokenizer/stopwords.txt', 'r') as f:
         stopwords = f.readlines()
         stopwords = list(map((lambda x: x.rstrip('\n')), stopwords))
     return stopwords
