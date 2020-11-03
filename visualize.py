@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[16]:
+# In[22]:
 
 
 import pandas as pd
@@ -12,8 +12,9 @@ import pyLDAvis.gensim as gensimvis
 import pyLDAvis
 import os
 from tqdm import tqdm
+from tqdm._tqdm_notebook import tqdm_notebook
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
-from tokenizer.korean_tokenizer import tokenize_nori,tokenize_okt
+from tokenizer.korean_tokenizer import tokenize_nori,tokenize_okt,tokenize_okt_noscreen
 from gensim.models import LdaModel
 from os.path import join
 from os import remove
@@ -21,19 +22,24 @@ from gensim.models import Word2Vec
 from collections import Counter
 from render import render
 from tokenizer.english_tokenizer import tokenize_nltk
-tqdm.pandas()
+tqdm_notebook.pandas()
 
 
-# In[3]:
+# In[21]:
 
 
 korean_df_folder = join('korean_crawling','articles')
 for file in os.listdir(korean_df_folder):
-    if file.endswith("merged.xlsx"):
+    if file.endswith(".xlsx"):
         korean_df = pd.read_excel(join(korean_df_folder,file))
-        korean_df.rename(columns={"urls" : "url","titles":"title","contents":"content"},inplace=True)
-korean_df=korean_df.drop(['Unnamed: 0'],axis=1)
-korean_df.head()
+        try:
+            korean_df.rename(columns={"urls" : "url","titles":"title","contents":"content"},inplace=True)
+            korean_df=korean_df.drop(['Unnamed: 0'],axis=1)
+        except:
+            pass
+        print(korean_df[:1])
+        visualize_korean(korean_df,tokenize_okt_noscreen,'./visualize/korean_visualize/'+file.rstrip('.xlsx')+'./unscreen')
+        visualize_korean(korean_df,tokenize_okt,'./visualize/korean_visualize/'+file.rstrip('.xlsx')+'./screen')
 
 
 # In[4]:
@@ -43,9 +49,13 @@ english_df = pd.DataFrame()
 for file in os.listdir(join('english_crawling','result')):
     if file.endswith('.csv'):
         temp_df = pd.read_csv(join('english_crawling','result',file))
+        try:
+            temp_df.rename(columns={"urls" : "url","titles":"title","contents":"content"},inplace=True)
+        except:
+            pass
+        visualize_english(temp_df,'./visualize/english_visualize/'+file.rstrip('.csv'))
         english_df = pd.concat([english_df,temp_df])
-english_df.rename(columns={"urls" : "url","titles":"title","contents":"content"},inplace=True)
-english_df.head()
+visualize_english(english_df,'./visualize/english_visualize/merge')
 
 
 # In[5]:
@@ -56,13 +66,17 @@ for folder in os.listdir(join('journal_crawling')):
     for file in os.listdir(join('journal_crawling',folder)):
         if file.endswith('.csv'):
             temp_df = pd.read_csv(join('journal_crawling',folder,file))
-            temp_df.rename(columns={"urls" : "url","titles":"title","contents":"content"},inplace=True)
+            try:
+                temp_df.rename(columns={"urls" : "url","titles":"title","contents":"content"},inplace=True)
+                temp_df=temp_df.drop(['Unnamed: 0'],axis=1)
+            except:
+                pass
+            visualize_english(temp_df,'./visualize/journal_visualize/'+file.rstrip('.csv'))
             journal_df = pd.concat([journal_df,temp_df])
-journal_df=journal_df.drop(['Unnamed: 0'],axis=1)
-journal_df.head()
+visualize_english(english_df,'./visualize/journal_visualize/merge')
 
 
-# In[6]:
+# In[4]:
 
 
 def identity_tokenizer(text):
@@ -76,7 +90,7 @@ def identity_tokenizer(text):
     return list1
 
 
-# In[7]:
+# In[5]:
 
 
 def TfidfWord(df):
@@ -111,7 +125,7 @@ def TfidfWord(df):
     return words_list_content, words_list_title
 
 
-# In[8]:
+# In[6]:
 
 
 def CountWord(df):
@@ -146,7 +160,7 @@ def CountWord(df):
     return words_list_content, words_list_title
 
 
-# In[9]:
+# In[7]:
 
 
 
@@ -194,7 +208,7 @@ def topic_modeling(corpus_path,html_path):
     pyLDAvis.save_html(prepared_data, html_path)
 
 
-# In[10]:
+# In[8]:
 
 
 def find_cooccur(tokens,target,window,num):
@@ -221,7 +235,7 @@ def find_cooccur(tokens,target,window,num):
         
 
 
-# In[11]:
+# In[9]:
 
 
 def stopwords_remove(dict):
@@ -234,7 +248,7 @@ def stopwords_remove(dict):
     return dict 
 
 
-# In[12]:
+# In[10]:
 
 
 def word_tuple2dict(tups):
@@ -245,7 +259,7 @@ def word_tuple2dict(tups):
     return target_dict
 
 
-# In[13]:
+# In[11]:
 
 
 def dftotext(df,path):
@@ -255,14 +269,13 @@ def dftotext(df,path):
                 f.write(' '.join(text)+'\n')
 
 
-# In[15]:
+# In[12]:
 
 
-def visualize_korean(df,root_path,topic_num=10,keyword_num=50,topn=10):
+def visualize_korean(df,tokenizer,root_path,topic_num=10,keyword_num=50,topn=10):
     os.makedirs(root_path,exist_ok = True)
     print('Tokenize Start')
-    #df =tokenize_nori(df)
-    df = tokenize_okt(df)
+    df = tokenizer(df)
     print('Tokenize End')
     detoken_path = join(root_path,'detokenize_text.txt')
     dftotext(df,detoken_path)
@@ -324,15 +337,14 @@ def visualize_korean(df,root_path,topic_num=10,keyword_num=50,topn=10):
             with open(join(root_path,'content_wordcloud'+'.html'), 'w', encoding='UTF-8-sig') as file:
                 file.write(render(json.dumps(keyword_list, ensure_ascii=False)))
         else:
-            with open(join(root_path,'title_worldcloud'+'.html'), 'w', encoding='UTF-8-sig') as file:
+            with open(join(root_path,'title_wordcloud'+'.html'), 'w', encoding='UTF-8-sig') as file:
                 file.write(render(json.dumps(keyword_list, ensure_ascii=False)))
         print('made visualize file')
         
-visualize_korean(korean_df,'./result/korean_visualize')
     
 
 
-# In[14]:
+# In[13]:
 
 
 def visualize_english(df,root_path,topic_num=10,keyword_num=50,topn=10):
@@ -404,12 +416,4 @@ def visualize_english(df,root_path,topic_num=10,keyword_num=50,topn=10):
                 file.write(render(json.dumps(keyword_list, ensure_ascii=False)))
         print('made visualize file')
         
-visualize_english(english_df,'./result/english_visualize')
-visualize_english(journal_df,'./result/journal_visualize')
-
-
-# In[ ]:
-
-
-
 
