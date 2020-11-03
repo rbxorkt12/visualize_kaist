@@ -5,7 +5,7 @@ import requests
 import json
 import time
 import re
-from ckonlpy.tag import Okt
+from ckonlpy.tag import Twitter
 from ckonlpy.tag import Postprocessor
 from ckonlpy.utils import load_wordset
 
@@ -14,7 +14,7 @@ tokenizer_url = 'http://localhost:9200/mix_tokenizer'
 
 
 def call_userword():
-    with open('./korean_userword.txt', 'r', encoding='utf-8-sig') as f:
+    with open('./tokenizer/korean_userword.txt', 'r', encoding='utf-8-sig') as f:
         return f.readlines()
 
 
@@ -100,10 +100,10 @@ def tokenize_nori(raw_data, analyzer_url='http://localhost:9200/mix_tokenizer'):
 
 
 def tokenize_okt(df):
-    okt = Okt()
+    okt = Twitter()
     okt.add_dictionary(call_userword(), 'Noun')
-    stopwords = load_wordset('./korean_stopword.txt')
-    stopwords = stopwords + load_wordset('./korean_screen.txt')
+    stopwords = load_wordset('./tokenizer/korean_stopword.txt')
+    stopwords = stopwords | load_wordset('./tokenizer/korean_screen.txt')
     postprocessor = Postprocessor(okt, stopwords=stopwords)
     df['content_token'] = df.progress_apply(lambda x: [t[0] for t in okt.pos(
         x['content'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective']], axis=1)
@@ -113,10 +113,10 @@ def tokenize_okt(df):
 
 
 def tokenize_okt_noscreen(df):
-    okt = Okt()
+    okt = Twitter()
     okt.add_dictionary(call_userword(), 'Noun')
-    stopwords = load_wordset('./korean_stopword.txt')
-    #stopwords = stopwords + load_wordset('./korean_screen.txt')
+    stopwords = load_wordset('./tokenizer/korean_stopword.txt')
+    #stopwords = stopwords + load_wordset('./tokenizer/korean_screen.txt')
     postprocessor = Postprocessor(okt, stopwords=stopwords)
     df['content_token'] = df.progress_apply(lambda x: [t[0] for t in okt.pos(
         x['content'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective']], axis=1)

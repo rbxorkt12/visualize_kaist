@@ -1,0 +1,339 @@
+﻿<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+</head>
+<style>
+    .link  {
+    stroke: #999;
+    stroke-opacity: 0.6;
+    }
+
+    .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+    }
+
+    .outline {
+    outline: 6px solid black;
+    outline-style:dashed;
+    }
+    .outline-nondash {
+    outline: 6px solid black;
+    outline-style:auto;
+    }
+    .small {
+        font-size: 15px;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+</style>
+
+<body>
+    <div class="wordcloud">
+        <h1 font-family='san-serif'>Word Cloud</h1>
+    </div>
+    <div class="cooccur">
+        <h1 font-family='san-serif'>Cooccurence Detail</h1>
+    </div>
+    <h1 class="small">문장내에서 자주 같이 출연하는 단어들의 상위 10개 단어의 네트워크입니다.</h1>
+    <div class="similar">
+        <h1 font-family='san-serif'>Similar Detail</h1>
+    </div>
+    <h1 class="small">문장 등장 위치에 따른 유사하다고 생각되는 단어 top 10의 네트워크입니다..</h1>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js" type="text/JavaScript">
+    </script>
+    <script>
+        var dataAnalyze = [{"keyword": "하다", "score": 219, "cooccur": [{"index": 1, "subkeyword": "있다", "cooccur_num": 6877}, {"index": 2, "subkeyword": "고", "cooccur_num": 5864}, {"index": 3, "subkeyword": "수", "cooccur_num": 4863}, {"index": 4, "subkeyword": "말", "cooccur_num": 4641}, {"index": 5, "subkeyword": "것", "cooccur_num": 4226}, {"index": 6, "subkeyword": "되다", "cooccur_num": 2199}, {"index": 7, "subkeyword": "이", "cooccur_num": 2151}, {"index": 8, "subkeyword": "들다", "cooccur_num": 1796}, {"index": 9, "subkeyword": "그", "cooccur_num": 1691}, {"index": 10, "subkeyword": "않다", "cooccur_num": 1661}], "similar": [{"index": 1, "subkeyword": "달다", "cooccur_num": 0.6344118118286133}, {"index": 2, "subkeyword": "반적", "cooccur_num": 0.5984992980957031}, {"index": 3, "subkeyword": "방적", "cooccur_num": 0.5914703607559204}, {"index": 4, "subkeyword": "하자", "cooccur_num": 0.5896924734115601}, {"index": 5, "subkeyword": "대견하다", "cooccur_num": 0.5542463064193726}, {"index": 6, "subkeyword": "중등교육", "cooccur_num": 0.5484058856964111}, {"index": 7, "subkeyword": "이렇다", "cooccur_num": 0.5481551885604858}, {"index": 8, "subkeyword": "깨달", "cooccur_num": 0.5463905334472656}, {"index": 9, "subkeyword": "나가다", "cooccur_num": 0.5461087226867676}, {"index": 10, "subkeyword": "돼다", "cooccur_num": 0.545918881893158}]}, {"keyword": "한국", "score": 152, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 1110}, {"index": 2, "subkeyword": "있다", "cooccur_num": 505}, {"index": 3, "subkeyword": "과학기술원", "cooccur_num": 459}, {"index": 4, "subkeyword": "연구원", "cooccur_num": 348}, {"index": 5, "subkeyword": "당", "cooccur_num": 342}, {"index": 6, "subkeyword": "교수", "cooccur_num": 289}, {"index": 7, "subkeyword": "기술", "cooccur_num": 253}, {"index": 8, "subkeyword": "과학기술", "cooccur_num": 239}, {"index": 9, "subkeyword": "산업", "cooccur_num": 224}, {"index": 10, "subkeyword": "연구", "cooccur_num": 222}], "similar": [{"index": 1, "subkeyword": "미국", "cooccur_num": 0.6219661235809326}, {"index": 2, "subkeyword": "연구소", "cooccur_num": 0.621835470199585}, {"index": 3, "subkeyword": "케냐", "cooccur_num": 0.601830005645752}, {"index": 4, "subkeyword": "대한민국", "cooccur_num": 0.5895326137542725}, {"index": 5, "subkeyword": "일본", "cooccur_num": 0.5814013481140137}, {"index": 6, "subkeyword": "분석관", "cooccur_num": 0.5805644989013672}, {"index": 7, "subkeyword": "독일", "cooccur_num": 0.5759874582290649}, {"index": 8, "subkeyword": "원자력", "cooccur_num": 0.5733082890510559}, {"index": 9, "subkeyword": "중국", "cooccur_num": 0.5652197599411011}, {"index": 10, "subkeyword": "기초과학", "cooccur_num": 0.5588476657867432}]}, {"keyword": "들다", "score": 92, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 1786}, {"index": 2, "subkeyword": "있다", "cooccur_num": 916}, {"index": 3, "subkeyword": "학생", "cooccur_num": 776}, {"index": 4, "subkeyword": "사람", "cooccur_num": 512}, {"index": 5, "subkeyword": "기업", "cooccur_num": 366}, {"index": 6, "subkeyword": "되다", "cooccur_num": 366}, {"index": 7, "subkeyword": "이", "cooccur_num": 335}, {"index": 8, "subkeyword": "것", "cooccur_num": 327}, {"index": 9, "subkeyword": "교수", "cooccur_num": 317}, {"index": 10, "subkeyword": "수", "cooccur_num": 271}], "similar": [{"index": 1, "subkeyword": "들이다", "cooccur_num": 0.9432060718536377}, {"index": 2, "subkeyword": "불만족", "cooccur_num": 0.6162776947021484}, {"index": 3, "subkeyword": "입", "cooccur_num": 0.5978386402130127}, {"index": 4, "subkeyword": "부하", "cooccur_num": 0.5896134972572327}, {"index": 5, "subkeyword": "학부모", "cooccur_num": 0.5763335227966309}, {"index": 6, "subkeyword": "셀파", "cooccur_num": 0.5669352412223816}, {"index": 7, "subkeyword": "간", "cooccur_num": 0.5666059255599976}, {"index": 8, "subkeyword": "다른", "cooccur_num": 0.5660219192504883}, {"index": 9, "subkeyword": "수경", "cooccur_num": 0.5538392066955566}, {"index": 10, "subkeyword": "멘트", "cooccur_num": 0.5503195524215698}]}, {"keyword": "대학", "score": 90, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 823}, {"index": 2, "subkeyword": "개", "cooccur_num": 389}, {"index": 3, "subkeyword": "있다", "cooccur_num": 336}, {"index": 4, "subkeyword": "위", "cooccur_num": 281}, {"index": 5, "subkeyword": "등", "cooccur_num": 269}, {"index": 6, "subkeyword": "교수", "cooccur_num": 252}, {"index": 7, "subkeyword": "이", "cooccur_num": 232}, {"index": 8, "subkeyword": "들다", "cooccur_num": 212}, {"index": 9, "subkeyword": "중", "cooccur_num": 208}, {"index": 10, "subkeyword": "평가", "cooccur_num": 206}], "similar": [{"index": 1, "subkeyword": "명문", "cooccur_num": 0.735662579536438}, {"index": 2, "subkeyword": "연구자", "cooccur_num": 0.7337924242019653}, {"index": 3, "subkeyword": "상위", "cooccur_num": 0.732110321521759}, {"index": 4, "subkeyword": "학교", "cooccur_num": 0.7257376909255981}, {"index": 5, "subkeyword": "진학", "cooccur_num": 0.721349835395813}, {"index": 6, "subkeyword": "선망", "cooccur_num": 0.7105291485786438}, {"index": 7, "subkeyword": "학과", "cooccur_num": 0.7081509828567505}, {"index": 8, "subkeyword": "이공", "cooccur_num": 0.7060410976409912}, {"index": 9, "subkeyword": "졸업생", "cooccur_num": 0.7037166357040405}, {"index": 10, "subkeyword": "등급", "cooccur_num": 0.7002447247505188}]}, {"keyword": "되다", "score": 81, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 2172}, {"index": 2, "subkeyword": "있다", "cooccur_num": 1505}, {"index": 3, "subkeyword": "것", "cooccur_num": 1457}, {"index": 4, "subkeyword": "수", "cooccur_num": 664}, {"index": 5, "subkeyword": "않다", "cooccur_num": 530}, {"index": 6, "subkeyword": "이", "cooccur_num": 496}, {"index": 7, "subkeyword": "안", "cooccur_num": 480}, {"index": 8, "subkeyword": "고", "cooccur_num": 425}, {"index": 9, "subkeyword": "들다", "cooccur_num": 387}, {"index": 10, "subkeyword": "적", "cooccur_num": 365}], "similar": [{"index": 1, "subkeyword": "돼다", "cooccur_num": 0.8940793871879578}, {"index": 2, "subkeyword": "되어다", "cooccur_num": 0.6157857179641724}, {"index": 3, "subkeyword": "시키다", "cooccur_num": 0.5709983110427856}, {"index": 4, "subkeyword": "늦어지다", "cooccur_num": 0.5668938159942627}, {"index": 5, "subkeyword": "달다", "cooccur_num": 0.5553167462348938}, {"index": 6, "subkeyword": "전하", "cooccur_num": 0.5260742902755737}, {"index": 7, "subkeyword": "중등교육", "cooccur_num": 0.5236010551452637}, {"index": 8, "subkeyword": "절차", "cooccur_num": 0.5172869563102722}, {"index": 9, "subkeyword": "드러나다", "cooccur_num": 0.5130060315132141}, {"index": 10, "subkeyword": "자잘하다", "cooccur_num": 0.5128159523010254}]}, {"keyword": "지능", "score": 80, "cooccur": [{"index": 1, "subkeyword": "인공", "cooccur_num": 2077}, {"index": 2, "subkeyword": "하다", "cooccur_num": 539}, {"index": 3, "subkeyword": "있다", "cooccur_num": 233}, {"index": 4, "subkeyword": "기술", "cooccur_num": 221}, {"index": 5, "subkeyword": "되다", "cooccur_num": 158}, {"index": 6, "subkeyword": "인간", "cooccur_num": 149}, {"index": 7, "subkeyword": "로봇", "cooccur_num": 139}, {"index": 8, "subkeyword": "등", "cooccur_num": 136}, {"index": 9, "subkeyword": "것", "cooccur_num": 125}, {"index": 10, "subkeyword": "시대", "cooccur_num": 102}], "similar": [{"index": 1, "subkeyword": "강우", "cooccur_num": 0.9060406684875488}, {"index": 2, "subkeyword": "신경망", "cooccur_num": 0.8802093267440796}, {"index": 3, "subkeyword": "광합성", "cooccur_num": 0.8449026346206665}, {"index": 4, "subkeyword": "유승화", "cooccur_num": 0.8417342901229858}, {"index": 5, "subkeyword": "장기로", "cooccur_num": 0.8379058837890625}, {"index": 6, "subkeyword": "어감", "cooccur_num": 0.8355358839035034}, {"index": 7, "subkeyword": "감미료", "cooccur_num": 0.8151968717575073}, {"index": 8, "subkeyword": "조동우", "cooccur_num": 0.7471000552177429}, {"index": 9, "subkeyword": "거미줄", "cooccur_num": 0.7445974349975586}, {"index": 10, "subkeyword": "프린팅", "cooccur_num": 0.7248474955558777}]}, {"keyword": "기술", "score": 79, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 1185}, {"index": 2, "subkeyword": "있다", "cooccur_num": 544}, {"index": 3, "subkeyword": "개발", "cooccur_num": 499}, {"index": 4, "subkeyword": "등", "cooccur_num": 329}, {"index": 5, "subkeyword": "되다", "cooccur_num": 316}, {"index": 6, "subkeyword": "한국", "cooccur_num": 263}, {"index": 7, "subkeyword": "적", "cooccur_num": 260}, {"index": 8, "subkeyword": "지능", "cooccur_num": 238}, {"index": 9, "subkeyword": "수", "cooccur_num": 227}, {"index": 10, "subkeyword": "인공", "cooccur_num": 215}], "similar": [{"index": 1, "subkeyword": "모델", "cooccur_num": 0.7766424417495728}, {"index": 2, "subkeyword": "핵심", "cooccur_num": 0.7487581968307495}, {"index": 3, "subkeyword": "원천", "cooccur_num": 0.7436990737915039}, {"index": 4, "subkeyword": "강소기업", "cooccur_num": 0.7391999959945679}, {"index": 5, "subkeyword": "에너지", "cooccur_num": 0.735908031463623}, {"index": 6, "subkeyword": "범용", "cooccur_num": 0.7345054745674133}, {"index": 7, "subkeyword": "빅데이터", "cooccur_num": 0.7343498468399048}, {"index": 8, "subkeyword": "응용", "cooccur_num": 0.7320592403411865}, {"index": 9, "subkeyword": "기반", "cooccur_num": 0.7291146516799927}, {"index": 10, "subkeyword": "소프트웨어", "cooccur_num": 0.7260257005691528}]}, {"keyword": "인공", "score": 78, "cooccur": [{"index": 1, "subkeyword": "지능", "cooccur_num": 2091}, {"index": 2, "subkeyword": "하다", "cooccur_num": 512}, {"index": 3, "subkeyword": "있다", "cooccur_num": 252}, {"index": 4, "subkeyword": "기술", "cooccur_num": 195}, {"index": 5, "subkeyword": "되다", "cooccur_num": 149}, {"index": 6, "subkeyword": "것", "cooccur_num": 135}, {"index": 7, "subkeyword": "등", "cooccur_num": 117}, {"index": 8, "subkeyword": "인간", "cooccur_num": 105}, {"index": 9, "subkeyword": "시대", "cooccur_num": 100}, {"index": 10, "subkeyword": "수", "cooccur_num": 96}], "similar": [{"index": 1, "subkeyword": "정보사회", "cooccur_num": 0.8931679725646973}, {"index": 2, "subkeyword": "재산가", "cooccur_num": 0.829181432723999}, {"index": 3, "subkeyword": "조슈아", "cooccur_num": 0.8015909194946289}, {"index": 4, "subkeyword": "몽상", "cooccur_num": 0.7725672721862793}, {"index": 5, "subkeyword": "녀석", "cooccur_num": 0.7686556577682495}, {"index": 6, "subkeyword": "김진형", "cooccur_num": 0.7605623006820679}, {"index": 7, "subkeyword": "싱귤래리티", "cooccur_num": 0.7301846146583557}, {"index": 8, "subkeyword": "민첩", "cooccur_num": 0.7268987894058228}, {"index": 9, "subkeyword": "초지", "cooccur_num": 0.7107837200164795}, {"index": 10, "subkeyword": "형", "cooccur_num": 0.7101043462753296}]}, {"keyword": "대다", "score": 77, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 465}, {"index": 2, "subkeyword": "표적", "cooccur_num": 251}, {"index": 3, "subkeyword": "교수", "cooccur_num": 224}, {"index": 4, "subkeyword": "있다", "cooccur_num": 192}, {"index": 5, "subkeyword": "등", "cooccur_num": 174}, {"index": 6, "subkeyword": "한국", "cooccur_num": 160}, {"index": 7, "subkeyword": "위", "cooccur_num": 114}, {"index": 8, "subkeyword": "기술", "cooccur_num": 113}, {"index": 9, "subkeyword": "명", "cooccur_num": 112}, {"index": 10, "subkeyword": "미국", "cooccur_num": 103}], "similar": [{"index": 1, "subkeyword": "표적", "cooccur_num": 0.6887167096138}, {"index": 2, "subkeyword": "김경훈", "cooccur_num": 0.6748363971710205}, {"index": 3, "subkeyword": "공과", "cooccur_num": 0.6737637519836426}, {"index": 4, "subkeyword": "부산", "cooccur_num": 0.6699728965759277}, {"index": 5, "subkeyword": "울산", "cooccur_num": 0.6664828062057495}, {"index": 6, "subkeyword": "경북", "cooccur_num": 0.6568090319633484}, {"index": 7, "subkeyword": "과기원", "cooccur_num": 0.6565419435501099}, {"index": 8, "subkeyword": "국립대", "cooccur_num": 0.650770902633667}, {"index": 9, "subkeyword": "명문", "cooccur_num": 0.6484664678573608}, {"index": 10, "subkeyword": "경쟁률", "cooccur_num": 0.6484280228614807}]}, {"keyword": "세계", "score": 73, "cooccur": [{"index": 1, "subkeyword": "적", "cooccur_num": 441}, {"index": 2, "subkeyword": "하다", "cooccur_num": 432}, {"index": 3, "subkeyword": "전", "cooccur_num": 282}, {"index": 4, "subkeyword": "위", "cooccur_num": 225}, {"index": 5, "subkeyword": "있다", "cooccur_num": 225}, {"index": 6, "subkeyword": "최초", "cooccur_num": 193}, {"index": 7, "subkeyword": "대학", "cooccur_num": 163}, {"index": 8, "subkeyword": "시장", "cooccur_num": 160}, {"index": 9, "subkeyword": "최고", "cooccur_num": 127}, {"index": 10, "subkeyword": "기술", "cooccur_num": 124}], "similar": [{"index": 1, "subkeyword": "화성인", "cooccur_num": 0.7371483445167542}, {"index": 2, "subkeyword": "국내", "cooccur_num": 0.7129425406455994}, {"index": 3, "subkeyword": "치안정감", "cooccur_num": 0.6873823404312134}, {"index": 4, "subkeyword": "독보", "cooccur_num": 0.6537344455718994}, {"index": 5, "subkeyword": "문적", "cooccur_num": 0.6519192457199097}, {"index": 6, "subkeyword": "지질시대", "cooccur_num": 0.6161442995071411}, {"index": 7, "subkeyword": "압도", "cooccur_num": 0.6154900789260864}, {"index": 8, "subkeyword": "피츠버그", "cooccur_num": 0.6152869462966919}, {"index": 9, "subkeyword": "독일", "cooccur_num": 0.6145846247673035}, {"index": 10, "subkeyword": "일본", "cooccur_num": 0.6140387654304504}]}, {"keyword": "로봇", "score": 64, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 526}, {"index": 2, "subkeyword": "있다", "cooccur_num": 164}, {"index": 3, "subkeyword": "개발", "cooccur_num": 157}, {"index": 4, "subkeyword": "지능", "cooccur_num": 134}, {"index": 5, "subkeyword": "되다", "cooccur_num": 119}, {"index": 6, "subkeyword": "기술", "cooccur_num": 116}, {"index": 7, "subkeyword": "형", "cooccur_num": 104}, {"index": 8, "subkeyword": "등", "cooccur_num": 102}, {"index": 9, "subkeyword": "인간", "cooccur_num": 102}, {"index": 10, "subkeyword": "인공", "cooccur_num": 94}], "similar": [{"index": 1, "subkeyword": "휴머노이드", "cooccur_num": 0.8508593440055847}, {"index": 2, "subkeyword": "딥", "cooccur_num": 0.7953077554702759}, {"index": 3, "subkeyword": "킬러", "cooccur_num": 0.7898538112640381}, {"index": 4, "subkeyword": "휴보", "cooccur_num": 0.7808237671852112}, {"index": 5, "subkeyword": "러블", "cooccur_num": 0.7705272436141968}, {"index": 6, "subkeyword": "러닝", "cooccur_num": 0.7618182897567749}, {"index": 7, "subkeyword": "용", "cooccur_num": 0.7572394609451294}, {"index": 8, "subkeyword": "웨어", "cooccur_num": 0.7515811920166016}, {"index": 9, "subkeyword": "머신", "cooccur_num": 0.7499946355819702}, {"index": 10, "subkeyword": "드론", "cooccur_num": 0.7477661371231079}]}, {"keyword": "없다", "score": 62, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 1446}, {"index": 2, "subkeyword": "수", "cooccur_num": 1195}, {"index": 3, "subkeyword": "것", "cooccur_num": 343}, {"index": 4, "subkeyword": "고", "cooccur_num": 266}, {"index": 5, "subkeyword": "있다", "cooccur_num": 259}, {"index": 6, "subkeyword": "되다", "cooccur_num": 225}, {"index": 7, "subkeyword": "적", "cooccur_num": 217}, {"index": 8, "subkeyword": "말", "cooccur_num": 205}, {"index": 9, "subkeyword": "며", "cooccur_num": 175}, {"index": 10, "subkeyword": "들다", "cooccur_num": 174}], "similar": [{"index": 1, "subkeyword": "있다", "cooccur_num": 0.8742416501045227}, {"index": 2, "subkeyword": "하윤", "cooccur_num": 0.8216336965560913}, {"index": 3, "subkeyword": "라보", "cooccur_num": 0.6919684410095215}, {"index": 4, "subkeyword": "볼", "cooccur_num": 0.6812024116516113}, {"index": 5, "subkeyword": "조강", "cooccur_num": 0.6643922328948975}, {"index": 6, "subkeyword": "생기다", "cooccur_num": 0.6575525999069214}, {"index": 7, "subkeyword": "강하", "cooccur_num": 0.6558929085731506}, {"index": 8, "subkeyword": "유추", "cooccur_num": 0.6476664543151855}, {"index": 9, "subkeyword": "백억원", "cooccur_num": 0.6233231425285339}, {"index": 10, "subkeyword": "느끼다", "cooccur_num": 0.6231255531311035}]}, {"keyword": "시대", "score": 61, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 174}, {"index": 2, "subkeyword": "차", "cooccur_num": 148}, {"index": 3, "subkeyword": "산업혁명", "cooccur_num": 128}, {"index": 4, "subkeyword": "인공", "cooccur_num": 100}, {"index": 5, "subkeyword": "지능", "cooccur_num": 100}, {"index": 6, "subkeyword": "있다", "cooccur_num": 88}, {"index": 7, "subkeyword": "되다", "cooccur_num": 63}, {"index": 8, "subkeyword": "것", "cooccur_num": 58}, {"index": 9, "subkeyword": "적", "cooccur_num": 54}, {"index": 10, "subkeyword": "맞다", "cooccur_num": 49}], "similar": [{"index": 1, "subkeyword": "혁명", "cooccur_num": 0.9287827610969543}, {"index": 2, "subkeyword": "인류", "cooccur_num": 0.8677586913108826}, {"index": 3, "subkeyword": "원시", "cooccur_num": 0.8616205453872681}, {"index": 4, "subkeyword": "정지선", "cooccur_num": 0.8423950672149658}, {"index": 5, "subkeyword": "도래", "cooccur_num": 0.8382017612457275}, {"index": 6, "subkeyword": "변혁", "cooccur_num": 0.8369007706642151}, {"index": 7, "subkeyword": "육체노동", "cooccur_num": 0.8211575746536255}, {"index": 8, "subkeyword": "문명", "cooccur_num": 0.8053061962127686}, {"index": 9, "subkeyword": "무버", "cooccur_num": 0.8011841773986816}, {"index": 10, "subkeyword": "지구", "cooccur_num": 0.8007323741912842}]}, {"keyword": "미래", "score": 60, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 408}, {"index": 2, "subkeyword": "전략", "cooccur_num": 214}, {"index": 3, "subkeyword": "기술", "cooccur_num": 165}, {"index": 4, "subkeyword": "있다", "cooccur_num": 163}, {"index": 5, "subkeyword": "되다", "cooccur_num": 108}, {"index": 6, "subkeyword": "대학원", "cooccur_num": 98}, {"index": 7, "subkeyword": "교수", "cooccur_num": 93}, {"index": 8, "subkeyword": "것", "cooccur_num": 92}, {"index": 9, "subkeyword": "등", "cooccur_num": 87}, {"index": 10, "subkeyword": "한국", "cooccur_num": 86}], "similar": [{"index": 1, "subkeyword": "시대", "cooccur_num": 0.7359188795089722}, {"index": 2, "subkeyword": "발전", "cooccur_num": 0.728095531463623}, {"index": 3, "subkeyword": "전략", "cooccur_num": 0.7142043113708496}, {"index": 4, "subkeyword": "혁명", "cooccur_num": 0.687598705291748}, {"index": 5, "subkeyword": "앤잡", "cooccur_num": 0.6868053078651428}, {"index": 6, "subkeyword": "변혁", "cooccur_num": 0.6747246980667114}, {"index": 7, "subkeyword": "대한민국", "cooccur_num": 0.6703609824180603}, {"index": 8, "subkeyword": "산업사", "cooccur_num": 0.6697956323623657}, {"index": 9, "subkeyword": "성장동력", "cooccur_num": 0.6695822477340698}, {"index": 10, "subkeyword": "육체노동", "cooccur_num": 0.6688727736473083}]}, {"keyword": "만들다", "score": 59, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 559}, {"index": 2, "subkeyword": "있다", "cooccur_num": 395}, {"index": 3, "subkeyword": "것", "cooccur_num": 263}, {"index": 4, "subkeyword": "수", "cooccur_num": 231}, {"index": 5, "subkeyword": "를", "cooccur_num": 120}, {"index": 6, "subkeyword": "들다", "cooccur_num": 112}, {"index": 7, "subkeyword": "내다", "cooccur_num": 109}, {"index": 8, "subkeyword": "이", "cooccur_num": 109}, {"index": 9, "subkeyword": "그", "cooccur_num": 102}, {"index": 10, "subkeyword": "적", "cooccur_num": 91}], "similar": [{"index": 1, "subkeyword": "가지다", "cooccur_num": 0.6674677133560181}, {"index": 2, "subkeyword": "바꾸다", "cooccur_num": 0.6638706922531128}, {"index": 3, "subkeyword": "키우다", "cooccur_num": 0.6624987125396729}, {"index": 4, "subkeyword": "돕다", "cooccur_num": 0.6620205640792847}, {"index": 5, "subkeyword": "사만", "cooccur_num": 0.6437187194824219}, {"index": 6, "subkeyword": "찾다", "cooccur_num": 0.6426632404327393}, {"index": 7, "subkeyword": "수많다", "cooccur_num": 0.6253341436386108}, {"index": 8, "subkeyword": "게임", "cooccur_num": 0.6251802444458008}, {"index": 9, "subkeyword": "도전", "cooccur_num": 0.6223926544189453}, {"index": 10, "subkeyword": "반려견", "cooccur_num": 0.6222540140151978}]}, {"keyword": "과학", "score": 55, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 288}, {"index": 2, "subkeyword": "한국", "cooccur_num": 189}, {"index": 3, "subkeyword": "있다", "cooccur_num": 129}, {"index": 4, "subkeyword": "재단", "cooccur_num": 113}, {"index": 5, "subkeyword": "적", "cooccur_num": 106}, {"index": 6, "subkeyword": "원", "cooccur_num": 99}, {"index": 7, "subkeyword": "연구", "cooccur_num": 79}, {"index": 8, "subkeyword": "수학", "cooccur_num": 71}, {"index": 9, "subkeyword": "영재", "cooccur_num": 70}, {"index": 10, "subkeyword": "등", "cooccur_num": 66}], "similar": [{"index": 1, "subkeyword": "종횡무진", "cooccur_num": 0.7712190747261047}, {"index": 2, "subkeyword": "과학자", "cooccur_num": 0.7315802574157715}, {"index": 3, "subkeyword": "탐구", "cooccur_num": 0.708695650100708}, {"index": 4, "subkeyword": "수학", "cooccur_num": 0.7016602158546448}, {"index": 5, "subkeyword": "예술", "cooccur_num": 0.6958107352256775}, {"index": 6, "subkeyword": "창의", "cooccur_num": 0.6924312710762024}, {"index": 7, "subkeyword": "공상", "cooccur_num": 0.6821637153625488}, {"index": 8, "subkeyword": "영재", "cooccur_num": 0.6803252696990967}, {"index": 9, "subkeyword": "기초과학", "cooccur_num": 0.6697481274604797}, {"index": 10, "subkeyword": "애덤스", "cooccur_num": 0.6658684015274048}]}, {"keyword": "가다", "score": 53, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 636}, {"index": 2, "subkeyword": "있다", "cooccur_num": 330}, {"index": 3, "subkeyword": "되다", "cooccur_num": 238}, {"index": 4, "subkeyword": "것", "cooccur_num": 154}, {"index": 5, "subkeyword": "이", "cooccur_num": 115}, {"index": 6, "subkeyword": "까운", "cooccur_num": 108}, {"index": 7, "subkeyword": "한국", "cooccur_num": 107}, {"index": 8, "subkeyword": "그", "cooccur_num": 100}, {"index": 9, "subkeyword": "들다", "cooccur_num": 98}, {"index": 10, "subkeyword": "위", "cooccur_num": 85}], "similar": [{"index": 1, "subkeyword": "문샷", "cooccur_num": 0.7241402864456177}, {"index": 2, "subkeyword": "도", "cooccur_num": 0.7028400897979736}, {"index": 3, "subkeyword": "중반", "cooccur_num": 0.6639232635498047}, {"index": 4, "subkeyword": "폴크스바겐", "cooccur_num": 0.6426153182983398}, {"index": 5, "subkeyword": "로", "cooccur_num": 0.6412094831466675}, {"index": 6, "subkeyword": "화성인", "cooccur_num": 0.637771725654602}, {"index": 7, "subkeyword": "플로리다", "cooccur_num": 0.6358125805854797}, {"index": 8, "subkeyword": "선비", "cooccur_num": 0.6302510499954224}, {"index": 9, "subkeyword": "천년", "cooccur_num": 0.6191166043281555}, {"index": 10, "subkeyword": "아이큐", "cooccur_num": 0.6184837818145752}]}, {"keyword": "개발", "score": 51, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 916}, {"index": 2, "subkeyword": "기술", "cooccur_num": 495}, {"index": 3, "subkeyword": "있다", "cooccur_num": 327}, {"index": 4, "subkeyword": "등", "cooccur_num": 164}, {"index": 5, "subkeyword": "연구", "cooccur_num": 162}, {"index": 6, "subkeyword": "되다", "cooccur_num": 154}, {"index": 7, "subkeyword": "로봇", "cooccur_num": 152}, {"index": 8, "subkeyword": "수", "cooccur_num": 136}, {"index": 9, "subkeyword": "한국", "cooccur_num": 115}, {"index": 10, "subkeyword": "이", "cooccur_num": 109}], "similar": [{"index": 1, "subkeyword": "소아마비", "cooccur_num": 0.7949175834655762}, {"index": 2, "subkeyword": "제작", "cooccur_num": 0.7792490124702454}, {"index": 3, "subkeyword": "백신", "cooccur_num": 0.7764943242073059}, {"index": 4, "subkeyword": "홀로그래피", "cooccur_num": 0.7591392993927002}, {"index": 5, "subkeyword": "탑재", "cooccur_num": 0.7542182207107544}, {"index": 6, "subkeyword": "서치", "cooccur_num": 0.7522891759872437}, {"index": 7, "subkeyword": "남양", "cooccur_num": 0.7398709058761597}, {"index": 8, "subkeyword": "원천", "cooccur_num": 0.7381577491760254}, {"index": 9, "subkeyword": "김종희", "cooccur_num": 0.7368287444114685}, {"index": 10, "subkeyword": "휴머노이드", "cooccur_num": 0.735795259475708}]}, {"keyword": "있다", "score": 51, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 6751}, {"index": 2, "subkeyword": "수", "cooccur_num": 6651}, {"index": 3, "subkeyword": "되다", "cooccur_num": 1463}, {"index": 4, "subkeyword": "것", "cooccur_num": 1383}, {"index": 5, "subkeyword": "고", "cooccur_num": 1212}, {"index": 6, "subkeyword": "들다", "cooccur_num": 951}, {"index": 7, "subkeyword": "이", "cooccur_num": 831}, {"index": 8, "subkeyword": "적", "cooccur_num": 783}, {"index": 9, "subkeyword": "말", "cooccur_num": 739}, {"index": 10, "subkeyword": "등", "cooccur_num": 621}], "similar": [{"index": 1, "subkeyword": "없다", "cooccur_num": 0.8742416501045227}, {"index": 2, "subkeyword": "하윤", "cooccur_num": 0.806073009967804}, {"index": 3, "subkeyword": "조강", "cooccur_num": 0.7012434005737305}, {"index": 4, "subkeyword": "유추", "cooccur_num": 0.6887524127960205}, {"index": 5, "subkeyword": "볼", "cooccur_num": 0.658928632736206}, {"index": 6, "subkeyword": "백억원", "cooccur_num": 0.6517640352249146}, {"index": 7, "subkeyword": "라보", "cooccur_num": 0.6150525808334351}, {"index": 8, "subkeyword": "한눈", "cooccur_num": 0.6017186641693115}, {"index": 9, "subkeyword": "최희", "cooccur_num": 0.5944072008132935}, {"index": 10, "subkeyword": "희소성", "cooccur_num": 0.5921602249145508}]}, {"keyword": "삼성", "score": 49, "cooccur": [{"index": 1, "subkeyword": "전자", "cooccur_num": 1016}, {"index": 2, "subkeyword": "하다", "cooccur_num": 308}, {"index": 3, "subkeyword": "있다", "cooccur_num": 147}, {"index": 4, "subkeyword": "반도체", "cooccur_num": 121}, {"index": 5, "subkeyword": "부회장", "cooccur_num": 102}, {"index": 6, "subkeyword": "등", "cooccur_num": 89}, {"index": 7, "subkeyword": "되다", "cooccur_num": 80}, {"index": 8, "subkeyword": "것", "cooccur_num": 70}, {"index": 9, "subkeyword": "이", "cooccur_num": 69}, {"index": 10, "subkeyword": "기술", "cooccur_num": 55}], "similar": [{"index": 1, "subkeyword": "컨버터", "cooccur_num": 0.8014189600944519}, {"index": 2, "subkeyword": "그물", "cooccur_num": 0.7683932781219482}, {"index": 3, "subkeyword": "유플러스", "cooccur_num": 0.7403444051742554}, {"index": 4, "subkeyword": "금성사", "cooccur_num": 0.7362192273139954}, {"index": 5, "subkeyword": "김현석", "cooccur_num": 0.7325054407119751}, {"index": 6, "subkeyword": "전자", "cooccur_num": 0.7243685722351074}, {"index": 7, "subkeyword": "현대차", "cooccur_num": 0.7125965356826782}, {"index": 8, "subkeyword": "그룹", "cooccur_num": 0.7125544548034668}, {"index": 9, "subkeyword": "박일", "cooccur_num": 0.7121899127960205}, {"index": 10, "subkeyword": "부회장", "cooccur_num": 0.7040378451347351}]}, {"keyword": "중앙", "score": 49, "cooccur": [{"index": 1, "subkeyword": "일보", "cooccur_num": 682}, {"index": 2, "subkeyword": "하다", "cooccur_num": 299}, {"index": 3, "subkeyword": "포토", "cooccur_num": 297}, {"index": 4, "subkeyword": "있다", "cooccur_num": 188}, {"index": 5, "subkeyword": "소년", "cooccur_num": 182}, {"index": 6, "subkeyword": "대학평가", "cooccur_num": 138}, {"index": 7, "subkeyword": "온라인", "cooccur_num": 96}, {"index": 8, "subkeyword": "인터뷰", "cooccur_num": 70}, {"index": 9, "subkeyword": "박물관", "cooccur_num": 65}, {"index": 10, "subkeyword": "국립", "cooccur_num": 62}], "similar": [{"index": 1, "subkeyword": "멍석말이", "cooccur_num": 0.771060049533844}, {"index": 2, "subkeyword": "라인", "cooccur_num": 0.7433394193649292}, {"index": 3, "subkeyword": "오십", "cooccur_num": 0.7200358510017395}, {"index": 4, "subkeyword": "창간", "cooccur_num": 0.7145143747329712}, {"index": 5, "subkeyword": "일보", "cooccur_num": 0.674852728843689}, {"index": 6, "subkeyword": "박물관", "cooccur_num": 0.6689409613609314}, {"index": 7, "subkeyword": "로우", "cooccur_num": 0.651400089263916}, {"index": 8, "subkeyword": "일자", "cooccur_num": 0.648159921169281}, {"index": 9, "subkeyword": "바코드", "cooccur_num": 0.6381596326828003}, {"index": 10, "subkeyword": "여론조사", "cooccur_num": 0.6292189359664917}]}, {"keyword": "기업", "score": 46, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 671}, {"index": 2, "subkeyword": "들다", "cooccur_num": 357}, {"index": 3, "subkeyword": "있다", "cooccur_num": 288}, {"index": 4, "subkeyword": "등", "cooccur_num": 232}, {"index": 5, "subkeyword": "들이다", "cooccur_num": 208}, {"index": 6, "subkeyword": "적", "cooccur_num": 186}, {"index": 7, "subkeyword": "국내", "cooccur_num": 177}, {"index": 8, "subkeyword": "개", "cooccur_num": 174}, {"index": 9, "subkeyword": "한국", "cooccur_num": 161}, {"index": 10, "subkeyword": "기술", "cooccur_num": 151}], "similar": [{"index": 1, "subkeyword": "대기업", "cooccur_num": 0.8702715635299683}, {"index": 2, "subkeyword": "스타트업", "cooccur_num": 0.8447661399841309}, {"index": 3, "subkeyword": "중소기업", "cooccur_num": 0.8198847770690918}, {"index": 4, "subkeyword": "해외", "cooccur_num": 0.8166183233261108}, {"index": 5, "subkeyword": "업체", "cooccur_num": 0.7884582281112671}, {"index": 6, "subkeyword": "투자자", "cooccur_num": 0.7871938943862915}, {"index": 7, "subkeyword": "경쟁", "cooccur_num": 0.7870227098464966}, {"index": 8, "subkeyword": "자산", "cooccur_num": 0.7826286554336548}, {"index": 9, "subkeyword": "사업자", "cooccur_num": 0.7810750007629395}, {"index": 10, "subkeyword": "글로벌", "cooccur_num": 0.7665508985519409}]}, {"keyword": "단독", "score": 45, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 27}, {"index": 2, "subkeyword": "기사", "cooccur_num": 18}, {"index": 3, "subkeyword": "인터뷰", "cooccur_num": 17}, {"index": 4, "subkeyword": "관련", "cooccur_num": 15}, {"index": 5, "subkeyword": "중앙", "cooccur_num": 6}, {"index": 6, "subkeyword": "일보", "cooccur_num": 6}, {"index": 7, "subkeyword": "암호", "cooccur_num": 5}, {"index": 8, "subkeyword": "화폐", "cooccur_num": 5}, {"index": 9, "subkeyword": "대표", "cooccur_num": 5}, {"index": 10, "subkeyword": "연구", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "최민", "cooccur_num": 0.942229151725769}, {"index": 2, "subkeyword": "뉴시스", "cooccur_num": 0.9378496408462524}, {"index": 3, "subkeyword": "혜", "cooccur_num": 0.9377354383468628}, {"index": 4, "subkeyword": "대법원", "cooccur_num": 0.9376183748245239}, {"index": 5, "subkeyword": "발단", "cooccur_num": 0.9370829463005066}, {"index": 6, "subkeyword": "천", "cooccur_num": 0.9365088939666748}, {"index": 7, "subkeyword": "곱다", "cooccur_num": 0.9363865852355957}, {"index": 8, "subkeyword": "동창회", "cooccur_num": 0.9356344938278198}, {"index": 9, "subkeyword": "태화", "cooccur_num": 0.9342665672302246}, {"index": 10, "subkeyword": "이정", "cooccur_num": 0.9339420795440674}]}, {"keyword": "대전", "score": 45, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 222}, {"index": 2, "subkeyword": "시", "cooccur_num": 112}, {"index": 3, "subkeyword": "있다", "cooccur_num": 109}, {"index": 4, "subkeyword": "카이스트", "cooccur_num": 92}, {"index": 5, "subkeyword": "기자", "cooccur_num": 88}, {"index": 6, "subkeyword": "오후", "cooccur_num": 70}, {"index": 7, "subkeyword": "한국", "cooccur_num": 69}, {"index": 8, "subkeyword": "유성구", "cooccur_num": 68}, {"index": 9, "subkeyword": "지난", "cooccur_num": 61}, {"index": 10, "subkeyword": "열리다", "cooccur_num": 60}], "similar": [{"index": 1, "subkeyword": "유성구", "cooccur_num": 0.8843364715576172}, {"index": 2, "subkeyword": "서울", "cooccur_num": 0.8674116134643555}, {"index": 3, "subkeyword": "열다", "cooccur_num": 0.8636494874954224}, {"index": 4, "subkeyword": "문지", "cooccur_num": 0.8621809482574463}, {"index": 5, "subkeyword": "기념", "cooccur_num": 0.861957848072052}, {"index": 6, "subkeyword": "중구", "cooccur_num": 0.8604161739349365}, {"index": 7, "subkeyword": "행사", "cooccur_num": 0.8568528294563293}, {"index": 8, "subkeyword": "김성태", "cooccur_num": 0.8560104370117188}, {"index": 9, "subkeyword": "충청", "cooccur_num": 0.852152407169342}, {"index": 10, "subkeyword": "호텔", "cooccur_num": 0.8492297530174255}]}, {"keyword": "연구", "score": 44, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 1257}, {"index": 2, "subkeyword": "교수", "cooccur_num": 484}, {"index": 3, "subkeyword": "있다", "cooccur_num": 395}, {"index": 4, "subkeyword": "팀", "cooccur_num": 339}, {"index": 5, "subkeyword": "한국", "cooccur_num": 257}, {"index": 6, "subkeyword": "등", "cooccur_num": 244}, {"index": 7, "subkeyword": "센터", "cooccur_num": 211}, {"index": 8, "subkeyword": "공동", "cooccur_num": 211}, {"index": 9, "subkeyword": "되다", "cooccur_num": 201}, {"index": 10, "subkeyword": "적", "cooccur_num": 198}], "similar": [{"index": 1, "subkeyword": "김종희", "cooccur_num": 0.7142146825790405}, {"index": 2, "subkeyword": "기초과학", "cooccur_num": 0.6803973913192749}, {"index": 3, "subkeyword": "프로젝트", "cooccur_num": 0.6701576709747314}, {"index": 4, "subkeyword": "분야", "cooccur_num": 0.6494001150131226}, {"index": 5, "subkeyword": "기초", "cooccur_num": 0.6383457183837891}, {"index": 6, "subkeyword": "교외", "cooccur_num": 0.6382623314857483}, {"index": 7, "subkeyword": "성과", "cooccur_num": 0.6321662068367004}, {"index": 8, "subkeyword": "과제", "cooccur_num": 0.6293690204620361}, {"index": 9, "subkeyword": "수행", "cooccur_num": 0.6290234923362732}, {"index": 10, "subkeyword": "협력", "cooccur_num": 0.6240488290786743}]}, {"keyword": "보다", "score": 43, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 709}, {"index": 2, "subkeyword": "있다", "cooccur_num": 324}, {"index": 3, "subkeyword": "것", "cooccur_num": 263}, {"index": 4, "subkeyword": "들다", "cooccur_num": 209}, {"index": 5, "subkeyword": "되다", "cooccur_num": 194}, {"index": 6, "subkeyword": "수", "cooccur_num": 143}, {"index": 7, "subkeyword": "적", "cooccur_num": 130}, {"index": 8, "subkeyword": "없다", "cooccur_num": 118}, {"index": 9, "subkeyword": "고", "cooccur_num": 107}, {"index": 10, "subkeyword": "그", "cooccur_num": 94}], "similar": [{"index": 1, "subkeyword": "요", "cooccur_num": 0.8143762350082397}, {"index": 2, "subkeyword": "좋다", "cooccur_num": 0.7870282530784607}, {"index": 3, "subkeyword": "면", "cooccur_num": 0.7852461338043213}, {"index": 4, "subkeyword": "읽다", "cooccur_num": 0.7701561450958252}, {"index": 5, "subkeyword": "보기", "cooccur_num": 0.7594480514526367}, {"index": 6, "subkeyword": "굉장하다", "cooccur_num": 0.7506440877914429}, {"index": 7, "subkeyword": "자다", "cooccur_num": 0.7474263906478882}, {"index": 8, "subkeyword": "물어", "cooccur_num": 0.7427691221237183}, {"index": 9, "subkeyword": "자주", "cooccur_num": 0.739269495010376}, {"index": 10, "subkeyword": "해보다", "cooccur_num": 0.7375578880310059}]}, {"keyword": "정부", "score": 43, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 665}, {"index": 2, "subkeyword": "있다", "cooccur_num": 286}, {"index": 3, "subkeyword": "정책", "cooccur_num": 214}, {"index": 4, "subkeyword": "문재인", "cooccur_num": 205}, {"index": 5, "subkeyword": "들다", "cooccur_num": 135}, {"index": 6, "subkeyword": "되다", "cooccur_num": 130}, {"index": 7, "subkeyword": "것", "cooccur_num": 129}, {"index": 8, "subkeyword": "지원", "cooccur_num": 125}, {"index": 9, "subkeyword": "이", "cooccur_num": 121}, {"index": 10, "subkeyword": "한국", "cooccur_num": 114}], "similar": [{"index": 1, "subkeyword": "정책", "cooccur_num": 0.8629086017608643}, {"index": 2, "subkeyword": "탈", "cooccur_num": 0.8007299304008484}, {"index": 3, "subkeyword": "대책", "cooccur_num": 0.7993663549423218}, {"index": 4, "subkeyword": "이명박", "cooccur_num": 0.7784820795059204}, {"index": 5, "subkeyword": "개혁", "cooccur_num": 0.7727452516555786}, {"index": 6, "subkeyword": "문재인", "cooccur_num": 0.7610281705856323}, {"index": 7, "subkeyword": "규제", "cooccur_num": 0.7563873529434204}, {"index": 8, "subkeyword": "원전", "cooccur_num": 0.7559243440628052}, {"index": 9, "subkeyword": "경실련", "cooccur_num": 0.7553074359893799}, {"index": 10, "subkeyword": "수교", "cooccur_num": 0.7502497434616089}]}, {"keyword": "경제", "score": 41, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 303}, {"index": 2, "subkeyword": "적", "cooccur_num": 193}, {"index": 3, "subkeyword": "한국", "cooccur_num": 192}, {"index": 4, "subkeyword": "있다", "cooccur_num": 110}, {"index": 5, "subkeyword": "사회", "cooccur_num": 103}, {"index": 6, "subkeyword": "세계", "cooccur_num": 84}, {"index": 7, "subkeyword": "되다", "cooccur_num": 81}, {"index": 8, "subkeyword": "등", "cooccur_num": 73}, {"index": 9, "subkeyword": "포럼", "cooccur_num": 70}, {"index": 10, "subkeyword": "산업", "cooccur_num": 55}], "similar": [{"index": 1, "subkeyword": "국가", "cooccur_num": 0.8321723341941833}, {"index": 2, "subkeyword": "경제성장", "cooccur_num": 0.8159489631652832}, {"index": 3, "subkeyword": "전반", "cooccur_num": 0.7873902916908264}, {"index": 4, "subkeyword": "주도", "cooccur_num": 0.784294068813324}, {"index": 5, "subkeyword": "성장", "cooccur_num": 0.7816681861877441}, {"index": 6, "subkeyword": "창", "cooccur_num": 0.7784635424613953}, {"index": 7, "subkeyword": "안보", "cooccur_num": 0.7772473096847534}, {"index": 8, "subkeyword": "대한민국", "cooccur_num": 0.7746715545654297}, {"index": 9, "subkeyword": "보복", "cooccur_num": 0.7745078802108765}, {"index": 10, "subkeyword": "긍지", "cooccur_num": 0.7602083683013916}]}, {"keyword": "대학평가", "score": 40, "cooccur": [{"index": 1, "subkeyword": "중앙", "cooccur_num": 139}, {"index": 2, "subkeyword": "일보", "cooccur_num": 139}, {"index": 3, "subkeyword": "팀", "cooccur_num": 122}, {"index": 4, "subkeyword": "하다", "cooccur_num": 87}, {"index": 5, "subkeyword": "위", "cooccur_num": 58}, {"index": 6, "subkeyword": "평가", "cooccur_num": 51}, {"index": 7, "subkeyword": "계", "cooccur_num": 51}, {"index": 8, "subkeyword": "대학", "cooccur_num": 48}, {"index": 9, "subkeyword": "기사", "cooccur_num": 47}, {"index": 10, "subkeyword": "남윤서", "cooccur_num": 45}], "similar": [{"index": 1, "subkeyword": "랭킹", "cooccur_num": 0.8869396448135376}, {"index": 2, "subkeyword": "더타임스", "cooccur_num": 0.8776270151138306}, {"index": 3, "subkeyword": "최상", "cooccur_num": 0.8743130564689636}, {"index": 4, "subkeyword": "간호학", "cooccur_num": 0.8702027797698975}, {"index": 5, "subkeyword": "포스텍", "cooccur_num": 0.8635916709899902}, {"index": 6, "subkeyword": "종합", "cooccur_num": 0.8527522683143616}, {"index": 7, "subkeyword": "취업률", "cooccur_num": 0.8525789976119995}, {"index": 8, "subkeyword": "성대", "cooccur_num": 0.8519466519355774}, {"index": 9, "subkeyword": "안암", "cooccur_num": 0.845098614692688}, {"index": 10, "subkeyword": "전남대", "cooccur_num": 0.8410810232162476}]}, {"keyword": "카이스트", "score": 40, "cooccur": [{"index": 1, "subkeyword": "교수", "cooccur_num": 331}, {"index": 2, "subkeyword": "하다", "cooccur_num": 230}, {"index": 3, "subkeyword": "대전", "cooccur_num": 91}, {"index": 4, "subkeyword": "있다", "cooccur_num": 89}, {"index": 5, "subkeyword": "태", "cooccur_num": 82}, {"index": 6, "subkeyword": "이병", "cooccur_num": 80}, {"index": 7, "subkeyword": "서울대", "cooccur_num": 71}, {"index": 8, "subkeyword": "경영", "cooccur_num": 64}, {"index": 9, "subkeyword": "총장", "cooccur_num": 63}, {"index": 10, "subkeyword": "대학원", "cooccur_num": 63}], "similar": [{"index": 1, "subkeyword": "경영학", "cooccur_num": 0.902052104473114}, {"index": 2, "subkeyword": "기계공학", "cooccur_num": 0.8993385434150696}, {"index": 3, "subkeyword": "물리학", "cooccur_num": 0.8868319988250732}, {"index": 4, "subkeyword": "특훈", "cooccur_num": 0.8862160444259644}, {"index": 5, "subkeyword": "대학원", "cooccur_num": 0.8807341456413269}, {"index": 6, "subkeyword": "전자공학", "cooccur_num": 0.8742707967758179}, {"index": 7, "subkeyword": "경제학", "cooccur_num": 0.8732860088348389}, {"index": 8, "subkeyword": "이인규", "cooccur_num": 0.8714499473571777}, {"index": 9, "subkeyword": "명예", "cooccur_num": 0.869756817817688}, {"index": 10, "subkeyword": "오혜연", "cooccur_num": 0.8691942095756531}]}, {"keyword": "혁신", "score": 40, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 264}, {"index": 2, "subkeyword": "적", "cooccur_num": 179}, {"index": 3, "subkeyword": "기술", "cooccur_num": 136}, {"index": 4, "subkeyword": "있다", "cooccur_num": 135}, {"index": 5, "subkeyword": "센터", "cooccur_num": 95}, {"index": 6, "subkeyword": "기업", "cooccur_num": 87}, {"index": 7, "subkeyword": "성장", "cooccur_num": 75}, {"index": 8, "subkeyword": "대학", "cooccur_num": 72}, {"index": 9, "subkeyword": "과학기술", "cooccur_num": 72}, {"index": 10, "subkeyword": "위", "cooccur_num": 65}], "similar": [{"index": 1, "subkeyword": "주도", "cooccur_num": 0.8766249418258667}, {"index": 2, "subkeyword": "선도", "cooccur_num": 0.8584438562393188}, {"index": 3, "subkeyword": "육성", "cooccur_num": 0.8391413688659668}, {"index": 4, "subkeyword": "발굴", "cooccur_num": 0.8341678977012634}, {"index": 5, "subkeyword": "국가", "cooccur_num": 0.8340743780136108}, {"index": 6, "subkeyword": "전략", "cooccur_num": 0.8333293795585632}, {"index": 7, "subkeyword": "이끌다", "cooccur_num": 0.8326192498207092}, {"index": 8, "subkeyword": "생태계", "cooccur_num": 0.8293002843856812}, {"index": 9, "subkeyword": "중심", "cooccur_num": 0.8257232904434204}, {"index": 10, "subkeyword": "산업사", "cooccur_num": 0.8207524418830872}]}, {"keyword": "교육", "score": 39, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 523}, {"index": 2, "subkeyword": "있다", "cooccur_num": 218}, {"index": 3, "subkeyword": "등", "cooccur_num": 154}, {"index": 4, "subkeyword": "대학", "cooccur_num": 154}, {"index": 5, "subkeyword": "학생", "cooccur_num": 143}, {"index": 6, "subkeyword": "연구", "cooccur_num": 125}, {"index": 7, "subkeyword": "되다", "cooccur_num": 95}, {"index": 8, "subkeyword": "적", "cooccur_num": 91}, {"index": 9, "subkeyword": "받다", "cooccur_num": 90}, {"index": 10, "subkeyword": "수", "cooccur_num": 86}], "similar": [{"index": 1, "subkeyword": "금강대", "cooccur_num": 0.8505673408508301}, {"index": 2, "subkeyword": "실습", "cooccur_num": 0.7985758185386658}, {"index": 3, "subkeyword": "교육과정", "cooccur_num": 0.7953270673751831}, {"index": 4, "subkeyword": "진로", "cooccur_num": 0.7867578268051147}, {"index": 5, "subkeyword": "교류", "cooccur_num": 0.7813143730163574}, {"index": 6, "subkeyword": "활동", "cooccur_num": 0.7803570032119751}, {"index": 7, "subkeyword": "탐구", "cooccur_num": 0.7633216381072998}, {"index": 8, "subkeyword": "여건", "cooccur_num": 0.7632105350494385}, {"index": 9, "subkeyword": "실무", "cooccur_num": 0.7600942850112915}, {"index": 10, "subkeyword": "현장", "cooccur_num": 0.7598727941513062}]}, {"keyword": "받다", "score": 38, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 660}, {"index": 2, "subkeyword": "있다", "cooccur_num": 544}, {"index": 3, "subkeyword": "주목", "cooccur_num": 203}, {"index": 4, "subkeyword": "평가", "cooccur_num": 194}, {"index": 5, "subkeyword": "수", "cooccur_num": 188}, {"index": 6, "subkeyword": "것", "cooccur_num": 175}, {"index": 7, "subkeyword": "들다", "cooccur_num": 174}, {"index": 8, "subkeyword": "지원", "cooccur_num": 172}, {"index": 9, "subkeyword": "이", "cooccur_num": 171}, {"index": 10, "subkeyword": "교수", "cooccur_num": 166}], "similar": [{"index": 1, "subkeyword": "흥정", "cooccur_num": 0.497358500957489}, {"index": 2, "subkeyword": "피인용지수", "cooccur_num": 0.4864474833011627}, {"index": 3, "subkeyword": "뱅", "cooccur_num": 0.4847605526447296}, {"index": 4, "subkeyword": "주다", "cooccur_num": 0.47442197799682617}, {"index": 5, "subkeyword": "대적", "cooccur_num": 0.46482354402542114}, {"index": 6, "subkeyword": "서류", "cooccur_num": 0.4606609344482422}, {"index": 7, "subkeyword": "하복", "cooccur_num": 0.45806610584259033}, {"index": 8, "subkeyword": "자잘하다", "cooccur_num": 0.45738640427589417}, {"index": 9, "subkeyword": "당하", "cooccur_num": 0.455818772315979}, {"index": 10, "subkeyword": "불합격", "cooccur_num": 0.4511013925075531}]}, {"keyword": "사람", "score": 38, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 790}, {"index": 2, "subkeyword": "들다", "cooccur_num": 517}, {"index": 3, "subkeyword": "있다", "cooccur_num": 319}, {"index": 4, "subkeyword": "들이다", "cooccur_num": 270}, {"index": 5, "subkeyword": "많다", "cooccur_num": 161}, {"index": 6, "subkeyword": "것", "cooccur_num": 146}, {"index": 7, "subkeyword": "수", "cooccur_num": 124}, {"index": 8, "subkeyword": "되다", "cooccur_num": 121}, {"index": 9, "subkeyword": "이", "cooccur_num": 111}, {"index": 10, "subkeyword": "그", "cooccur_num": 106}], "similar": [{"index": 1, "subkeyword": "예", "cooccur_num": 0.8812984228134155}, {"index": 2, "subkeyword": "어가", "cooccur_num": 0.8793524503707886}, {"index": 3, "subkeyword": "젊은이", "cooccur_num": 0.8670880794525146}, {"index": 4, "subkeyword": "서로", "cooccur_num": 0.8395191431045532}, {"index": 5, "subkeyword": "아이", "cooccur_num": 0.8245396614074707}, {"index": 6, "subkeyword": "갈비", "cooccur_num": 0.8192431926727295}, {"index": 7, "subkeyword": "불편", "cooccur_num": 0.8144996166229248}, {"index": 8, "subkeyword": "바흐", "cooccur_num": 0.8034833669662476}, {"index": 9, "subkeyword": "행위자", "cooccur_num": 0.7986176013946533}, {"index": 10, "subkeyword": "뭣", "cooccur_num": 0.7951406240463257}]}, {"keyword": "서울대", "score": 37, "cooccur": [{"index": 1, "subkeyword": "교수", "cooccur_num": 323}, {"index": 2, "subkeyword": "하다", "cooccur_num": 216}, {"index": 3, "subkeyword": "위", "cooccur_num": 133}, {"index": 4, "subkeyword": "명", "cooccur_num": 95}, {"index": 5, "subkeyword": "등", "cooccur_num": 94}, {"index": 6, "subkeyword": "대학", "cooccur_num": 94}, {"index": 7, "subkeyword": "연세대", "cooccur_num": 82}, {"index": 8, "subkeyword": "고려대", "cooccur_num": 76}, {"index": 9, "subkeyword": "카이스트", "cooccur_num": 66}, {"index": 10, "subkeyword": "있다", "cooccur_num": 64}], "similar": [{"index": 1, "subkeyword": "고려대", "cooccur_num": 0.9649254679679871}, {"index": 2, "subkeyword": "연세대", "cooccur_num": 0.961254358291626}, {"index": 3, "subkeyword": "성균관대", "cooccur_num": 0.9395875930786133}, {"index": 4, "subkeyword": "한양대", "cooccur_num": 0.9203993082046509}, {"index": 5, "subkeyword": "의대", "cooccur_num": 0.9162688851356506}, {"index": 6, "subkeyword": "컴퓨터공학", "cooccur_num": 0.9053777456283569}, {"index": 7, "subkeyword": "물리학", "cooccur_num": 0.8997237086296082}, {"index": 8, "subkeyword": "경제학", "cooccur_num": 0.8990344405174255}, {"index": 9, "subkeyword": "서강대", "cooccur_num": 0.8969180583953857}, {"index": 10, "subkeyword": "경희대", "cooccur_num": 0.8954488039016724}]}, {"keyword": "총장", "score": 37, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 243}, {"index": 2, "subkeyword": "신", "cooccur_num": 235}, {"index": 3, "subkeyword": "신성철", "cooccur_num": 182}, {"index": 4, "subkeyword": "전", "cooccur_num": 107}, {"index": 5, "subkeyword": "있다", "cooccur_num": 85}, {"index": 6, "subkeyword": "한국", "cooccur_num": 84}, {"index": 7, "subkeyword": "과학기술원", "cooccur_num": 77}, {"index": 8, "subkeyword": "대다", "cooccur_num": 75}, {"index": 9, "subkeyword": "대학", "cooccur_num": 71}, {"index": 10, "subkeyword": "직무", "cooccur_num": 62}], "similar": [{"index": 1, "subkeyword": "이영무", "cooccur_num": 0.854941725730896}, {"index": 2, "subkeyword": "신성철", "cooccur_num": 0.8440561294555664}, {"index": 3, "subkeyword": "장관", "cooccur_num": 0.832186222076416}, {"index": 4, "subkeyword": "이재정", "cooccur_num": 0.8318072557449341}, {"index": 5, "subkeyword": "직무", "cooccur_num": 0.8221865892410278}, {"index": 6, "subkeyword": "디지스트", "cooccur_num": 0.8103028535842896}, {"index": 7, "subkeyword": "경북", "cooccur_num": 0.8045340180397034}, {"index": 8, "subkeyword": "전호", "cooccur_num": 0.8010156154632568}, {"index": 9, "subkeyword": "위원장", "cooccur_num": 0.8004038333892822}, {"index": 10, "subkeyword": "대사", "cooccur_num": 0.7982205152511597}]}, {"keyword": "인재", "score": 36, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 253}, {"index": 2, "subkeyword": "양성", "cooccur_num": 176}, {"index": 3, "subkeyword": "있다", "cooccur_num": 99}, {"index": 4, "subkeyword": "들이다", "cooccur_num": 72}, {"index": 5, "subkeyword": "육성", "cooccur_num": 65}, {"index": 6, "subkeyword": "들다", "cooccur_num": 62}, {"index": 7, "subkeyword": "형", "cooccur_num": 51}, {"index": 8, "subkeyword": "위해", "cooccur_num": 49}, {"index": 9, "subkeyword": "확보", "cooccur_num": 49}, {"index": 10, "subkeyword": "우수", "cooccur_num": 47}], "similar": [{"index": 1, "subkeyword": "인력", "cooccur_num": 0.8406347036361694}, {"index": 2, "subkeyword": "양성", "cooccur_num": 0.7828782200813293}, {"index": 3, "subkeyword": "리더", "cooccur_num": 0.7814971208572388}, {"index": 4, "subkeyword": "역량", "cooccur_num": 0.7699066400527954}, {"index": 5, "subkeyword": "전문가", "cooccur_num": 0.7345119714736938}, {"index": 6, "subkeyword": "정예", "cooccur_num": 0.7292145490646362}, {"index": 7, "subkeyword": "육성", "cooccur_num": 0.7069816589355469}, {"index": 8, "subkeyword": "사회인", "cooccur_num": 0.7068489789962769}, {"index": 9, "subkeyword": "발굴", "cooccur_num": 0.7011423110961914}, {"index": 10, "subkeyword": "금강대", "cooccur_num": 0.7007676362991333}]}, {"keyword": "까지", "score": 34, "cooccur": [{"index": 1, "subkeyword": "하다", "cooccur_num": 761}, {"index": 2, "subkeyword": "있다", "cooccur_num": 236}, {"index": 3, "subkeyword": "부터", "cooccur_num": 205}, {"index": 4, "subkeyword": "되다", "cooccur_num": 204}, {"index": 5, "subkeyword": "지금", "cooccur_num": 189}, {"index": 6, "subkeyword": "터", "cooccur_num": 145}, {"index": 7, "subkeyword": "수", "cooccur_num": 123}, {"index": 8, "subkeyword": "것", "cooccur_num": 118}, {"index": 9, "subkeyword": "들다", "cooccur_num": 112}, {"index": 10, "subkeyword": "때", "cooccur_num": 105}], "similar": [{"index": 1, "subkeyword": "부터", "cooccur_num": 0.7230851650238037}, {"index": 2, "subkeyword": "동안", "cooccur_num": 0.7006416320800781}, {"index": 3, "subkeyword": "월부", "cooccur_num": 0.6597452759742737}, {"index": 4, "subkeyword": "시판", "cooccur_num": 0.6515851616859436}, {"index": 5, "subkeyword": "일부", "cooccur_num": 0.6436024308204651}, {"index": 6, "subkeyword": "개월", "cooccur_num": 0.6366329193115234}, {"index": 7, "subkeyword": "이르다", "cooccur_num": 0.63521409034729}, {"index": 8, "subkeyword": "도부", "cooccur_num": 0.6282026767730713}, {"index": 9, "subkeyword": "시작", "cooccur_num": 0.6160408854484558}, {"index": 10, "subkeyword": "이후", "cooccur_num": 0.6155383586883545}]}, {"keyword": "산업혁명", "score": 34, "cooccur": [{"index": 1, "subkeyword": "차", "cooccur_num": 912}, {"index": 2, "subkeyword": "하다", "cooccur_num": 208}, {"index": 3, "subkeyword": "시대", "cooccur_num": 130}, {"index": 4, "subkeyword": "기술", "cooccur_num": 79}, {"index": 5, "subkeyword": "있다", "cooccur_num": 60}, {"index": 6, "subkeyword": "것", "cooccur_num": 59}, {"index": 7, "subkeyword": "위원회", "cooccur_num": 58}, {"index": 8, "subkeyword": "등", "cooccur_num": 55}, {"index": 9, "subkeyword": "핵심", "cooccur_num": 51}, {"index": 10, "subkeyword": "되다", "cooccur_num": 51}], "similar": [{"index": 1, "subkeyword": "세대", "cooccur_num": 0.9260854721069336}, {"index": 2, "subkeyword": "세계대전", "cooccur_num": 0.911651611328125}, {"index": 3, "subkeyword": "미영", "cooccur_num": 0.8753000497817993}, {"index": 4, "subkeyword": "지하", "cooccur_num": 0.8545575141906738}, {"index": 5, "subkeyword": "핵실험", "cooccur_num": 0.8420732617378235}, {"index": 6, "subkeyword": "혁명", "cooccur_num": 0.8358395099639893}, {"index": 7, "subkeyword": "석유파동", "cooccur_num": 0.8301116228103638}, {"index": 8, "subkeyword": "대공황", "cooccur_num": 0.8091387748718262}, {"index": 9, "subkeyword": "톨게이트", "cooccur_num": 0.7948324680328369}, {"index": 10, "subkeyword": "띄우기", "cooccur_num": 0.7851582765579224}]}]
+        var width = 1300,
+            height = 600
+
+        var svg = d3.select(".wordcloud").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", 'outline');
+
+        var svg = d3.select("svg")
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+
+        showCloud(dataAnalyze)
+
+
+        function showCloud(data) {
+            d3.layout.cloud().size([width, height])
+                //클라우드 레이아웃에 데이터 전달
+                .words(data.map((d, index) => {
+                    return {
+                        index: index,
+                        text: d.keyword,
+                        size: d.score,
+                        cooccur: d.cooccur,
+                        similar: d.similar,
+                    }
+                }))
+                .padding(30)
+                //스케일로 각 단어의 크기를 설정
+                .rotate(function (d) {
+                    return Math.round((Math.random()-0.5)*2) * 90;
+                })
+                .fontSize(d => {
+                    if (d.index < 10) {
+                        return 60;
+                    } else {
+                        return 30;
+                    }
+                })
+                .on("end", draw)
+                .start();
+
+            function draw(words) {
+                var cloud = svg.selectAll("text").data(words)
+                //Entering words
+                cloud.enter()
+                    .append("text")
+                    .style("font-family", 'Jua')
+                    .style("fill", function (d) {
+                        return (d.index < 10 ? "#fbc280" : "#405275");
+                    })
+                    .style("fill-opacity", .5)
+                    .attr("text-anchor", "center")
+                    .text(function (d) {
+                        return d.text;
+                    })
+                    .on('click', overevent)
+                cloud.transition()
+                    .duration(600)
+                    .style("font-size", function (d) {
+                        return d.size + "px";
+                    })
+                    .attr("transform", function (d) {
+                        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                    })
+                    .style("fill-opacity", 1);
+            }
+
+
+            function overevent(d) {
+                showdetail(d);
+                similardetail(d);
+            }
+        }
+        function showdetail(d) {
+            var width = 400,
+                height = 400;
+            var central = d.text;
+            var links = d.cooccur.map((d) => {
+                return {
+                    "source": central,
+                    "target": d.subkeyword,
+                    "value": d.cooccur_num
+                }
+            });
+            var nodes = {};
+            linkScale = d3.scale.linear().domain([0, links[0].value]).range([0, 150]).clamp(true);
+
+            console.log(links)
+            // Compute the distinct nodes from the links.
+            links.forEach(function (link) {
+                link.source = nodes[link.source] || (nodes[link.source] = {
+                    name: link.source
+
+                });
+                link.target = nodes[link.target] || (nodes[link.target] = {
+                    name: link.target
+                });
+                
+            });
+
+
+            var force = d3.layout.force()
+                .nodes(d3.values(nodes))
+                .links(links)
+                .size([width, height])
+                .linkDistance((link)=>{
+                    return linkScale(link.value)
+                })
+                .charge(-300)
+                .on("tick", tick)
+                .start();
+
+            var svg = d3.select(".cooccur").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("class",'outline');
+
+            var link = svg.selectAll(".link")
+                .data(force.links())
+                .enter().append("line")
+                .attr("class", "link")
+
+
+            var color = d3.scale.category20();
+
+            var node = svg.selectAll(".node")
+                .data(force.nodes())
+                .enter().append("g")
+                .attr("class", "node")
+                .on("mouseover", mouseover)
+                .on("mouseout", mouseout)
+                .call(force.drag);
+
+
+            node.append("circle")
+                .attr("r", 8)
+                .attr("fill", function(d,i){return color(i);});
+
+
+            node.append("text")
+                .attr("x", 12)
+                .attr("dy", ".35em")
+                .text(function (d) {
+                    return d.name;
+                });
+
+            function tick() {
+                link
+                    .attr("x1", function (d) {
+                        return d.source.x;
+                    })
+                    .attr("y1", function (d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function (d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function (d) {
+                        return d.target.y;
+                    });
+
+                node
+                    .attr("transform", function (d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+            }
+
+            function mouseover() {
+                d3.select(this).select("circle").transition()
+                    .duration(750)
+                    .attr("r", 16);
+            }
+
+            function mouseout() {
+                d3.select(this).select("circle").transition()
+                    .duration(750)
+                    .attr("r", 8);
+            }
+        }
+    </script>
+       <script>
+           function similardetail(d) {
+               var width = 400,
+                   height = 400;
+               var central = d.text;
+               console.log(d)
+               var links = d.similar.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+               var nodes = {};
+               linkScale = d3.scale.linear().domain([0, 1]).range([0, 100]).clamp(true);
+   
+               // Compute the distinct nodes from the links.
+               links.forEach(function (link) {
+                   link.source = nodes[link.source] || (nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = nodes[link.target] || (nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+               });
+   
+   
+               var force = d3.layout.force()
+                   .nodes(d3.values(nodes))
+                   .links(links)
+                   .size([width, height])
+                   .linkDistance((link)=>{
+                       return linkScale(link.value)
+                   })
+                   .charge(-300)
+                   .on("tick", tick)
+                   .start();
+   
+               var svg = d3.select(".similar").append("svg")
+                   .attr("width", width)
+                   .attr("height", height)
+                   .attr("class",'outline');
+   
+               var link = svg.selectAll(".link")
+                   .data(force.links())
+                   .enter().append("line")
+                   .attr("class", "link");
+   
+               var color = d3.scale.category20();
+   
+               var node = svg.selectAll(".node")
+                   .data(force.nodes())
+                   .enter().append("g")
+                   .attr("class", "node")
+                   .on("mouseover", mouseover)
+                   .on("mouseout", mouseout)
+                   .call(force.drag);
+   
+               node.append("circle")
+                   .attr("r", 8)
+                   .attr("fill", (d,i)=>color(i));
+   
+   
+               node.append("text")
+                   .attr("x", 12)
+                   .attr("dy", ".35em")
+                   .text(function (d) {
+                       return d.name;
+                   });
+   
+               function tick() {
+                   link
+                       .attr("x1", function (d) {
+                           return d.source.x;
+                       })
+                       .attr("y1", function (d) {
+                           return d.source.y;
+                       })
+                       .attr("x2", function (d) {
+                           return d.target.x;
+                       })
+                       .attr("y2", function (d) {
+                           return d.target.y;
+                       });
+   
+                   node
+                       .attr("transform", function (d) {
+                           return "translate(" + d.x + "," + d.y + ")";
+                       });
+               }
+   
+               function mouseover() {
+                   d3.select(this).select("circle").transition()
+                       .duration(750)
+                       .attr("r", 16);
+               }
+   
+               function mouseout() {
+                   d3.select(this).select("circle").transition()
+                       .duration(750)
+                       .attr("r", 8);
+               }
+           }
+        </script>
+
+</body>
+
+</html>
