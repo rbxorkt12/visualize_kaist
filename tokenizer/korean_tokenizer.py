@@ -115,7 +115,7 @@ def tokenize_okt_noscreen(df):
     okt = Twitter()
     okt.add_dictionary(call_userword(), 'Noun')
     stopwords = load_wordset('./tokenizer/korean_stopword.txt')
-    stopwords = stopwords | load_wordset('./tokenizer/korean_screen.txt')
+    #stopwords = stopwords | load_wordset('./tokenizer/korean_screen.txt')
     stopwords = list(stopwords)
     df['content_token'] = df.progress_apply(lambda x: [t[0] for t in okt.pos(
         x['content'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords], axis=1)
