@@ -13,12 +13,11 @@
   4. CountCoccur( 단어를 기준으로 그 단어가 등장한 경우, window를 만들어서, 그 window내의 단어의 개수를 파악하여, 함께 어떠한 단어가 주로 등장하는지 파악하는 기법) 
   5. LDA (Topic modeling , NMF의 일종으로 주로 문장에서 어떠한 토픽이 등장하는지 분석하는 기법) 
  
- 이후 이러한 분석 결과를 visualization 내부의 json파일로 보내고, 이 json파일을 html이 읽어서 interactive graph를 만들 예정.(by d3-cloud) -> 현재는 서버형태로 띄우지 않으면 작동 불가능함. 
- 서버로 띄우고 싶다면 인터넷에서 nodejs를 다운받고, 그 nodejs를 기반으로 index.html을 실행시킬 것. 
- 또한 토픽 모델링의 경우 현재 폴더안의 topic_modeling.html의 경우 완성된 파일로써 topic modeling용 visulization graph임. 
- 
- 
-~~~
-pip install -r requirements.txt
-python visualize.py
-~~~
+ - 사전 단어 추가
+   텍스트 분석은 불용어 제거와 사용자 사전 추가를 얼마나 잘 하느냐에 따라 성능이 매우 크게 달라집니다.
+   하지만, 일일이 사람이 확인하면서 단어를 추가해야하기 때문에 한계가 존재합니다. 
+   따라서, 사용중에 보고싶지 않은 단어(불용어)는 tokenizer/korean_stopword, 토큰화가 잘못되어 추가하고 싶은 단어는 tokenizer/korean_userword에 추가해주시기 바랍니다.
+   추후에 추가된 단어로 다시 분석을 돌리는 작업을 통해 업데이트하도록 하겠습니다. 
+
+- 개발 환경 설정
+--> pip install requirements.txt
