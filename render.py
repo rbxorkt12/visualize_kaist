@@ -36,6 +36,7 @@ def korean_render(jsontext):
     <div class="wordcloud">
         <h1 font-family='Black Han Sans', sans-serif;>Word Cloud</h1>
     </div>
+    <br><br>
     <div class="cooccur">
         <h1 font-family='Black Han Sans', sans-serif;>Cooccurence Detail</h1>
     </div>
@@ -50,8 +51,8 @@ def korean_render(jsontext):
     <script>
         var dataAnalyze = """ + jsontext + """
         console.log(dataAnalyze)
-        var width = 1300,
-            height = 600
+        var width = 800,
+            height = 800
 
         var svg = d3.select(".wordcloud").append("svg")
             .attr("width", width)
@@ -77,10 +78,10 @@ def korean_render(jsontext):
                         similar: d.similar,
                     }
                 }))
-                .padding(30)
+                .padding(10)
                 //스케일로 각 단어의 크기를 설정
                 .rotate(function (d) {
-                    return Math.round((Math.random()-0.5)*2) * 45;
+                    return Math.round((Math.random()-0.5)*2) * 90;
                 })
                 .fontSize(d => {
                     if (d.index < 10) {
@@ -102,7 +103,7 @@ def korean_render(jsontext):
                         return (d.index < 10 ? "#fbc280" : "#405275");
                     })
                     .style("fill-opacity", .5)
-                    .attr("text-anchor", "center")
+                    .attr("text-anchor", "middle")
                     .text(function (d) {
                         return d.text;
                     })
@@ -461,8 +462,8 @@ def english_render(jsontext):
     <script>
         var dataAnalyze = """ + jsontext + """
         console.log(dataAnalyze)
-        var width = 1300,
-            height = 600
+        var width = 800,
+            height = 800
 
         var svg = d3.select(".wordcloud").append("svg")
             .attr("width", width)
@@ -488,16 +489,16 @@ def english_render(jsontext):
                         similar: d.similar,
                     }
                 }))
-                .padding(30)
+                .padding(10)
                 //스케일로 각 단어의 크기를 설정
                 .rotate(function (d) {
-                    return Math.round((Math.random()-0.5)*2) * 45;
+                    return Math.round((Math.random()-0.5)*2) * 90;
                 })
                 .fontSize(d => {
                     if (d.index < 10) {
-                        return 30;
+                        return 40;
                     } else {
-                        return 15;
+                        return 20;
                     }
                 })
                 .on("end", draw)
@@ -513,7 +514,7 @@ def english_render(jsontext):
                         return (d.index < 10 ? "#fbc280" : "#405275");
                     })
                     .style("fill-opacity", .5)
-                    .attr("text-anchor", "center")
+                    .attr("text-anchor", "middle")
                     .text(function (d) {
                         return d.text;
                     })
