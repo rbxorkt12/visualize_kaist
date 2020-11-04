@@ -14,7 +14,7 @@ tokenizer_url = 'http://localhost:9200/mix_tokenizer'
 
 def call_userword():
     with open('./tokenizer/korean_userword.txt', 'r', encoding='utf-8-sig') as f:
-        return f.readlines()
+        return list(map(lambda x: x.rstrip('\n'),f.readlines()))
 
 
 def nori_reset(url):
