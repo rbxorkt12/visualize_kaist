@@ -51,8 +51,8 @@ def korean_render(jsontext):
     <script>
         var dataAnalyze = """ + jsontext + """
         console.log(dataAnalyze)
-        var width = 800,
-            height = 800
+        var width = 700,
+            height = 700
 
         var svg = d3.select(".wordcloud").append("svg")
             .attr("width", width)
@@ -462,8 +462,8 @@ def english_render(jsontext):
     <script>
         var dataAnalyze = """ + jsontext + """
         console.log(dataAnalyze)
-        var width = 800,
-            height = 800
+        var width = 700,
+            height = 700
 
         var svg = d3.select(".wordcloud").append("svg")
             .attr("width", width)
