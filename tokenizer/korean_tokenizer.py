@@ -105,7 +105,7 @@ def tokenize_okt(df):
     stopwords = stopwords | load_wordset('./tokenizer/korean_screen.txt')
     stopwords = list(stopwords)
     df['content_token'] = df.progress_apply(lambda x: [t[0] for t in okt.pos(
-        x['content'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords], axis=1)
+        x['content'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords and len(t[0])!=1 ], axis=1)
     df['title_token'] = df.progress_apply(lambda x: [t[0] for t in okt.pos(
         x['title'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords], axis=1)
     return df
