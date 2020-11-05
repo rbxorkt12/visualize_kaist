@@ -14,7 +14,7 @@ tokenizer_url = 'http://localhost:9200/mix_tokenizer'
 
 def call_userword():
     with open('./tokenizer/korean_userword.txt', 'r', encoding='utf-8-sig') as f:
-        return list(map(lambda x: x.rstrip('\n'),f.readlines()))
+        return list(map(lambda x: x.rstrip('\n'), f.readlines()))
 
 
 def nori_reset(url):
@@ -105,9 +105,9 @@ def tokenize_okt(df):
     stopwords = stopwords | load_wordset('./tokenizer/korean_screen.txt')
     stopwords = list(stopwords)
     df['content_token'] = df.progress_apply(lambda x: [t[0] for t in okt.pos(
-        x['content'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords and len(t[0])!=1 ], axis=1)
+        x['content'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords and len(t[0]) != 1], axis=1)
     df['title_token'] = df.progress_apply(lambda x: [t[0] for t in okt.pos(
-        x['title'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords], axis=1)
+        x['title'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords and len(t[0]) != 1], axis=1)
     return df
 
 
@@ -118,7 +118,7 @@ def tokenize_okt_noscreen(df):
     #stopwords = stopwords | load_wordset('./tokenizer/korean_screen.txt')
     stopwords = list(stopwords)
     df['content_token'] = df.progress_apply(lambda x: [t[0] for t in okt.pos(
-        x['content'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords], axis=1)
+        x['content'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords and len(t[0]) != 1], axis=1)
     df['title_token'] = df.progress_apply(lambda x: [t[0] for t in okt.pos(
-        x['title'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords], axis=1)
+        x['title'], stem=True) if t[1] in ['Noun', 'Verb', 'Adjective'] and t[0] not in stopwords and len(t[0]) != 1], axis=1)
     return df
