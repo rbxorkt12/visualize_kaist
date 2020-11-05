@@ -1,4 +1,5 @@
-![korean_joongang_screen_title_wordcloud json_circle](https://user-images.githubusercontent.com/64149539/98245674-a3589d00-1fb4-11eb-8ae2-8c12bd75c3ab.png) ![korean_joongang_screen_title_wordcloud json_kaist](https://user-images.githubusercontent.com/64149539/98245677-a5226080-1fb4-11eb-8526-cfcdac2e2554.png)
+![korean_joongang_screen_title_wordcloud json_circle](https://user-images.githubusercontent.com/64149539/98245674-a3589d00-1fb4-11eb-8ae2-8c12bd75c3ab.png=250x250) 
+![korean_joongang_screen_title_wordcloud json_kaist](https://user-images.githubusercontent.com/64149539/98245677-a5226080-1fb4-11eb-8526-cfcdac2e2554.png=250x250)
 
 - 프로젝트 설명
 
