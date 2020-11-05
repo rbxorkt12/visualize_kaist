@@ -1,6 +1,3 @@
-![korean_joongang_screen_title_wordcloud json_circle](https://user-images.githubusercontent.com/64149539/98245674-a3589d00-1fb4-11eb-8ae2-8c12bd75c3ab.png){: width="100" height="100"}
-![korean_joongang_screen_title_wordcloud json_kaist](https://user-images.githubusercontent.com/64149539/98245677-a5226080-1fb4-11eb-8526-cfcdac2e2554.png){: width="100" height="100"}
-
 - 프로젝트 설명
 
 카이스트에 대해 보도된 각종 기사들을 크롤링하고, 그에 NLP 분석 기법들을 이용하여, 최종적으로 html파일 형식으로 직접 유저가 분석 결과를 직접 눌러보면서 확인할 수 있는 
@@ -38,3 +35,5 @@ visualize 폴더의 non_interactive_wordcloud 폴더에는 원형 모양의 워�
 pip install -r requirements.txt
 python visualize.py
 ~~~
+![korean_joongang_screen_title_wordcloud json_circle](https://user-images.githubusercontent.com/64149539/98245674-a3589d00-1fb4-11eb-8ae2-8c12bd75c3ab.png)
+![korean_joongang_screen_title_wordcloud json_kaist](https://user-images.githubusercontent.com/64149539/98245677-a5226080-1fb4-11eb-8526-cfcdac2e2554.png)
