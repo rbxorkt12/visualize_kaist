@@ -10,21 +10,21 @@ from scrapy.exporters import CsvItemExporter
 import pandas as pd
 
 
-class PulsePipeline:
+class InavatePipeline:
     def process_item(self, item, spider):
         return item
 
 class CsvPipeline(object):
     def __init__(self):
-        self.file = open('kaist_pulse.csv', 'wb')
+        self.file = open('kaist_inavate.csv', 'wb')
         self.exporter = CsvItemExporter(self.file, encoding='utf-8')
         self.exporter.start_exporting()
 
     def close_spider(self, spider):
         self.exporter.finish_exporting()
         self.file.close()
-        df = pd.read_csv('kaist_pulse.csv')
-        excel = pd.ExcelWriter('kaist_pulse.xlsx')
+        df = pd.read_csv('kaist_inavate.csv')
+        excel = pd.ExcelWriter('kaist_inavate.xlsx')
         df.to_excel(excel, index = False)
         excel.save()
 
