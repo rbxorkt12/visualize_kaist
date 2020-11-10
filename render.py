@@ -456,8 +456,8 @@ def english_render(jsontext):
         <h1 font-family='Black Han Sans', sans-serif;>Similar Detail</h1>
     </div>
     <h1 class="small">문장 등장 위치에 따른 유사하다고 생각되는 단어 top 10의 네트워크입니다..</h1>
-    <script src="../../../../d3/d3.min.js"></script>
-    <script src="../../../../d3-cloud/build/d3.layout.cloud.js" type="text/JavaScript">
+    <script src="../../../d3/d3.min.js"></script>
+    <script src="../../../d3-cloud/build/d3.layout.cloud.js" type="text/JavaScript">
     </script>
     <script>
         var dataAnalyze = """ + jsontext + """
