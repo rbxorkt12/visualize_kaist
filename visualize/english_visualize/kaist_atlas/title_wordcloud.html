@@ -1,0 +1,408 @@
+﻿<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+</head>
+<style>
+    .link  {
+    stroke: #999;
+    stroke-opacity: 0.6;
+    }
+
+    .nodes circle {
+    stroke: #fff;
+    stroke-width: 1.5px;
+    }
+
+    .outline {
+    outline: 6px solid black;
+    outline-style:dashed;
+    margin-right: 20px;
+
+    }
+    .outline-nondash {
+    outline: 6px solid black;
+    outline-style:auto;
+    }
+    .small {
+        font-size: 15px;
+        font-family:Arial, Helvetica, sans-serif;
+    }
+</style>
+
+<body>
+    <div class="wordcloud">
+        <h1 font-family='Black Han Sans', sans-serif;>Word Cloud</h1>
+    </div>
+    <div class="cooccur">
+        <h1 font-family='Black Han Sans', sans-serif;>Cooccurence Detail</h1>
+    </div>
+    <h1 class="small">문장내에서 자주 같이 출연하는 단어들의 상위 10개 단어의 네트워크입니다.</h1>
+    <div class="similar">
+        <h1 font-family='Black Han Sans', sans-serif;>Similar Detail</h1>
+    </div>
+    <h1 class="small">문장 등장 위치에 따른 유사하다고 생각되는 단어 top 10의 네트워크입니다..</h1>
+    <script src="../../../d3/d3.min.js"></script>
+    <script src="../../../d3-cloud/build/d3.layout.cloud.js" type="text/JavaScript">
+    </script>
+    <script>
+        var dataAnalyze = [{"keyword": "kaist", "score": 4, "cooccur": [{"index": 1, "subkeyword": "advance", "cooccur_num": 24}, {"index": 2, "subkeyword": "institute", "cooccur_num": 23}, {"index": 3, "subkeyword": "technology", "cooccur_num": 23}, {"index": 4, "subkeyword": "science", "cooccur_num": 22}, {"index": 5, "subkeyword": "team", "cooccur_num": 10}, {"index": 6, "subkeyword": "develop", "cooccur_num": 10}, {"index": 7, "subkeyword": "research", "cooccur_num": 6}, {"index": 8, "subkeyword": "korea", "cooccur_num": 5}, {"index": 9, "subkeyword": "university", "cooccur_num": 5}, {"index": 10, "subkeyword": "time", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "system", "cooccur_num": 0.7654471397399902}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.7500048875808716}, {"index": 3, "subkeyword": "time", "cooccur_num": 0.7188180685043335}, {"index": 4, "subkeyword": "develop", "cooccur_num": 0.7101980447769165}, {"index": 5, "subkeyword": "train", "cooccur_num": 0.7009478211402893}, {"index": 6, "subkeyword": "power", "cooccur_num": 0.7005841732025146}, {"index": 7, "subkeyword": "battery", "cooccur_num": 0.6997301578521729}, {"index": 8, "subkeyword": "robot", "cooccur_num": 0.6991626024246216}, {"index": 9, "subkeyword": "vehicle", "cooccur_num": 0.6952857971191406}, {"index": 10, "subkeyword": "researcher", "cooccur_num": 0.6929582357406616}]}, {"keyword": "robot", "score": 4, "cooccur": [{"index": 1, "subkeyword": "team", "cooccur_num": 15}, {"index": 2, "subkeyword": "challenge", "cooccur_num": 7}, {"index": 3, "subkeyword": "tunnel", "cooccur_num": 7}, {"index": 4, "subkeyword": "build", "cooccur_num": 6}, {"index": 5, "subkeyword": "design", "cooccur_num": 5}, {"index": 6, "subkeyword": "develop", "cooccur_num": 5}, {"index": 7, "subkeyword": "the", "cooccur_num": 5}, {"index": 8, "subkeyword": "run", "cooccur_num": 5}, {"index": 9, "subkeyword": "task", "cooccur_num": 5}, {"index": 10, "subkeyword": "humanoid", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "system", "cooccur_num": 0.7697525024414062}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.7689968347549438}, {"index": 3, "subkeyword": "electric", "cooccur_num": 0.7387063503265381}, {"index": 4, "subkeyword": "battery", "cooccur_num": 0.727345883846283}, {"index": 5, "subkeyword": "the", "cooccur_num": 0.7264324426651001}, {"index": 6, "subkeyword": "power", "cooccur_num": 0.7259224653244019}, {"index": 7, "subkeyword": "time", "cooccur_num": 0.7234823703765869}, {"index": 8, "subkeyword": "develop", "cooccur_num": 0.7153179049491882}, {"index": 9, "subkeyword": "lead", "cooccur_num": 0.7086737155914307}, {"index": 10, "subkeyword": "vehicle", "cooccur_num": 0.7053331136703491}]}, {"keyword": "system", "score": 4, "cooccur": [{"index": 1, "subkeyword": "the", "cooccur_num": 10}, {"index": 2, "subkeyword": "develop", "cooccur_num": 7}, {"index": 3, "subkeyword": "charge", "cooccur_num": 6}, {"index": 4, "subkeyword": "kaist", "cooccur_num": 6}, {"index": 5, "subkeyword": "power", "cooccur_num": 6}, {"index": 6, "subkeyword": "maglev", "cooccur_num": 6}, {"index": 7, "subkeyword": "cost", "cooccur_num": 6}, {"index": 8, "subkeyword": "train", "cooccur_num": 5}, {"index": 9, "subkeyword": "time", "cooccur_num": 5}, {"index": 10, "subkeyword": "autonomous", "cooccur_num": 5}], "similar": [{"index": 1, "subkeyword": "team", "cooccur_num": 0.7877620458602905}, {"index": 2, "subkeyword": "robot", "cooccur_num": 0.7697524428367615}, {"index": 3, "subkeyword": "kaist", "cooccur_num": 0.7654471397399902}, {"index": 4, "subkeyword": "the", "cooccur_num": 0.7565925121307373}, {"index": 5, "subkeyword": "power", "cooccur_num": 0.7535066604614258}, {"index": 6, "subkeyword": "develop", "cooccur_num": 0.748127818107605}, {"index": 7, "subkeyword": "vehicle", "cooccur_num": 0.738085925579071}, {"index": 8, "subkeyword": "research", "cooccur_num": 0.7311806082725525}, {"index": 9, "subkeyword": "electric", "cooccur_num": 0.7300449013710022}, {"index": 10, "subkeyword": "battery", "cooccur_num": 0.7276447415351868}]}, {"keyword": "autonomous", "score": 2, "cooccur": [{"index": 1, "subkeyword": "weapon", "cooccur_num": 14}, {"index": 2, "subkeyword": "lethal", "cooccur_num": 5}, {"index": 3, "subkeyword": "development", "cooccur_num": 5}, {"index": 4, "subkeyword": "system", "cooccur_num": 5}, {"index": 5, "subkeyword": "develop", "cooccur_num": 4}, {"index": 6, "subkeyword": "military", "cooccur_num": 3}, {"index": 7, "subkeyword": "robot", "cooccur_num": 3}, {"index": 8, "subkeyword": "issue", "cooccur_num": 3}, {"index": 9, "subkeyword": "boycott", "cooccur_num": 2}, {"index": 10, "subkeyword": "university", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "robot", "cooccur_num": 0.6209650039672852}, {"index": 2, "subkeyword": "time", "cooccur_num": 0.6089248061180115}, {"index": 3, "subkeyword": "system", "cooccur_num": 0.6080353260040283}, {"index": 4, "subkeyword": "the", "cooccur_num": 0.6064092516899109}, {"index": 5, "subkeyword": "develop", "cooccur_num": 0.6045299768447876}, {"index": 6, "subkeyword": "vehicle", "cooccur_num": 0.6015732884407043}, {"index": 7, "subkeyword": "power", "cooccur_num": 0.5941361784934998}, {"index": 8, "subkeyword": "team", "cooccur_num": 0.5863422155380249}, {"index": 9, "subkeyword": "electric", "cooccur_num": 0.5739649534225464}, {"index": 10, "subkeyword": "kaist", "cooccur_num": 0.5691114068031311}]}, {"keyword": "challenge", "score": 2, "cooccur": [{"index": 1, "subkeyword": "robot", "cooccur_num": 7}, {"index": 2, "subkeyword": "darpa", "cooccur_num": 5}, {"index": 3, "subkeyword": "subterranean", "cooccur_num": 4}, {"index": 4, "subkeyword": "team", "cooccur_num": 4}, {"index": 5, "subkeyword": "design", "cooccur_num": 2}, {"index": 6, "subkeyword": "tunnel", "cooccur_num": 2}, {"index": 7, "subkeyword": "circuit", "cooccur_num": 2}, {"index": 8, "subkeyword": "day", "cooccur_num": 2}, {"index": 9, "subkeyword": "compete", "cooccur_num": 1}, {"index": 10, "subkeyword": "prep", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "team", "cooccur_num": 0.5686389207839966}, {"index": 2, "subkeyword": "energy", "cooccur_num": 0.5513256788253784}, {"index": 3, "subkeyword": "this", "cooccur_num": 0.5372629165649414}, {"index": 4, "subkeyword": "robot", "cooccur_num": 0.535233736038208}, {"index": 5, "subkeyword": "charge", "cooccur_num": 0.5311306715011597}, {"index": 6, "subkeyword": "battery", "cooccur_num": 0.530799388885498}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.5275716781616211}, {"index": 8, "subkeyword": "time", "cooccur_num": 0.5268170237541199}, {"index": 9, "subkeyword": "system", "cooccur_num": 0.5267120003700256}, {"index": 10, "subkeyword": "the", "cooccur_num": 0.5236304998397827}]}, {"keyword": "charge", "score": 2, "cooccur": [{"index": 1, "subkeyword": "system", "cooccur_num": 5}, {"index": 2, "subkeyword": "battery", "cooccur_num": 5}, {"index": 3, "subkeyword": "wireless", "cooccur_num": 4}, {"index": 4, "subkeyword": "noncontact", "cooccur_num": 4}, {"index": 5, "subkeyword": "magnetic", "cooccur_num": 4}, {"index": 6, "subkeyword": "vehicle", "cooccur_num": 4}, {"index": 7, "subkeyword": "recharge", "cooccur_num": 4}, {"index": 8, "subkeyword": "method", "cooccur_num": 3}, {"index": 9, "subkeyword": "kaists", "cooccur_num": 2}, {"index": 10, "subkeyword": "smartphones", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.7029033899307251}, {"index": 2, "subkeyword": "robot", "cooccur_num": 0.7024092674255371}, {"index": 3, "subkeyword": "team", "cooccur_num": 0.6919873952865601}, {"index": 4, "subkeyword": "electric", "cooccur_num": 0.6896485686302185}, {"index": 5, "subkeyword": "system", "cooccur_num": 0.6845926642417908}, {"index": 6, "subkeyword": "develop", "cooccur_num": 0.6819788217544556}, {"index": 7, "subkeyword": "vehicle", "cooccur_num": 0.6775551438331604}, {"index": 8, "subkeyword": "time", "cooccur_num": 0.6745235323905945}, {"index": 9, "subkeyword": "power", "cooccur_num": 0.6728394031524658}, {"index": 10, "subkeyword": "battery", "cooccur_num": 0.6631773710250854}]}, {"keyword": "darpa", "score": 2, "cooccur": [{"index": 1, "subkeyword": "subterranean", "cooccur_num": 4}, {"index": 2, "subkeyword": "challenge", "cooccur_num": 4}, {"index": 3, "subkeyword": "robot", "cooccur_num": 2}, {"index": 4, "subkeyword": "team", "cooccur_num": 2}, {"index": 5, "subkeyword": "call", "cooccur_num": 2}, {"index": 6, "subkeyword": "course", "cooccur_num": 2}, {"index": 7, "subkeyword": "compete", "cooccur_num": 1}, {"index": 8, "subkeyword": "prep", "cooccur_num": 1}, {"index": 9, "subkeyword": "korea", "cooccur_num": 1}, {"index": 10, "subkeyword": "kaist", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "technology", "cooccur_num": 0.35379570722579956}, {"index": 2, "subkeyword": "development", "cooccur_num": 0.3490391969680786}, {"index": 3, "subkeyword": "human", "cooccur_num": 0.3489788770675659}, {"index": 4, "subkeyword": "allow", "cooccur_num": 0.34745728969573975}, {"index": 5, "subkeyword": "cell", "cooccur_num": 0.34474191069602966}, {"index": 6, "subkeyword": "produce", "cooccur_num": 0.3283141255378723}, {"index": 7, "subkeyword": "vehicle", "cooccur_num": 0.3223816752433777}, {"index": 8, "subkeyword": "energy", "cooccur_num": 0.322380006313324}, {"index": 9, "subkeyword": "the", "cooccur_num": 0.32202786207199097}, {"index": 10, "subkeyword": "field", "cooccur_num": 0.3171927332878113}]}, {"keyword": "develop", "score": 2, "cooccur": [{"index": 1, "subkeyword": "technology", "cooccur_num": 13}, {"index": 2, "subkeyword": "kaist", "cooccur_num": 11}, {"index": 3, "subkeyword": "institute", "cooccur_num": 7}, {"index": 4, "subkeyword": "korea", "cooccur_num": 6}, {"index": 5, "subkeyword": "science", "cooccur_num": 6}, {"index": 6, "subkeyword": "scientist", "cooccur_num": 5}, {"index": 7, "subkeyword": "advance", "cooccur_num": 5}, {"index": 8, "subkeyword": "robot", "cooccur_num": 4}, {"index": 9, "subkeyword": "autonomous", "cooccur_num": 4}, {"index": 10, "subkeyword": "system", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "system", "cooccur_num": 0.748127818107605}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.7466687560081482}, {"index": 3, "subkeyword": "vehicle", "cooccur_num": 0.7277287840843201}, {"index": 4, "subkeyword": "electric", "cooccur_num": 0.7189227342605591}, {"index": 5, "subkeyword": "robot", "cooccur_num": 0.7153178453445435}, {"index": 6, "subkeyword": "the", "cooccur_num": 0.712018609046936}, {"index": 7, "subkeyword": "battery", "cooccur_num": 0.7105280160903931}, {"index": 8, "subkeyword": "kaist", "cooccur_num": 0.7101980447769165}, {"index": 9, "subkeyword": "power", "cooccur_num": 0.7016817927360535}, {"index": 10, "subkeyword": "technology", "cooccur_num": 0.6884093880653381}]}, {"keyword": "flexible", "score": 2, "cooccur": [{"index": 1, "subkeyword": "battery", "cooccur_num": 7}, {"index": 2, "subkeyword": "lithiumion", "cooccur_num": 3}, {"index": 3, "subkeyword": "highperformance", "cooccur_num": 3}, {"index": 4, "subkeyword": "electronics", "cooccur_num": 3}, {"index": 5, "subkeyword": "technology", "cooccur_num": 2}, {"index": 6, "subkeyword": "wearable", "cooccur_num": 2}, {"index": 7, "subkeyword": "apply", "cooccur_num": 2}, {"index": 8, "subkeyword": "thin", "cooccur_num": 2}, {"index": 9, "subkeyword": "strip", "cooccur_num": 2}, {"index": 10, "subkeyword": "polymer", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "the", "cooccur_num": 0.5620123147964478}, {"index": 2, "subkeyword": "time", "cooccur_num": 0.5472084283828735}, {"index": 3, "subkeyword": "team", "cooccur_num": 0.5430126190185547}, {"index": 4, "subkeyword": "train", "cooccur_num": 0.5370012521743774}, {"index": 5, "subkeyword": "develop", "cooccur_num": 0.5360692143440247}, {"index": 6, "subkeyword": "electric", "cooccur_num": 0.5326613187789917}, {"index": 7, "subkeyword": "power", "cooccur_num": 0.5254377126693726}, {"index": 8, "subkeyword": "system", "cooccur_num": 0.5231664180755615}, {"index": 9, "subkeyword": "battery", "cooccur_num": 0.5194947719573975}, {"index": 10, "subkeyword": "vehicle", "cooccur_num": 0.5189202427864075}]}, {"keyword": "korea", "score": 2, "cooccur": [{"index": 1, "subkeyword": "advance", "cooccur_num": 24}, {"index": 2, "subkeyword": "science", "cooccur_num": 24}, {"index": 3, "subkeyword": "institute", "cooccur_num": 23}, {"index": 4, "subkeyword": "researcher", "cooccur_num": 14}, {"index": 5, "subkeyword": "team", "cooccur_num": 8}, {"index": 6, "subkeyword": "develop", "cooccur_num": 6}, {"index": 7, "subkeyword": "south", "cooccur_num": 5}, {"index": 8, "subkeyword": "kaist", "cooccur_num": 5}, {"index": 9, "subkeyword": "robot", "cooccur_num": 3}, {"index": 10, "subkeyword": "power", "cooccur_num": 3}], "similar": [{"index": 1, "subkeyword": "team", "cooccur_num": 0.6467978954315186}, {"index": 2, "subkeyword": "time", "cooccur_num": 0.6464771032333374}, {"index": 3, "subkeyword": "system", "cooccur_num": 0.642526388168335}, {"index": 4, "subkeyword": "technology", "cooccur_num": 0.6161612272262573}, {"index": 5, "subkeyword": "electric", "cooccur_num": 0.6041224002838135}, {"index": 6, "subkeyword": "researcher", "cooccur_num": 0.6021367311477661}, {"index": 7, "subkeyword": "vehicle", "cooccur_num": 0.6012818217277527}, {"index": 8, "subkeyword": "the", "cooccur_num": 0.599349856376648}, {"index": 9, "subkeyword": "allow", "cooccur_num": 0.5978510975837708}, {"index": 10, "subkeyword": "robot", "cooccur_num": 0.593308687210083}]}, {"keyword": "korean", "score": 2, "cooccur": [{"index": 1, "subkeyword": "south", "cooccur_num": 3}, {"index": 2, "subkeyword": "call", "cooccur_num": 2}, {"index": 3, "subkeyword": "boycott", "cooccur_num": 2}, {"index": 4, "subkeyword": "university", "cooccur_num": 2}, {"index": 5, "subkeyword": "vehicle", "cooccur_num": 2}, {"index": 6, "subkeyword": "press", "cooccur_num": 2}, {"index": 7, "subkeyword": "researcher", "cooccur_num": 2}, {"index": 8, "subkeyword": "government", "cooccur_num": 2}, {"index": 9, "subkeyword": "expert", "cooccur_num": 1}, {"index": 10, "subkeyword": "autonomous", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "system", "cooccur_num": 0.5582506656646729}, {"index": 2, "subkeyword": "charge", "cooccur_num": 0.5466122031211853}, {"index": 3, "subkeyword": "the", "cooccur_num": 0.5463994741439819}, {"index": 4, "subkeyword": "robot", "cooccur_num": 0.540578305721283}, {"index": 5, "subkeyword": "vehicle", "cooccur_num": 0.5404964685440063}, {"index": 6, "subkeyword": "allow", "cooccur_num": 0.5352627038955688}, {"index": 7, "subkeyword": "train", "cooccur_num": 0.5347065925598145}, {"index": 8, "subkeyword": "power", "cooccur_num": 0.5322790145874023}, {"index": 9, "subkeyword": "team", "cooccur_num": 0.5306811332702637}, {"index": 10, "subkeyword": "technology", "cooccur_num": 0.5274038314819336}]}, {"keyword": "lead", "score": 2, "cooccur": [{"index": 1, "subkeyword": "researcher", "cooccur_num": 5}, {"index": 2, "subkeyword": "scientist", "cooccur_num": 4}, {"index": 3, "subkeyword": "prof", "cooccur_num": 4}, {"index": 4, "subkeyword": "array", "cooccur_num": 4}, {"index": 5, "subkeyword": "fiber", "cooccur_num": 3}, {"index": 6, "subkeyword": "kaist", "cooccur_num": 3}, {"index": 7, "subkeyword": "method", "cooccur_num": 3}, {"index": 8, "subkeyword": "team", "cooccur_num": 3}, {"index": 9, "subkeyword": "create", "cooccur_num": 2}, {"index": 10, "subkeyword": "keon", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "robot", "cooccur_num": 0.7086736559867859}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.6759169101715088}, {"index": 3, "subkeyword": "system", "cooccur_num": 0.6731055378913879}, {"index": 4, "subkeyword": "power", "cooccur_num": 0.665550708770752}, {"index": 5, "subkeyword": "electric", "cooccur_num": 0.6476392149925232}, {"index": 6, "subkeyword": "charge", "cooccur_num": 0.6448632478713989}, {"index": 7, "subkeyword": "develop", "cooccur_num": 0.6432182192802429}, {"index": 8, "subkeyword": "vehicle", "cooccur_num": 0.6328015327453613}, {"index": 9, "subkeyword": "technology", "cooccur_num": 0.6323010921478271}, {"index": 10, "subkeyword": "device", "cooccur_num": 0.6298280954360962}]}, {"keyword": "new", "score": 2, "cooccur": [{"index": 1, "subkeyword": "nanoscale", "cooccur_num": 1}, {"index": 2, "subkeyword": "supercapacitor", "cooccur_num": 1}, {"index": 3, "subkeyword": "store", "cooccur_num": 1}, {"index": 4, "subkeyword": "ebook", "cooccur_num": 1}, {"index": 5, "subkeyword": "system", "cooccur_num": 1}, {"index": 6, "subkeyword": "promise", "cooccur_num": 1}, {"index": 7, "subkeyword": "artificial", "cooccur_num": 1}, {"index": 8, "subkeyword": "intelligence", "cooccur_num": 1}, {"index": 9, "subkeyword": "researcher", "cooccur_num": 1}, {"index": 10, "subkeyword": "university", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "produce", "cooccur_num": 0.21867060661315918}, {"index": 2, "subkeyword": "test", "cooccur_num": 0.21381759643554688}, {"index": 3, "subkeyword": "result", "cooccur_num": 0.21312832832336426}, {"index": 4, "subkeyword": "life", "cooccur_num": 0.202659010887146}, {"index": 5, "subkeyword": "train", "cooccur_num": 0.20258080959320068}, {"index": 6, "subkeyword": "project", "cooccur_num": 0.19947069883346558}, {"index": 7, "subkeyword": "researcher", "cooccur_num": 0.19783154129981995}, {"index": 8, "subkeyword": "bury", "cooccur_num": 0.19764846563339233}, {"index": 9, "subkeyword": "see", "cooccur_num": 0.19644437730312347}, {"index": 10, "subkeyword": "user", "cooccur_num": 0.1957760900259018}]}, {"keyword": "power", "score": 2, "cooccur": [{"index": 1, "subkeyword": "vehicle", "cooccur_num": 12}, {"index": 2, "subkeyword": "supply", "cooccur_num": 8}, {"index": 3, "subkeyword": "battery", "cooccur_num": 7}, {"index": 4, "subkeyword": "system", "cooccur_num": 6}, {"index": 5, "subkeyword": "cable", "cooccur_num": 5}, {"index": 6, "subkeyword": "line", "cooccur_num": 5}, {"index": 7, "subkeyword": "density", "cooccur_num": 4}, {"index": 8, "subkeyword": "device", "cooccur_num": 4}, {"index": 9, "subkeyword": "energy", "cooccur_num": 4}, {"index": 10, "subkeyword": "the", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "system", "cooccur_num": 0.7535066604614258}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.7491327524185181}, {"index": 3, "subkeyword": "the", "cooccur_num": 0.7400475144386292}, {"index": 4, "subkeyword": "vehicle", "cooccur_num": 0.7302201986312866}, {"index": 5, "subkeyword": "robot", "cooccur_num": 0.7259224653244019}, {"index": 6, "subkeyword": "time", "cooccur_num": 0.7245556116104126}, {"index": 7, "subkeyword": "train", "cooccur_num": 0.718543291091919}, {"index": 8, "subkeyword": "technology", "cooccur_num": 0.7091714143753052}, {"index": 9, "subkeyword": "electric", "cooccur_num": 0.7086610198020935}, {"index": 10, "subkeyword": "research", "cooccur_num": 0.7046644687652588}]}, {"keyword": "road", "score": 2, "cooccur": [{"index": 1, "subkeyword": "power", "cooccur_num": 6}, {"index": 2, "subkeyword": "vehicle", "cooccur_num": 5}, {"index": 3, "subkeyword": "surface", "cooccur_num": 3}, {"index": 4, "subkeyword": "olev", "cooccur_num": 2}, {"index": 5, "subkeyword": "technology", "cooccur_num": 2}, {"index": 6, "subkeyword": "carry", "cooccur_num": 2}, {"index": 7, "subkeyword": "capacity", "cooccur_num": 2}, {"index": 8, "subkeyword": "day", "cooccur_num": 2}, {"index": 9, "subkeyword": "transport", "cooccur_num": 2}, {"index": 10, "subkeyword": "safety", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "system", "cooccur_num": 0.7087345123291016}, {"index": 2, "subkeyword": "robot", "cooccur_num": 0.7047110199928284}, {"index": 3, "subkeyword": "team", "cooccur_num": 0.7033977508544922}, {"index": 4, "subkeyword": "the", "cooccur_num": 0.7015788555145264}, {"index": 5, "subkeyword": "electric", "cooccur_num": 0.6926006078720093}, {"index": 6, "subkeyword": "vehicle", "cooccur_num": 0.6717926263809204}, {"index": 7, "subkeyword": "power", "cooccur_num": 0.6692265272140503}, {"index": 8, "subkeyword": "time", "cooccur_num": 0.6509413123130798}, {"index": 9, "subkeyword": "produce", "cooccur_num": 0.648468017578125}, {"index": 10, "subkeyword": "battery", "cooccur_num": 0.6426682472229004}]}, {"keyword": "robotics", "score": 2, "cooccur": [{"index": 1, "subkeyword": "team", "cooccur_num": 3}, {"index": 2, "subkeyword": "korea", "cooccur_num": 2}, {"index": 3, "subkeyword": "prowess", "cooccur_num": 1}, {"index": 4, "subkeyword": "rival", "cooccur_num": 1}, {"index": 5, "subkeyword": "asimo", "cooccur_num": 1}, {"index": 6, "subkeyword": "kaist", "cooccur_num": 1}, {"index": 7, "subkeyword": "win", "cooccur_num": 1}, {"index": 8, "subkeyword": "darpa", "cooccur_num": 1}, {"index": 9, "subkeyword": "challenge", "cooccur_num": 1}, {"index": 10, "subkeyword": "major", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "robot", "cooccur_num": 0.3292927145957947}, {"index": 2, "subkeyword": "light", "cooccur_num": 0.3236708641052246}, {"index": 3, "subkeyword": "finger", "cooccur_num": 0.3234291076660156}, {"index": 4, "subkeyword": "research", "cooccur_num": 0.3218907117843628}, {"index": 5, "subkeyword": "day", "cooccur_num": 0.3142763376235962}, {"index": 6, "subkeyword": "molebot", "cooccur_num": 0.3121502995491028}, {"index": 7, "subkeyword": "result", "cooccur_num": 0.3058096766471863}, {"index": 8, "subkeyword": "engineer", "cooccur_num": 0.29920661449432373}, {"index": 9, "subkeyword": "human", "cooccur_num": 0.2973846197128296}, {"index": 10, "subkeyword": "layer", "cooccur_num": 0.2950177788734436}]}, {"keyword": "soft", "score": 2, "cooccur": [{"index": 1, "subkeyword": "muscle", "cooccur_num": 2}, {"index": 2, "subkeyword": "robot", "cooccur_num": 2}, {"index": 3, "subkeyword": "create", "cooccur_num": 2}, {"index": 4, "subkeyword": "thinstrip", "cooccur_num": 1}, {"index": 5, "subkeyword": "squishy", "cooccur_num": 1}, {"index": 6, "subkeyword": "researcher", "cooccur_num": 1}, {"index": 7, "subkeyword": "weavable", "cooccur_num": 1}, {"index": 8, "subkeyword": "lead", "cooccur_num": 1}, {"index": 9, "subkeyword": "fiber", "cooccur_num": 1}, {"index": 10, "subkeyword": "build", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "route", "cooccur_num": 0.20879817008972168}, {"index": 2, "subkeyword": "weve", "cooccur_num": 0.1908152550458908}, {"index": 3, "subkeyword": "play", "cooccur_num": 0.18688803911209106}, {"index": 4, "subkeyword": "thats", "cooccur_num": 0.18531298637390137}, {"index": 5, "subkeyword": "battery", "cooccur_num": 0.17968973517417908}, {"index": 6, "subkeyword": "tether", "cooccur_num": 0.17906756699085236}, {"index": 7, "subkeyword": "contact", "cooccur_num": 0.17669813334941864}, {"index": 8, "subkeyword": "fiber", "cooccur_num": 0.17610864341259003}, {"index": 9, "subkeyword": "hope", "cooccur_num": 0.16610828042030334}, {"index": 10, "subkeyword": "korean", "cooccur_num": 0.16302520036697388}]}, {"keyword": "south", "score": 2, "cooccur": [{"index": 1, "subkeyword": "university", "cooccur_num": 5}, {"index": 2, "subkeyword": "korea", "cooccur_num": 5}, {"index": 3, "subkeyword": "korean", "cooccur_num": 3}, {"index": 4, "subkeyword": "team", "cooccur_num": 3}, {"index": 5, "subkeyword": "kaist", "cooccur_num": 3}, {"index": 6, "subkeyword": "call", "cooccur_num": 2}, {"index": 7, "subkeyword": "boycott", "cooccur_num": 2}, {"index": 8, "subkeyword": "researcher", "cooccur_num": 2}, {"index": 9, "subkeyword": "expert", "cooccur_num": 1}, {"index": 10, "subkeyword": "autonomous", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "field", "cooccur_num": 0.44794565439224243}, {"index": 2, "subkeyword": "current", "cooccur_num": 0.42052745819091797}, {"index": 3, "subkeyword": "time", "cooccur_num": 0.4179142117500305}, {"index": 4, "subkeyword": "electric", "cooccur_num": 0.4137900471687317}, {"index": 5, "subkeyword": "develop", "cooccur_num": 0.41029444336891174}, {"index": 6, "subkeyword": "robot", "cooccur_num": 0.4001452922821045}, {"index": 7, "subkeyword": "the", "cooccur_num": 0.3993273377418518}, {"index": 8, "subkeyword": "train", "cooccur_num": 0.392930805683136}, {"index": 9, "subkeyword": "technology", "cooccur_num": 0.3882071375846863}, {"index": 10, "subkeyword": "team", "cooccur_num": 0.3879958689212799}]}, {"keyword": "weapon", "score": 2, "cooccur": [{"index": 1, "subkeyword": "autonomous", "cooccur_num": 14}, {"index": 2, "subkeyword": "lethal", "cooccur_num": 4}, {"index": 3, "subkeyword": "development", "cooccur_num": 4}, {"index": 4, "subkeyword": "arm", "cooccur_num": 3}, {"index": 5, "subkeyword": "race", "cooccur_num": 3}, {"index": 6, "subkeyword": "human", "cooccur_num": 3}, {"index": 7, "subkeyword": "korean", "cooccur_num": 2}, {"index": 8, "subkeyword": "university", "cooccur_num": 2}, {"index": 9, "subkeyword": "stifle", "cooccur_num": 2}, {"index": 10, "subkeyword": "military", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "system", "cooccur_num": 0.6304971575737}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.6198626160621643}, {"index": 3, "subkeyword": "robot", "cooccur_num": 0.6005130410194397}, {"index": 4, "subkeyword": "power", "cooccur_num": 0.5918275713920593}, {"index": 5, "subkeyword": "vehicle", "cooccur_num": 0.5908418893814087}, {"index": 6, "subkeyword": "electric", "cooccur_num": 0.5857886075973511}, {"index": 7, "subkeyword": "develop", "cooccur_num": 0.5748392343521118}, {"index": 8, "subkeyword": "train", "cooccur_num": 0.5672323703765869}, {"index": 9, "subkeyword": "the", "cooccur_num": 0.5606838464736938}, {"index": 10, "subkeyword": "future", "cooccur_num": 0.5570070743560791}]}, {"keyword": "wearable", "score": 2, "cooccur": [{"index": 1, "subkeyword": "display", "cooccur_num": 4}, {"index": 2, "subkeyword": "lead", "cooccur_num": 3}, {"index": 3, "subkeyword": "device", "cooccur_num": 2}, {"index": 4, "subkeyword": "fiber", "cooccur_num": 2}, {"index": 5, "subkeyword": "flexible", "cooccur_num": 2}, {"index": 6, "subkeyword": "system", "cooccur_num": 2}, {"index": 7, "subkeyword": "regrow", "cooccur_num": 1}, {"index": 8, "subkeyword": "truly", "cooccur_num": 1}, {"index": 9, "subkeyword": "door", "cooccur_num": 1}, {"index": 10, "subkeyword": "epaper", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "battery", "cooccur_num": 0.3108557462692261}, {"index": 2, "subkeyword": "research", "cooccur_num": 0.29758191108703613}, {"index": 3, "subkeyword": "allow", "cooccur_num": 0.29431653022766113}, {"index": 4, "subkeyword": "polymer", "cooccur_num": 0.28971558809280396}, {"index": 5, "subkeyword": "energy", "cooccur_num": 0.2785719037055969}, {"index": 6, "subkeyword": "technology", "cooccur_num": 0.2782832682132721}, {"index": 7, "subkeyword": "develop", "cooccur_num": 0.27344027161598206}, {"index": 8, "subkeyword": "density", "cooccur_num": 0.2718743085861206}, {"index": 9, "subkeyword": "percent", "cooccur_num": 0.26567086577415466}, {"index": 10, "subkeyword": "time", "cooccur_num": 0.26158368587493896}]}, {"keyword": "algae", "score": 1, "cooccur": [{"index": 1, "subkeyword": "coral", "cooccur_num": 4}, {"index": 2, "subkeyword": "grow", "cooccur_num": 3}, {"index": 3, "subkeyword": "real", "cooccur_num": 2}, {"index": 4, "subkeyword": "microalgae", "cooccur_num": 2}, {"index": 5, "subkeyword": "lifegiving", "cooccur_num": 2}, {"index": 6, "subkeyword": "bleach", "cooccur_num": 2}, {"index": 7, "subkeyword": "event", "cooccur_num": 2}, {"index": 8, "subkeyword": "outdo", "cooccur_num": 1}, {"index": 9, "subkeyword": "serve", "cooccur_num": 1}, {"index": 10, "subkeyword": "host", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "robot", "cooccur_num": 0.3737989366054535}, {"index": 2, "subkeyword": "korea", "cooccur_num": 0.34665578603744507}, {"index": 3, "subkeyword": "molebot", "cooccur_num": 0.33016693592071533}, {"index": 4, "subkeyword": "energy", "cooccur_num": 0.32398372888565063}, {"index": 5, "subkeyword": "allow", "cooccur_num": 0.31905025243759155}, {"index": 6, "subkeyword": "charge", "cooccur_num": 0.3186114430427551}, {"index": 7, "subkeyword": "reduce", "cooccur_num": 0.3178805708885193}, {"index": 8, "subkeyword": "structure", "cooccur_num": 0.31544041633605957}, {"index": 9, "subkeyword": "system", "cooccur_num": 0.31226837635040283}, {"index": 10, "subkeyword": "space", "cooccur_num": 0.31186771392822266}]}, {"keyword": "art", "score": 1, "cooccur": [{"index": 1, "subkeyword": "algorithm", "cooccur_num": 3}, {"index": 2, "subkeyword": "output", "cooccur_num": 2}, {"index": 3, "subkeyword": "whether", "cooccur_num": 2}, {"index": 4, "subkeyword": "sense", "cooccur_num": 2}, {"index": 5, "subkeyword": "word", "cooccur_num": 2}, {"index": 6, "subkeyword": "from", "cooccur_num": 1}, {"index": 7, "subkeyword": "weapon", "cooccur_num": 1}, {"index": 8, "subkeyword": "the", "cooccur_num": 1}, {"index": 9, "subkeyword": "artificial", "cooccur_num": 1}, {"index": 10, "subkeyword": "intelligence", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "road", "cooccur_num": 0.40341293811798096}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.40222257375717163}, {"index": 3, "subkeyword": "power", "cooccur_num": 0.3997488021850586}, {"index": 4, "subkeyword": "electric", "cooccur_num": 0.39581114053726196}, {"index": 5, "subkeyword": "train", "cooccur_num": 0.394631564617157}, {"index": 6, "subkeyword": "robot", "cooccur_num": 0.39359867572784424}, {"index": 7, "subkeyword": "build", "cooccur_num": 0.3833843469619751}, {"index": 8, "subkeyword": "kaist", "cooccur_num": 0.369705468416214}, {"index": 9, "subkeyword": "system", "cooccur_num": 0.3661394715309143}, {"index": 10, "subkeyword": "produce", "cooccur_num": 0.36392030119895935}]}, {"keyword": "artificial", "score": 1, "cooccur": [{"index": 1, "subkeyword": "intelligence", "cooccur_num": 10}, {"index": 2, "subkeyword": "future", "cooccur_num": 3}, {"index": 3, "subkeyword": "the", "cooccur_num": 2}, {"index": 4, "subkeyword": "system", "cooccur_num": 2}, {"index": 5, "subkeyword": "human", "cooccur_num": 2}, {"index": 6, "subkeyword": "muscle", "cooccur_num": 2}, {"index": 7, "subkeyword": "announcement", "cooccur_num": 2}, {"index": 8, "subkeyword": "from", "cooccur_num": 1}, {"index": 9, "subkeyword": "weapon", "cooccur_num": 1}, {"index": 10, "subkeyword": "art", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "team", "cooccur_num": 0.5639134645462036}, {"index": 2, "subkeyword": "system", "cooccur_num": 0.5623558759689331}, {"index": 3, "subkeyword": "power", "cooccur_num": 0.5591307878494263}, {"index": 4, "subkeyword": "train", "cooccur_num": 0.5573093295097351}, {"index": 5, "subkeyword": "kaist", "cooccur_num": 0.552177906036377}, {"index": 6, "subkeyword": "researcher", "cooccur_num": 0.5511031150817871}, {"index": 7, "subkeyword": "vehicle", "cooccur_num": 0.549945056438446}, {"index": 8, "subkeyword": "robot", "cooccur_num": 0.5407147407531738}, {"index": 9, "subkeyword": "time", "cooccur_num": 0.537987470626831}, {"index": 10, "subkeyword": "electric", "cooccur_num": 0.5298818349838257}]}, {"keyword": "asimo", "score": 1, "cooccur": [{"index": 1, "subkeyword": "advance", "cooccur_num": 2}, {"index": 2, "subkeyword": "robot", "cooccur_num": 2}, {"index": 3, "subkeyword": "hondas", "cooccur_num": 2}, {"index": 4, "subkeyword": "hubo", "cooccur_num": 2}, {"index": 5, "subkeyword": "korea", "cooccur_num": 1}, {"index": 6, "subkeyword": "robotics", "cooccur_num": 1}, {"index": 7, "subkeyword": "prowess", "cooccur_num": 1}, {"index": 8, "subkeyword": "rival", "cooccur_num": 1}, {"index": 9, "subkeyword": "humanoid", "cooccur_num": 1}, {"index": 10, "subkeyword": "kaists", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "fingerprint", "cooccur_num": 0.19362612068653107}, {"index": 2, "subkeyword": "planet", "cooccur_num": 0.18909522891044617}, {"index": 3, "subkeyword": "perovskite", "cooccur_num": 0.17766869068145752}, {"index": 4, "subkeyword": "conversion", "cooccur_num": 0.17625336349010468}, {"index": 5, "subkeyword": "little", "cooccur_num": 0.16781914234161377}, {"index": 6, "subkeyword": "school", "cooccur_num": 0.16461166739463806}, {"index": 7, "subkeyword": "office", "cooccur_num": 0.16378863155841827}, {"index": 8, "subkeyword": "induction", "cooccur_num": 0.16197581589221954}, {"index": 9, "subkeyword": "object", "cooccur_num": 0.15471422672271729}, {"index": 10, "subkeyword": "gain", "cooccur_num": 0.14999310672283173}]}, {"keyword": "battery", "score": 1, "cooccur": [{"index": 1, "subkeyword": "vehicle", "cooccur_num": 11}, {"index": 2, "subkeyword": "power", "cooccur_num": 8}, {"index": 3, "subkeyword": "flexible", "cooccur_num": 7}, {"index": 4, "subkeyword": "size", "cooccur_num": 7}, {"index": 5, "subkeyword": "density", "cooccur_num": 5}, {"index": 6, "subkeyword": "charge", "cooccur_num": 5}, {"index": 7, "subkeyword": "lithiumion", "cooccur_num": 4}, {"index": 8, "subkeyword": "energy", "cooccur_num": 4}, {"index": 9, "subkeyword": "performance", "cooccur_num": 4}, {"index": 10, "subkeyword": "onefifth", "cooccur_num": 4}], "similar": [{"index": 1, "subkeyword": "team", "cooccur_num": 0.7601277232170105}, {"index": 2, "subkeyword": "system", "cooccur_num": 0.7276447415351868}, {"index": 3, "subkeyword": "robot", "cooccur_num": 0.7273458242416382}, {"index": 4, "subkeyword": "develop", "cooccur_num": 0.7105280160903931}, {"index": 5, "subkeyword": "the", "cooccur_num": 0.701802134513855}, {"index": 6, "subkeyword": "kaist", "cooccur_num": 0.6997301578521729}, {"index": 7, "subkeyword": "power", "cooccur_num": 0.6977889537811279}, {"index": 8, "subkeyword": "vehicle", "cooccur_num": 0.6920310258865356}, {"index": 9, "subkeyword": "time", "cooccur_num": 0.6877788305282593}, {"index": 10, "subkeyword": "research", "cooccur_num": 0.6872040629386902}]}, {"keyword": "bead", "score": 1, "cooccur": [{"index": 1, "subkeyword": "glass", "cooccur_num": 2}, {"index": 2, "subkeyword": "mimic", "cooccur_num": 1}, {"index": 3, "subkeyword": "butterfly", "cooccur_num": 1}, {"index": 4, "subkeyword": "wing", "cooccur_num": 1}, {"index": 5, "subkeyword": "arrangement", "cooccur_num": 1}, {"index": 6, "subkeyword": "randomly", "cooccur_num": 1}, {"index": 7, "subkeyword": "align", "cooccur_num": 1}, {"index": 8, "subkeyword": "various", "cooccur_num": 1}, {"index": 9, "subkeyword": "size", "cooccur_num": 1}, {"index": 10, "subkeyword": "measure", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "reduce", "cooccur_num": 0.2256557047367096}, {"index": 2, "subkeyword": "intelligence", "cooccur_num": 0.22342969477176666}, {"index": 3, "subkeyword": "activity", "cooccur_num": 0.22313156723976135}, {"index": 4, "subkeyword": "artificial", "cooccur_num": 0.22097361087799072}, {"index": 5, "subkeyword": "track", "cooccur_num": 0.21523620188236237}, {"index": 6, "subkeyword": "surface", "cooccur_num": 0.20703446865081787}, {"index": 7, "subkeyword": "road", "cooccur_num": 0.2032715082168579}, {"index": 8, "subkeyword": "battery", "cooccur_num": 0.19567953050136566}, {"index": 9, "subkeyword": "supply", "cooccur_num": 0.19460004568099976}, {"index": 10, "subkeyword": "team", "cooccur_num": 0.193996861577034}]}, {"keyword": "biodegradable", "score": 1, "cooccur": [{"index": 1, "subkeyword": "plastic", "cooccur_num": 2}, {"index": 2, "subkeyword": "simpler", "cooccur_num": 1}, {"index": 3, "subkeyword": "cheaper", "cooccur_num": 1}, {"index": 4, "subkeyword": "use", "cooccur_num": 1}, {"index": 5, "subkeyword": "fossil", "cooccur_num": 1}, {"index": 6, "subkeyword": "substance", "cooccur_num": 1}, {"index": 7, "subkeyword": "maize", "cooccur_num": 1}, {"index": 8, "subkeyword": "sugar", "cooccur_num": 1}, {"index": 9, "subkeyword": "wheat", "cooccur_num": 1}, {"index": 10, "subkeyword": "revert", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "system", "cooccur_num": 0.2808545231819153}, {"index": 2, "subkeyword": "method", "cooccur_num": 0.27545177936553955}, {"index": 3, "subkeyword": "robot", "cooccur_num": 0.27158230543136597}, {"index": 4, "subkeyword": "goal", "cooccur_num": 0.2706993818283081}, {"index": 5, "subkeyword": "molebot", "cooccur_num": 0.2676160931587219}, {"index": 6, "subkeyword": "charge", "cooccur_num": 0.26739898324012756}, {"index": 7, "subkeyword": "power", "cooccur_num": 0.26196199655532837}, {"index": 8, "subkeyword": "day", "cooccur_num": 0.2614377737045288}, {"index": 9, "subkeyword": "road", "cooccur_num": 0.26052939891815186}, {"index": 10, "subkeyword": "company", "cooccur_num": 0.25447696447372437}]}, {"keyword": "bird", "score": 1, "cooccur": [{"index": 1, "subkeyword": "drone", "cooccur_num": 5}, {"index": 2, "subkeyword": "fly", "cooccur_num": 3}, {"index": 3, "subkeyword": "cost", "cooccur_num": 3}, {"index": 4, "subkeyword": "strike", "cooccur_num": 3}, {"index": 5, "subkeyword": "plane", "cooccur_num": 2}, {"index": 6, "subkeyword": "specifically", "cooccur_num": 2}, {"index": 7, "subkeyword": "north", "cooccur_num": 2}, {"index": 8, "subkeyword": "america", "cooccur_num": 2}, {"index": 9, "subkeyword": "humancontrolled", "cooccur_num": 2}, {"index": 10, "subkeyword": "sheepdog", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "team", "cooccur_num": 0.4254702031612396}, {"index": 2, "subkeyword": "system", "cooccur_num": 0.4236281216144562}, {"index": 3, "subkeyword": "the", "cooccur_num": 0.41754573583602905}, {"index": 4, "subkeyword": "time", "cooccur_num": 0.40184739232063293}, {"index": 5, "subkeyword": "kaist", "cooccur_num": 0.39438068866729736}, {"index": 6, "subkeyword": "power", "cooccur_num": 0.3900272250175476}, {"index": 7, "subkeyword": "battery", "cooccur_num": 0.38964736461639404}, {"index": 8, "subkeyword": "robot", "cooccur_num": 0.3871873617172241}, {"index": 9, "subkeyword": "train", "cooccur_num": 0.3867264986038208}, {"index": 10, "subkeyword": "develop", "cooccur_num": 0.38198256492614746}]}, {"keyword": "boycott", "score": 1, "cooccur": [{"index": 1, "subkeyword": "call", "cooccur_num": 3}, {"index": 2, "subkeyword": "university", "cooccur_num": 3}, {"index": 3, "subkeyword": "researcher", "cooccur_num": 3}, {"index": 4, "subkeyword": "academic", "cooccur_num": 3}, {"index": 5, "subkeyword": "south", "cooccur_num": 2}, {"index": 6, "subkeyword": "korean", "cooccur_num": 2}, {"index": 7, "subkeyword": "collaboration", "cooccur_num": 2}, {"index": 8, "subkeyword": "kaist", "cooccur_num": 2}, {"index": 9, "subkeyword": "expert", "cooccur_num": 1}, {"index": 10, "subkeyword": "pledge", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "olev", "cooccur_num": 0.31130820512771606}, {"index": 2, "subkeyword": "institute", "cooccur_num": 0.296684592962265}, {"index": 3, "subkeyword": "result", "cooccur_num": 0.29606372117996216}, {"index": 4, "subkeyword": "power", "cooccur_num": 0.29456618428230286}, {"index": 5, "subkeyword": "percent", "cooccur_num": 0.29182755947113037}, {"index": 6, "subkeyword": "electric", "cooccur_num": 0.2900768518447876}, {"index": 7, "subkeyword": "research", "cooccur_num": 0.2869149148464203}, {"index": 8, "subkeyword": "develop", "cooccur_num": 0.2849022150039673}, {"index": 9, "subkeyword": "provide", "cooccur_num": 0.2837046980857849}, {"index": 10, "subkeyword": "technology", "cooccur_num": 0.28192001581192017}]}, {"keyword": "brain", "score": 1, "cooccur": [{"index": 1, "subkeyword": "implant", "cooccur_num": 3}, {"index": 2, "subkeyword": "form", "cooccur_num": 2}, {"index": 3, "subkeyword": "cell", "cooccur_num": 2}, {"index": 4, "subkeyword": "disorder", "cooccur_num": 2}, {"index": 5, "subkeyword": "test", "cooccur_num": 2}, {"index": 6, "subkeyword": "device", "cooccur_num": 2}, {"index": 7, "subkeyword": "plugandplay", "cooccur_num": 1}, {"index": 8, "subkeyword": "replaceable", "cooccur_num": 1}, {"index": 9, "subkeyword": "cartridge", "cooccur_num": 1}, {"index": 10, "subkeyword": "hook", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "time", "cooccur_num": 0.4638643264770508}, {"index": 2, "subkeyword": "road", "cooccur_num": 0.4100247025489807}, {"index": 3, "subkeyword": "team", "cooccur_num": 0.40975049138069153}, {"index": 4, "subkeyword": "robot", "cooccur_num": 0.4025779664516449}, {"index": 5, "subkeyword": "system", "cooccur_num": 0.40039679408073425}, {"index": 6, "subkeyword": "power", "cooccur_num": 0.4002953767776489}, {"index": 7, "subkeyword": "energy", "cooccur_num": 0.3936324715614319}, {"index": 8, "subkeyword": "vehicle", "cooccur_num": 0.39007991552352905}, {"index": 9, "subkeyword": "percent", "cooccur_num": 0.38971632719039917}, {"index": 10, "subkeyword": "research", "cooccur_num": 0.38909071683883667}]}, {"keyword": "butterfly", "score": 1, "cooccur": [{"index": 1, "subkeyword": "wing", "cooccur_num": 6}, {"index": 2, "subkeyword": "copy", "cooccur_num": 3}, {"index": 3, "subkeyword": "quality", "cooccur_num": 2}, {"index": 4, "subkeyword": "glass", "cooccur_num": 1}, {"index": 5, "subkeyword": "bead", "cooccur_num": 1}, {"index": 6, "subkeyword": "mimic", "cooccur_num": 1}, {"index": 7, "subkeyword": "response", "cooccur_num": 1}, {"index": 8, "subkeyword": "electrical", "cooccur_num": 1}, {"index": 9, "subkeyword": "current", "cooccur_num": 1}, {"index": 10, "subkeyword": "robotic", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "test", "cooccur_num": 0.38901931047439575}, {"index": 2, "subkeyword": "weapon", "cooccur_num": 0.38456517457962036}, {"index": 3, "subkeyword": "power", "cooccur_num": 0.37384533882141113}, {"index": 4, "subkeyword": "system", "cooccur_num": 0.3738267123699188}, {"index": 5, "subkeyword": "train", "cooccur_num": 0.36646175384521484}, {"index": 6, "subkeyword": "energy", "cooccur_num": 0.35879045724868774}, {"index": 7, "subkeyword": "robot", "cooccur_num": 0.35742372274398804}, {"index": 8, "subkeyword": "team", "cooccur_num": 0.35654157400131226}, {"index": 9, "subkeyword": "researcher", "cooccur_num": 0.35631895065307617}, {"index": 10, "subkeyword": "percent", "cooccur_num": 0.3554070293903351}]}, {"keyword": "call", "score": 1, "cooccur": [{"index": 1, "subkeyword": "team", "cooccur_num": 4}, {"index": 2, "subkeyword": "boycott", "cooccur_num": 3}, {"index": 3, "subkeyword": "south", "cooccur_num": 3}, {"index": 4, "subkeyword": "researcher", "cooccur_num": 3}, {"index": 5, "subkeyword": "korean", "cooccur_num": 2}, {"index": 6, "subkeyword": "algae", "cooccur_num": 2}, {"index": 7, "subkeyword": "darpa", "cooccur_num": 2}, {"index": 8, "subkeyword": "robot", "cooccur_num": 2}, {"index": 9, "subkeyword": "science", "cooccur_num": 2}, {"index": 10, "subkeyword": "technology", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "develop", "cooccur_num": 0.6031004786491394}, {"index": 2, "subkeyword": "vehicle", "cooccur_num": 0.5877461433410645}, {"index": 3, "subkeyword": "robot", "cooccur_num": 0.5836129188537598}, {"index": 4, "subkeyword": "team", "cooccur_num": 0.5782573223114014}, {"index": 5, "subkeyword": "power", "cooccur_num": 0.5772523880004883}, {"index": 6, "subkeyword": "system", "cooccur_num": 0.5759836435317993}, {"index": 7, "subkeyword": "the", "cooccur_num": 0.5700932741165161}, {"index": 8, "subkeyword": "percent", "cooccur_num": 0.559075117111206}, {"index": 9, "subkeyword": "battery", "cooccur_num": 0.555842399597168}, {"index": 10, "subkeyword": "electric", "cooccur_num": 0.5540062189102173}]}, {"keyword": "camera", "score": 1, "cooccur": [{"index": 1, "subkeyword": "scientist", "cooccur_num": 2}, {"index": 2, "subkeyword": "ultrathin", "cooccur_num": 2}, {"index": 3, "subkeyword": "wasp", "cooccur_num": 1}, {"index": 4, "subkeyword": "parasite", "cooccur_num": 1}, {"index": 5, "subkeyword": "inspire", "cooccur_num": 1}, {"index": 6, "subkeyword": "superthin", "cooccur_num": 1}, {"index": 7, "subkeyword": "structure", "cooccur_num": 1}, {"index": 8, "subkeyword": "create", "cooccur_num": 1}, {"index": 9, "subkeyword": "ultraslim", "cooccur_num": 1}, {"index": 10, "subkeyword": "allow", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "structure", "cooccur_num": 0.3110238313674927}, {"index": 2, "subkeyword": "battery", "cooccur_num": 0.3027907609939575}, {"index": 3, "subkeyword": "bus", "cooccur_num": 0.28973907232284546}, {"index": 4, "subkeyword": "develop", "cooccur_num": 0.28760725259780884}, {"index": 5, "subkeyword": "method", "cooccur_num": 0.2859836220741272}, {"index": 6, "subkeyword": "time", "cooccur_num": 0.28290581703186035}, {"index": 7, "subkeyword": "control", "cooccur_num": 0.28108423948287964}, {"index": 8, "subkeyword": "future", "cooccur_num": 0.272832453250885}, {"index": 9, "subkeyword": "polymer", "cooccur_num": 0.27278268337249756}, {"index": 10, "subkeyword": "percent", "cooccur_num": 0.26815760135650635}]}, {"keyword": "cartridge", "score": 1, "cooccur": [{"index": 1, "subkeyword": "supply", "cooccur_num": 4}, {"index": 2, "subkeyword": "plugandplay", "cooccur_num": 2}, {"index": 3, "subkeyword": "replaceable", "cooccur_num": 2}, {"index": 4, "subkeyword": "continuous", "cooccur_num": 2}, {"index": 5, "subkeyword": "drug", "cooccur_num": 2}, {"index": 6, "subkeyword": "load", "cooccur_num": 2}, {"index": 7, "subkeyword": "brain", "cooccur_num": 1}, {"index": 8, "subkeyword": "implant", "cooccur_num": 1}, {"index": 9, "subkeyword": "delivery", "cooccur_num": 1}, {"index": 10, "subkeyword": "build", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "test", "cooccur_num": 0.2818825840950012}, {"index": 2, "subkeyword": "train", "cooccur_num": 0.2770312428474426}, {"index": 3, "subkeyword": "page", "cooccur_num": 0.27689895033836365}, {"index": 4, "subkeyword": "power", "cooccur_num": 0.27085793018341064}, {"index": 5, "subkeyword": "task", "cooccur_num": 0.264371395111084}, {"index": 6, "subkeyword": "system", "cooccur_num": 0.25307750701904297}, {"index": 7, "subkeyword": "light", "cooccur_num": 0.2515299916267395}, {"index": 8, "subkeyword": "lead", "cooccur_num": 0.2479790598154068}, {"index": 9, "subkeyword": "engineer", "cooccur_num": 0.24470089375972748}, {"index": 10, "subkeyword": "current", "cooccur_num": 0.24465034902095795}]}, {"keyword": "cell", "score": 1, "cooccur": [{"index": 1, "subkeyword": "solar", "cooccur_num": 6}, {"index": 2, "subkeyword": "perovskite", "cooccur_num": 3}, {"index": 3, "subkeyword": "human", "cooccur_num": 3}, {"index": 4, "subkeyword": "develop", "cooccur_num": 2}, {"index": 5, "subkeyword": "reduce", "cooccur_num": 2}, {"index": 6, "subkeyword": "researcher", "cooccur_num": 2}, {"index": 7, "subkeyword": "achieve", "cooccur_num": 2}, {"index": 8, "subkeyword": "worldclass", "cooccur_num": 2}, {"index": 9, "subkeyword": "perovskitesilicon", "cooccur_num": 2}, {"index": 10, "subkeyword": "tandem", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "team", "cooccur_num": 0.6167950630187988}, {"index": 2, "subkeyword": "develop", "cooccur_num": 0.5936861038208008}, {"index": 3, "subkeyword": "system", "cooccur_num": 0.590672492980957}, {"index": 4, "subkeyword": "robot", "cooccur_num": 0.5888530015945435}, {"index": 5, "subkeyword": "researcher", "cooccur_num": 0.5764126181602478}, {"index": 6, "subkeyword": "electric", "cooccur_num": 0.5672392845153809}, {"index": 7, "subkeyword": "vehicle", "cooccur_num": 0.5640966296195984}, {"index": 8, "subkeyword": "the", "cooccur_num": 0.5610539317131042}, {"index": 9, "subkeyword": "lead", "cooccur_num": 0.5594983100891113}, {"index": 10, "subkeyword": "kaist", "cooccur_num": 0.556181788444519}]}, {"keyword": "cheaper", "score": 1, "cooccur": [{"index": 1, "subkeyword": "pla", "cooccur_num": 3}, {"index": 2, "subkeyword": "production", "cooccur_num": 2}, {"index": 3, "subkeyword": "simpler", "cooccur_num": 1}, {"index": 4, "subkeyword": "biodegradable", "cooccur_num": 1}, {"index": 5, "subkeyword": "plastic", "cooccur_num": 1}, {"index": 6, "subkeyword": "use", "cooccur_num": 1}, {"index": 7, "subkeyword": "exist", "cooccur_num": 1}, {"index": 8, "subkeyword": "drill", "cooccur_num": 1}, {"index": 9, "subkeyword": "system", "cooccur_num": 1}, {"index": 10, "subkeyword": "claim", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "road", "cooccur_num": 0.24882809817790985}, {"index": 2, "subkeyword": "robotic", "cooccur_num": 0.24213725328445435}, {"index": 3, "subkeyword": "study", "cooccur_num": 0.2395954579114914}, {"index": 4, "subkeyword": "create", "cooccur_num": 0.23883523046970367}, {"index": 5, "subkeyword": "robot", "cooccur_num": 0.23563005030155182}, {"index": 6, "subkeyword": "run", "cooccur_num": 0.22779971361160278}, {"index": 7, "subkeyword": "allow", "cooccur_num": 0.22339779138565063}, {"index": 8, "subkeyword": "power", "cooccur_num": 0.22155091166496277}, {"index": 9, "subkeyword": "institute", "cooccur_num": 0.2195417732000351}, {"index": 10, "subkeyword": "scientist", "cooccur_num": 0.21689960360527039}]}, {"keyword": "concept", "score": 1, "cooccur": [{"index": 1, "subkeyword": "transport", "cooccur_num": 4}, {"index": 2, "subkeyword": "future", "cooccur_num": 3}, {"index": 3, "subkeyword": "mass", "cooccur_num": 2}, {"index": 4, "subkeyword": "rail", "cooccur_num": 2}, {"index": 5, "subkeyword": "aim", "cooccur_num": 2}, {"index": 6, "subkeyword": "weve", "cooccur_num": 2}, {"index": 7, "subkeyword": "kaist", "cooccur_num": 1}, {"index": 8, "subkeyword": "reveal", "cooccur_num": 1}, {"index": 9, "subkeyword": "proof", "cooccur_num": 1}, {"index": 10, "subkeyword": "olev", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "system", "cooccur_num": 0.5653241872787476}, {"index": 2, "subkeyword": "electric", "cooccur_num": 0.5646460056304932}, {"index": 3, "subkeyword": "technology", "cooccur_num": 0.5615220665931702}, {"index": 4, "subkeyword": "charge", "cooccur_num": 0.550189197063446}, {"index": 5, "subkeyword": "robot", "cooccur_num": 0.549562931060791}, {"index": 6, "subkeyword": "power", "cooccur_num": 0.5471813678741455}, {"index": 7, "subkeyword": "develop", "cooccur_num": 0.5361901521682739}, {"index": 8, "subkeyword": "the", "cooccur_num": 0.5334726572036743}, {"index": 9, "subkeyword": "lead", "cooccur_num": 0.5302995443344116}, {"index": 10, "subkeyword": "battery", "cooccur_num": 0.5220826864242554}]}, {"keyword": "continuous", "score": 1, "cooccur": [{"index": 1, "subkeyword": "replaceable", "cooccur_num": 2}, {"index": 2, "subkeyword": "cartridge", "cooccur_num": 2}, {"index": 3, "subkeyword": "drug", "cooccur_num": 2}, {"index": 4, "subkeyword": "hour", "cooccur_num": 2}, {"index": 5, "subkeyword": "percent", "cooccur_num": 2}, {"index": 6, "subkeyword": "supply", "cooccur_num": 2}, {"index": 7, "subkeyword": "brain", "cooccur_num": 1}, {"index": 8, "subkeyword": "implant", "cooccur_num": 1}, {"index": 9, "subkeyword": "delivery", "cooccur_num": 1}, {"index": 10, "subkeyword": "strength", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "public", "cooccur_num": 0.20634125173091888}, {"index": 2, "subkeyword": "park", "cooccur_num": 0.1866685450077057}, {"index": 3, "subkeyword": "kaist", "cooccur_num": 0.18348345160484314}, {"index": 4, "subkeyword": "passenger", "cooccur_num": 0.17966023087501526}, {"index": 5, "subkeyword": "world", "cooccur_num": 0.1781347543001175}, {"index": 6, "subkeyword": "system", "cooccur_num": 0.17680948972702026}, {"index": 7, "subkeyword": "equip", "cooccur_num": 0.176657035946846}, {"index": 8, "subkeyword": "indeed", "cooccur_num": 0.17204217612743378}, {"index": 9, "subkeyword": "extend", "cooccur_num": 0.16576839983463287}, {"index": 10, "subkeyword": "help", "cooccur_num": 0.16536693274974823}]}, {"keyword": "coral", "score": 1, "cooccur": [{"index": 1, "subkeyword": "bleach", "cooccur_num": 4}, {"index": 2, "subkeyword": "algae", "cooccur_num": 3}, {"index": 3, "subkeyword": "scientist", "cooccur_num": 3}, {"index": 4, "subkeyword": "dprinted", "cooccur_num": 3}, {"index": 5, "subkeyword": "natural", "cooccur_num": 3}, {"index": 6, "subkeyword": "real", "cooccur_num": 2}, {"index": 7, "subkeyword": "grow", "cooccur_num": 2}, {"index": 8, "subkeyword": "host", "cooccur_num": 2}, {"index": 9, "subkeyword": "produce", "cooccur_num": 2}, {"index": 10, "subkeyword": "now", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "robot", "cooccur_num": 0.5342569351196289}, {"index": 2, "subkeyword": "system", "cooccur_num": 0.53151535987854}, {"index": 3, "subkeyword": "electric", "cooccur_num": 0.5040019750595093}, {"index": 4, "subkeyword": "develop", "cooccur_num": 0.4882134795188904}, {"index": 5, "subkeyword": "battery", "cooccur_num": 0.4810332655906677}, {"index": 6, "subkeyword": "the", "cooccur_num": 0.4808518886566162}, {"index": 7, "subkeyword": "power", "cooccur_num": 0.47603854537010193}, {"index": 8, "subkeyword": "technology", "cooccur_num": 0.4756869673728943}, {"index": 9, "subkeyword": "control", "cooccur_num": 0.4612677991390228}, {"index": 10, "subkeyword": "research", "cooccur_num": 0.45954835414886475}]}, {"keyword": "create", "score": 1, "cooccur": [{"index": 1, "subkeyword": "scientist", "cooccur_num": 4}, {"index": 2, "subkeyword": "science", "cooccur_num": 3}, {"index": 3, "subkeyword": "technology", "cooccur_num": 3}, {"index": 4, "subkeyword": "kaist", "cooccur_num": 3}, {"index": 5, "subkeyword": "announce", "cooccur_num": 3}, {"index": 6, "subkeyword": "researcher", "cooccur_num": 2}, {"index": 7, "subkeyword": "lead", "cooccur_num": 2}, {"index": 8, "subkeyword": "institute", "cooccur_num": 2}, {"index": 9, "subkeyword": "the", "cooccur_num": 2}, {"index": 10, "subkeyword": "team", "cooccur_num": 2}], "similar": [{"index": 1, "subkeyword": "system", "cooccur_num": 0.6415039300918579}, {"index": 2, "subkeyword": "team", "cooccur_num": 0.6061650514602661}, {"index": 3, "subkeyword": "power", "cooccur_num": 0.6031585931777954}, {"index": 4, "subkeyword": "robot", "cooccur_num": 0.6025882959365845}, {"index": 5, "subkeyword": "the", "cooccur_num": 0.5900993347167969}, {"index": 6, "subkeyword": "time", "cooccur_num": 0.5812100172042847}, {"index": 7, "subkeyword": "electric", "cooccur_num": 0.577420711517334}, {"index": 8, "subkeyword": "control", "cooccur_num": 0.5765929222106934}, {"index": 9, "subkeyword": "develop", "cooccur_num": 0.5717296600341797}, {"index": 10, "subkeyword": "energy", "cooccur_num": 0.5658683776855469}]}, {"keyword": "delivery", "score": 1, "cooccur": [{"index": 1, "subkeyword": "drug", "cooccur_num": 3}, {"index": 2, "subkeyword": "replaceable", "cooccur_num": 1}, {"index": 3, "subkeyword": "cartridge", "cooccur_num": 1}, {"index": 4, "subkeyword": "continuous", "cooccur_num": 1}, {"index": 5, "subkeyword": "thickness", "cooccur_num": 1}, {"index": 6, "subkeyword": "human", "cooccur_num": 1}, {"index": 7, "subkeyword": "hair", "cooccur_num": 1}, {"index": 8, "subkeyword": "allow", "cooccur_num": 1}, {"index": 9, "subkeyword": "highly", "cooccur_num": 1}, {"index": 10, "subkeyword": "target", "cooccur_num": 1}], "similar": [{"index": 1, "subkeyword": "variety", "cooccur_num": 0.20341013371944427}, {"index": 2, "subkeyword": "follow", "cooccur_num": 0.19475749135017395}, {"index": 3, "subkeyword": "embed", "cooccur_num": 0.19069357216358185}, {"index": 4, "subkeyword": "commercialization", "cooccur_num": 0.1885598599910736}, {"index": 5, "subkeyword": "towards", "cooccur_num": 0.18586421012878418}, {"index": 6, "subkeyword": "reach", "cooccur_num": 0.18274198472499847}, {"index": 7, "subkeyword": "molebot", "cooccur_num": 0.18258309364318848}, {"index": 8, "subkeyword": "able", "cooccur_num": 0.17945492267608643}, {"index": 9, "subkeyword": "surface", "cooccur_num": 0.17731443047523499}, {"index": 10, "subkeyword": "potential", "cooccur_num": 0.17599156498908997}]}]
+        console.log(dataAnalyze)
+        var width = 700,
+            height = 700
+
+        var svg = d3.select(".wordcloud").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("class", 'outline');
+
+        var svg = d3.select("svg")
+            .append("g")
+            .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")")
+
+        showCloud(dataAnalyze)
+
+
+        function showCloud(data) {
+            d3.layout.cloud().size([width, height])
+                //클라우드 레이아웃에 데이터 전달
+                .words(data.map((d, index) => {
+                    return {
+                        index: index,
+                        text: d.keyword,
+                        size: d.score,
+                        cooccur: d.cooccur,
+                        similar: d.similar,
+                    }
+                }))
+                .padding(10)
+                //스케일로 각 단어의 크기를 설정
+                .rotate(function (d) {
+                    return Math.round((Math.random()-0.5)*2) * 90;
+                })
+                .fontSize(d => {
+                    if (d.index < 10) {
+                        return 40;
+                    } else {
+                        return 20;
+                    }
+                })
+                .on("end", draw)
+                .start();
+
+            function draw(words) {
+                var cloud = svg.selectAll("text").data(words)
+                //Entering words
+                cloud.enter()
+                    .append("text")
+                    .style("font-family", 'Black Han Sans')
+                    .style("fill", function (d) {
+                        return (d.index < 10 ? "#fbc280" : "#405275");
+                    })
+                    .style("fill-opacity", .5)
+                    .attr("text-anchor", "middle")
+                    .text(function (d) {
+                        return d.text;
+                    })
+                    .on('click', overevent)
+                cloud.transition()
+                    .duration(600)
+                    .style("font-size", function (d) {
+                        return d.size + "px";
+                    })
+                    .attr("transform", function (d) {
+                        return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                    })
+                    .style("fill-opacity", 1);
+            }
+
+
+            function overevent(d) {
+                Cooccurdetail(d);
+                similardetail(d);
+            }
+        }
+
+        function Cooccurdetail(d) {
+            var width = 400,
+                height = 400;
+            var central = d.text;
+            var links = d.cooccur.map((d) => {
+                return {
+                    "source": central,
+                    "target": d.subkeyword,
+                    "value": d.cooccur_num
+                }
+            });
+            var nodes = {};
+            linkScale = d3.scale.linear().domain([0, links[0].value]).range([0, 150]).clamp(true);
+
+            console.log(links)
+            // Compute the distinct nodes from the links.
+            links.forEach(function (link) {
+                link.source = nodes[link.source] || (nodes[link.source] = {
+                    name: link.source
+
+                });
+                link.target = nodes[link.target] || (nodes[link.target] = {
+                    name: link.target
+                });
+                
+            });
+
+
+            var force = d3.layout.force()
+                .nodes(d3.values(nodes))
+                .links(links)
+                .size([width, height])
+                .linkDistance((link)=>{
+                    return linkScale(link.value)
+                })
+                .charge(-300)
+                .on("tick", tick)
+                .start();
+
+            var svg = d3.select(".cooccur").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("class",'outline');
+
+            var link = svg.selectAll(".link")
+                .data(force.links())
+                .enter().append("line")
+                .attr("class", "link")
+
+
+            var color = d3.scale.category20();
+
+            var node = svg.selectAll(".node")
+                .data(force.nodes())
+                .enter().append("g")
+                .attr("class", "node")
+                .on("mouseover", mouseover)
+                .on("mouseout", mouseout)
+                .on("click",clickevent)
+                .call(force.drag);
+
+
+            node.append("circle")
+                .attr("r", 8)
+                .attr("fill", function(d,i){return color(i);});
+
+
+            node.append("text")
+                .attr("x", 12)
+                .attr("dy", ".35em")
+                .text(function (d) {
+                    return d.name;
+                });
+
+            function tick() {
+                link
+                    .attr("x1", function (d) {
+                        return d.source.x;
+                    })
+                    .attr("y1", function (d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function (d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function (d) {
+                        return d.target.y;
+                    });
+
+                node
+                    .attr("transform", function (d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+            }
+
+            function clickevent(d){
+                target=dataAnalyze.find((e)=>{
+                    if(e.keyword === d.name){
+                        return e
+                    }
+                })
+                if (target == undefined){
+                    return
+                }
+                var new_links = target.cooccur.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+
+               var new_nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               new_links.forEach(function (link) {
+                   link.source = new_nodes[link.source] || (new_nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = new_nodes[link.target] || (new_nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+                });
+                for (new_link in new_links){
+                    links.push(new_links[new_link])}
+                console.log(nodes)
+                console.log(new_nodes)
+                nodes.add(new_nodes)
+                console.log(links)
+
+            };
+
+            function mouseover() {
+                d3.select(this).select("circle").transition()
+                    .duration(750)
+                    .attr("r", 16);
+            }
+
+            function mouseout() {
+                d3.select(this).select("circle").transition()
+                    .duration(750)
+                    .attr("r", 8);
+            }
+        }
+            linkScale = d3.scale.linear().domain([0, 1]).range([0, 100]).clamp(true);
+           function similardetail(d) {
+               var width = 400,
+                   height = 400;
+               var central = d.text;
+               console.log(d)
+               var links = d.similar.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+               var nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               links.forEach(function (link) {
+                   link.source = nodes[link.source] || (nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = nodes[link.target] || (nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+               });
+   
+   
+               var force = d3.layout.force()
+                   .nodes(d3.values(nodes))
+                   .links(links)
+                   .size([width, height])
+                   .linkDistance((link)=>{
+                       return 100
+                   })
+                   .charge(-300)
+                   .on("tick", tick)
+                   .start();
+   
+               var svg = d3.select(".similar").append("svg")
+                   .attr("width", width)
+                   .attr("height", height)
+                   .attr("class",'outline');
+   
+               var link = svg.selectAll(".link")
+                   .data(force.links())
+                   .enter().append("line")
+                   .attr("class", "link");
+   
+               var color = d3.scale.category20();
+   
+               var node = svg.selectAll(".node")
+                   .data(force.nodes())
+                   .enter().append("g")
+                   .attr("class", "node")
+                   .on("mouseover", mouseover)
+                   .on("mouseout", mouseout)
+                   .on("click", clickevent)
+                   .call(force.drag);
+   
+               node.append("circle")
+                   .attr("r", 8)
+                   .attr("fill", (d,i)=>color(i));
+   
+   
+               node.append("text")
+                   .attr("x", 12)
+                   .attr("dy", ".35em")
+                   .text(function (d) {
+                       return d.name;
+                   });
+   
+            function clickevent(d){
+                var new_links = d.similar.map((d) => {
+                   return {
+                       "source": central,
+                       "target": d.subkeyword,
+                       "value": d.cooccur_num
+                   }
+               });
+
+               var new_nodes = {};
+   
+               // Compute the distinct nodes from the links.
+               links.forEach(function (link) {
+                   link.source = new_nodes[link.source] || (new_nodes[link.source] = {
+                       name: link.source
+   
+                   });
+                   link.target = new_nodes[link.target] || (new_nodes[link.target] = {
+                       name: link.target
+                   });
+                   
+                });
+                links.append(new_links)
+                nodes.append(new_nodes)
+            };
+
+               function tick() {
+                   link
+                       .attr("x1", function (d) {
+                           return d.source.x;
+                       })
+                       .attr("y1", function (d) {
+                           return d.source.y;
+                       })
+                       .attr("x2", function (d) {
+                           return d.target.x;
+                       })
+                       .attr("y2", function (d) {
+                           return d.target.y;
+                       });
+   
+                   node
+                       .attr("transform", function (d) {
+                           return "translate(" + d.x + "," + d.y + ")";
+                       });
+               }
+   
+               function mouseover() {
+                   d3.select(this).select("circle").transition()
+                       .duration(750)
+                       .attr("r", 16);
+               }
+   
+               function mouseout() {
+                   d3.select(this).select("circle").transition()
+                       .duration(750)
+                       .attr("r", 8);
+               }
+           }
+        </script>
+
+</body>
+
+</html>

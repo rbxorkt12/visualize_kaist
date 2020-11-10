@@ -35,3 +35,5 @@ visualize 폴더의 non_interactive_wordcloud 폴더에는 원형 모양의 워�
 pip install -r requirements.txt
 python visualize.py
 ~~~
+![korean_joongang_screen_title_wordcloud json_circle](https://user-images.githubusercontent.com/64149539/98245674-a3589d00-1fb4-11eb-8ae2-8c12bd75c3ab.png)
+![korean_joongang_screen_title_wordcloud json_kaist](https://user-images.githubusercontent.com/64149539/98245677-a5226080-1fb4-11eb-8526-cfcdac2e2554.png)

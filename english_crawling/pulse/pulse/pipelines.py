@@ -7,7 +7,7 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 from scrapy.exporters import CsvItemExporter
-
+import pandas as pd
 
 
 class PulsePipeline:
@@ -23,6 +23,10 @@ class CsvPipeline(object):
     def close_spider(self, spider):
         self.exporter.finish_exporting()
         self.file.close()
+        df = pd.read_csv('kaist_pulse.csv')
+        excel = pd.ExcelWriter('kaist_pulse.xlsx')
+        df.to_excel(excel, index = False)
+        excel.save()
 
     def process_item(self, item, spider):
         self.exporter.export_item(item)
