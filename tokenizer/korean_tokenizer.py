@@ -23,8 +23,7 @@ def text_tokenize(text,okt,stopwords):
             if len(t[0]) != 1 and t[0] not in stopwords:
                 tokens.append(t[0])
         elif t[1] in ['Alpha']:
-            if t[0].lower() == 'kaist':
-                tokens.append(t[0].lower())
+            tokens.append(t[0].lower())
     return list(map(lambda x: x.replace("카이스트","kaist"),tokens))
 
 def tokenize_okt(df):
