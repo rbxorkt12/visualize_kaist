@@ -1,14 +1,10 @@
 # 사전에 docker에 gtp7473/gtp7473/nori_tokenize_es:latest 가 돌고 있어야함.
 
 import pandas as pd
-import requests
 import json
-import time
 import re
 from ckonlpy.tag import Twitter
 from ckonlpy.utils import load_wordset
-
-
 
 
 def call_userword():
